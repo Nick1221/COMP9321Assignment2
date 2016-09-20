@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="13.2">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>50</x>
+      <y>370</y>
+      <w>210</w>
+      <h>240</h>
+    </coordinates>
+    <panel_attributes>User
+--
+_-userID : int_
+-username : String
+-password : String
+-emailAddress : String
+-nickname : String
+-firstName : String
+-lastName : String
+-yearOfBirth : String
+-fullAddress : String
+-creditCardNumber : String
+-isLoggedIn : boolean
+
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>730</x>
+      <y>410</y>
+      <w>210</w>
+      <h>220</h>
+    </coordinates>
+    <panel_attributes>Book/Publication
+--
+_-publicationID : int_
+-title : String
+-authors : List&lt;String&gt;
+-editors : List&lt;String&gt;
+-year : String
+-volume : String
+-price : String/int
+-picture : Picture</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>410</x>
+      <y>410</y>
+      <w>210</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>UserRegisteredPublications
+--
+-userID : int
+-publicationID : int
+-paused : boolean
+-timestamp : Date</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>250</x>
+      <y>440</y>
+      <w>180</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=-</panel_attributes>
+    <additional_attributes>160.0;10.0;10.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>610</x>
+      <y>440</y>
+      <w>140</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=-</panel_attributes>
+    <additional_attributes>10.0;10.0;120.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>410</x>
+      <y>540</y>
+      <w>210</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>UserBoughtPublications
+--
+-userID : int
+-publicationID : int
+-timestamp : Date</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>610</x>
+      <y>560</y>
+      <w>140</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-</panel_attributes>
+    <additional_attributes>10.0;20.0;120.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>250</x>
+      <y>550</y>
+      <w>180</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-</panel_attributes>
+    <additional_attributes>160.0;20.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>20</x>
+      <y>20</y>
+      <w>140</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>rough image/ERD for database entities
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>230</x>
+      <y>30</y>
+      <w>210</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>Administrator
+--
+_-adminID : int_
+-username : String
+-password : String
+-emailAddress : String
+-loggedIn : boolean</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>170</x>
+      <y>210</y>
+      <w>210</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>AdminBannedUsers
+--
+-adminID : int
+-userID : int
+-timestamp : Date</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>270</x>
+      <y>130</y>
+      <w>80</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=-</panel_attributes>
+    <additional_attributes>10.0;80.0;60.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>190</x>
+      <y>290</y>
+      <w>80</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=-</panel_attributes>
+    <additional_attributes>10.0;80.0;60.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>530</x>
+      <y>210</y>
+      <w>210</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>AdminBannedPublications
+--
+-adminID : int
+-publicationID : int
+-timestamp : Date</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>430</x>
+      <y>110</y>
+      <w>150</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=-</panel_attributes>
+    <additional_attributes>130.0;100.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>670</x>
+      <y>290</y>
+      <w>120</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>lt=-</panel_attributes>
+    <additional_attributes>100.0;120.0;10.0;10.0</additional_attributes>
+  </element>
+</diagram>
