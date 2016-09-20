@@ -46,7 +46,7 @@ public class ControlServlet extends HttpServlet {
         	users = new LinkedList<UserSimulation>();
         	users.add(new UserSimulation("asd", "asd", "asd@asdas.com")); //-----------some examples------------
         	users.add(new UserSimulation("man", "a123", "man@asdas.com")); //-----------test use only------------ 
-        	File inputFile = new File("C:\\Users\\MARVIN FUNG\\Documents\\9321\\Assign2\\src\\cs9321ass2\\dblpExtrct.xml");
+        	File inputFile = new File("/home/nick/workspace/9321myproject/Assignment1Redo/WebContent/WEB-INF/dblp.xml");
 			 DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 			 DocumentBuilder dB = dbf.newDocumentBuilder();
 

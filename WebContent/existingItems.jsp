@@ -47,10 +47,8 @@
 		</c:forEach>
 	</c:forEach>
 	</table>
-		<input type="hidden" name="action" value="activateItem">
-		<input type="submit" value="Activate Item"/>
-		<input type="hidden" name="action" value="pauseItem">
-		<input type="submit" value="Pause Item"/>
+		<input type="submit" name ="action" value="activateItem" placeholder="Activate Item">
+		<input type="submit" name="action" value="pauseItem" placeholder="Pause Item">
 	</form>
 	
 	<form action="search.jsp" method="post">
