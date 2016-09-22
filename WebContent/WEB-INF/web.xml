@@ -17,4 +17,41 @@
   	<servlet-name>ControlServlet</servlet-name>
   	<url-pattern>/ControlServlet</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>UserController</servlet-name>
+  	<servlet-class>user.UserController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>UserController</servlet-name>
+  	<url-pattern>/user</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>AdminController</servlet-name>
+  	<servlet-class>user.AdminController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>AdminController</servlet-name>
+  	<url-pattern>/admin</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>PublicationController</servlet-name>
+  	<servlet-class>publication.PublicationController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>PublicationController</servlet-name>
+  	<url-pattern>/publications</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>SearchController</servlet-name>
+  	<servlet-class>search.SearchController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>SearchController</servlet-name>
+  	<url-pattern>/search</url-pattern>
+  </servlet-mapping>
+  
 </web-app>
