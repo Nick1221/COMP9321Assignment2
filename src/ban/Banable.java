@@ -1,6 +1,6 @@
 package ban;
 
-public class Banable {
+public interface Banable {
 	private Ban ban = null;
 	
 	protected void loadBan(int id, String table) {
@@ -12,11 +12,7 @@ public class Banable {
 			// ban = new Ban(reason,date,admin_id);
 	}
 	
-	public boolean isBanned() {
-		return this.ban != null;
-	}
+	public boolean isBanned();
 	
-	public String getBannedReason() {
-		return this.ban == null? "" : "";
-	}
+	public String getBannedReason();
 }

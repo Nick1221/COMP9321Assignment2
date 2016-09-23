@@ -5,7 +5,7 @@ import java.util.List;
 import general.Model;
 import ban.Banable;
 
-public class User extends Banable implements Model {
+public class User extends Model {
 	private static final String table = "users";
 	
 	private int id = -1; // auto-increments
@@ -22,21 +22,6 @@ public class User extends Banable implements Model {
 	private List<CreditCard> ccs;
 	
 	public User() {
-	}
-	
-	// find the user based on his id
-	// return null if user couldn't be found
-	public User findById(int id) {
-		// TODO
-		// "select * from " + this.table + "where id = " + id
-		// convert the data
-		
-		// update the users credit cards
-		// "select * from UserCreditCard
-		
-		// update the Banable super class
-		this.loadBan(id, User.table);
-		return null;
 	}
 	
 	public String getUsername() {

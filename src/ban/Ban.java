@@ -4,7 +4,7 @@ import java.util.Date;
 
 import general.Model;
 
-public class Ban implements Model {
+public class Ban extends Model {
 	private String reason;
 	private Date timestamp;
 	private int admin_id;
