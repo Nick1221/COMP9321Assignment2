@@ -2,10 +2,9 @@ package user;
 
 import java.util.List;
 
-import general.Model;
-import ban.Banable;
+import general.BanableModel;
 
-public class User extends Model {
+public class User extends BanableModel {
 	private static final String table = "users";
 	
 	private int id = -1; // auto-increments

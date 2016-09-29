@@ -1,7 +1,5 @@
 package general;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -9,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Properties;
 
 // and make it so its easier for models to extend it
 public class Model {
@@ -47,7 +44,7 @@ public class Model {
 	    
 	    try {
 	    	 dbc = new DatabaseConnection();
-	    	
+	    	 
 	    	 ResultSet rs = dbc.executeQuery(query);
 	    	 
 	    	 if (rs.first())
