@@ -1,8 +1,5 @@
 package general;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 import ban.Ban;
 import ban.Banable;
 

@@ -14,7 +14,7 @@ public class DatabaseConnection {
 	
 	private final String dbms = "mysql";
 	
-	private final String server_name = "8009";
+	private final String server_name = "localhost";
 	private final String port = "8009";
 	
 	private Connection conn = null;
