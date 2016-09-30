@@ -1179,6 +1179,63 @@ public class dbController {
 		return pic;
 	}
 	
+	public ArrayList<Integer> getAllPublication(){
+		Connection connection = null;
+		PreparedStatement statement = null;
+		int temp = 0;
+		ArrayList<Integer> listOfPub = new ArrayList<Integer>();
+
+		
+		try {
+			//Register JDBC driver
+			Class.forName(DRIVER);
+			
+			//open connection
+			connection = (Connection) DriverManager.getConnection(URL,USER,PASS);
+			
+			
+			//Execute a query
+			
+			String query = "SELECT * FROM Publications";
+	
+			statement = connection.prepareStatement(query);
+			statement.executeQuery();
+			
+			ResultSet rs = statement.getResultSet();
+	
+			
+			  //Extract data from result set
+			while(rs.next()){
+				//Retrieve by column name
+				temp = rs.getInt("pID");
+				listOfPub.add(temp);
+	
+			}
+			
+			//Clean-up environment
+			rs.close();
+			statement.close();
+			connection.close();	
+			
+			return listOfPub;
+			
+		} catch (SQLException se) {
+			//Handle errors for JDBC
+			    se.printStackTrace();
+		} catch (Exception e) {
+		    //Handle errors for Class.forName
+		    e.printStackTrace();
+		} finally {
+			try {
+			   if(connection!=null)
+			      connection.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			} 
+		} 				
+		return listOfPub; 
+					
+	}
 	
 	// USER registered publication table ///////////////////////////////////////////////// 
 	public void createRegisteredPublication(int uID, int pID, Date timeStamp, int visible){
@@ -1444,7 +1501,48 @@ public class dbController {
 		return false;		
 	}
 	
-	// TODO change visible, search books
+	public void setVisible(int uID, int pID, int visible){
+		
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		try {
+			//Register JDBC driver
+			Class.forName("com.mysql.jdbc.Driver");
+			//
+			conn = (Connection) DriverManager.getConnection(URL,USER,PASS);
+			
+			//Execute a query
+
+			
+			//Statement to change details of the database
+			String sql = "UPDATE userRegisterPublication SET is_visible=? WHERE (uID = ?) AND (pID = ?)";
+	
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, visible);
+			stmt.setInt(2, uID);
+			stmt.setInt(3, pID);
+			stmt.executeUpdate();
+
+			//Clean-up environment
+			stmt.close();
+			conn.close();	
+			
+		} catch (SQLException se) {
+			//Handle errors for JDBC
+			    se.printStackTrace();
+		} catch (Exception e) {
+		    //Handle errors for Class.forName
+		    e.printStackTrace();
+		} finally {
+			try {
+			   if(conn!=null)
+			      conn.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			}
+		} 
+		
+	}
 	
 	// USER bought publication table //////////////////////////////////////////////////
 	public void createBoughtPublication(int uID, int pID, Date timeStamp){
