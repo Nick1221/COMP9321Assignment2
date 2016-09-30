@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class dbController {
@@ -601,8 +602,62 @@ public class dbController {
 		}
 	}
 	
-	public int getCreditCard(int uID){
+	public ArrayList<Integer> getCreditCard(int uID){
+		Connection connection = null;
+		PreparedStatement statement = null;
+		int temp = 0;
+		ArrayList<Integer> listOfCard = new ArrayList<Integer>();
+
 		
+		try {
+			//Register JDBC driver
+			Class.forName(DRIVER);
+			
+			//open connection
+			connection = (Connection) DriverManager.getConnection(URL,USER,PASS);
+			
+			
+			//Execute a query
+			
+			String query = "SELECT * FROM userCreditCard WHERE (uID = ?)";
+	
+			statement = connection.prepareStatement(query);
+			statement.setInt(1, uID);
+			statement.executeQuery();
+			
+			ResultSet rs = statement.getResultSet();
+	
+			
+			  //Extract data from result set
+			while(rs.next()){
+				//Retrieve by column name
+				temp = rs.getInt("cardNumber");
+				listOfCard.add(temp);
+	
+			}
+			
+			//Clean-up environment
+			rs.close();
+			statement.close();
+			connection.close();	
+			
+			return listOfCard;
+			
+		} catch (SQLException se) {
+			//Handle errors for JDBC
+			    se.printStackTrace();
+		} catch (Exception e) {
+		    //Handle errors for Class.forName
+		    e.printStackTrace();
+		} finally {
+			try {
+			   if(connection!=null)
+			      connection.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			} 
+		} 				
+		return listOfCard; 
 	}
 	
 	// Email confirmation table //////////////////////////////////////////////////////
@@ -1169,20 +1224,227 @@ public class dbController {
 	}
 	
 	public int getRPuID(int pID){
+		Connection connection = null;
+		PreparedStatement statement = null;
+		int uID = 0;
 		
+		try {
+			//Register JDBC driver
+			Class.forName(DRIVER);
+			
+			//open connection
+			connection = (Connection) DriverManager.getConnection(URL,USER,PASS);
+			
+			
+			//Execute a query
+			
+			String query = "SELECT * FROM userRegisteredPublication WHERE (pID = ?)";
+	
+			statement = connection.prepareStatement(query);
+			statement.setInt(1, pID);
+			statement.executeQuery();
+			
+			ResultSet rs = statement.getResultSet();
+	
+			  //Extract data from result set
+			while(rs.next()){
+				//Retrieve by column name
+				uID = rs.getInt("uID");
+		
+			}
+			
+			//Clean-up environment
+			rs.close();
+			statement.close();
+			connection.close();	
+			
+			return uID;
+			
+		} catch (SQLException se) {
+			//Handle errors for JDBC
+			    se.printStackTrace();
+		} catch (Exception e) {
+		    //Handle errors for Class.forName
+		    e.printStackTrace();
+		} finally {
+			try {
+			   if(connection!=null)
+			      connection.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			} 
+		} 				
+		return uID;
 	}
 	
-	public int getRPpID(int uID){
+	public ArrayList<Integer> getRPpID(int uID){
+		Connection connection = null;
+		PreparedStatement statement = null;
+		int temp = 0;
+		ArrayList<Integer> listOfpID = new ArrayList<Integer>();
+
 		
+		try {
+			//Register JDBC driver
+			Class.forName(DRIVER);
+			
+			//open connection
+			connection = (Connection) DriverManager.getConnection(URL,USER,PASS);
+			
+			
+			//Execute a query
+			
+			String query = "SELECT * FROM userRegisteredPublication WHERE (uID = ?)";
+	
+			statement = connection.prepareStatement(query);
+			statement.setInt(1, uID);
+			statement.executeQuery();
+			
+			ResultSet rs = statement.getResultSet();
+	
+			
+			  //Extract data from result set
+			while(rs.next()){
+				//Retrieve by column name
+				temp = rs.getInt("pID");
+				listOfpID.add(temp);
+	
+			}
+			
+			//Clean-up environment
+			rs.close();
+			statement.close();
+			connection.close();	
+			
+			return listOfpID;
+			
+		} catch (SQLException se) {
+			//Handle errors for JDBC
+			    se.printStackTrace();
+		} catch (Exception e) {
+		    //Handle errors for Class.forName
+		    e.printStackTrace();
+		} finally {
+			try {
+			   if(connection!=null)
+			      connection.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			} 
+		} 				
+		return listOfpID; 
 	}
 	
 	public Date getRPtimeStamp(int uID){
+		Connection connection = null;
+		PreparedStatement statement = null;
+		Date timeStamp = null;
 		
+		try {
+			//Register JDBC driver
+			Class.forName(DRIVER);
+			
+			//open connection
+			connection = (Connection) DriverManager.getConnection(URL,USER,PASS);
+			
+			
+			//Execute a query
+			
+			String query = "SELECT * FROM userRegisteredPublication WHERE (uID = ?)";
+	
+			statement = connection.prepareStatement(query);
+			statement.setInt(1, uID);
+			statement.executeQuery();
+			
+			ResultSet rs = statement.getResultSet();
+	
+			  //Extract data from result set
+			while(rs.next()){
+				//Retrieve by column name
+				timeStamp = rs.getDate("timeStamp");
+		
+			}
+			
+			//Clean-up environment
+			rs.close();
+			statement.close();
+			connection.close();	
+			
+			return timeStamp;
+			
+		} catch (SQLException se) {
+			//Handle errors for JDBC
+			    se.printStackTrace();
+		} catch (Exception e) {
+		    //Handle errors for Class.forName
+		    e.printStackTrace();
+		} finally {
+			try {
+			   if(connection!=null)
+			      connection.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			} 
+		} 				
+		return timeStamp;
 	}
 	
-	public int getRPvisible(){
+	public boolean getRPvisible(int pID){
+		Connection connection = null;
+		PreparedStatement statement = null;
+		int visible = 0;
 		
+		try {
+			//Register JDBC driver
+			Class.forName(DRIVER);
+			
+			//open connection
+			connection = (Connection) DriverManager.getConnection(URL,USER,PASS);
+			
+			
+			//Execute a query
+			
+			String query = "SELECT * FROM userRegisteredPublication WHERE (pID = ?)";
+	
+			statement = connection.prepareStatement(query);
+			statement.setInt(1, pID);
+			statement.executeQuery();
+			
+			ResultSet rs = statement.getResultSet();
+	
+			  //Extract data from result set
+			while(rs.next()){
+				//Retrieve by column name
+				visible = rs.getInt("is_visible");
+		
+			}
+			
+			//Clean-up environment
+			rs.close();
+			statement.close();
+			connection.close();	
+			if(visible == 1){
+				return true;
+			}
+			
+		} catch (SQLException se) {
+			//Handle errors for JDBC
+			    se.printStackTrace();
+		} catch (Exception e) {
+		    //Handle errors for Class.forName
+		    e.printStackTrace();
+		} finally {
+			try {
+			   if(connection!=null)
+			      connection.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			} 
+		} 				
+		return false;		
 	}
+	
+	// TODO change visible, search books
 	
 	// USER bought publication table //////////////////////////////////////////////////
 	public void createBoughtPublication(int uID, int pID, Date timeStamp){
@@ -1448,7 +1710,122 @@ public class dbController {
 		}
 	}
 	
-	// TODO
+	public ArrayList<Integer> getAuthorPublication(int aID){
+		Connection connection = null;
+		PreparedStatement statement = null;
+		int temp = 0;
+		ArrayList<Integer> listOfPub = new ArrayList<Integer>();
+
+		
+		try {
+			//Register JDBC driver
+			Class.forName(DRIVER);
+			
+			//open connection
+			connection = (Connection) DriverManager.getConnection(URL,USER,PASS);
+			
+			
+			//Execute a query
+			
+			String query = "SELECT * FROM authorPublication WHERE (aID = ?)";
+	
+			statement = connection.prepareStatement(query);
+			statement.setInt(1, aID);
+			statement.executeQuery();
+			
+			ResultSet rs = statement.getResultSet();
+	
+			
+			  //Extract data from result set
+			while(rs.next()){
+				//Retrieve by column name
+				temp = rs.getInt("pID");
+				listOfPub.add(temp);
+	
+			}
+			
+			//Clean-up environment
+			rs.close();
+			statement.close();
+			connection.close();	
+			
+			return listOfPub;
+			
+		} catch (SQLException se) {
+			//Handle errors for JDBC
+			    se.printStackTrace();
+		} catch (Exception e) {
+		    //Handle errors for Class.forName
+		    e.printStackTrace();
+		} finally {
+			try {
+			   if(connection!=null)
+			      connection.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			} 
+		} 				
+		return listOfPub; 
+	}
+	
+	public ArrayList<Integer> getPublicationAuthor(int pID){
+		Connection connection = null;
+		PreparedStatement statement = null;
+		int temp = 0;
+		ArrayList<Integer> listOfAuthor = new ArrayList<Integer>();
+
+		
+		try {
+			//Register JDBC driver
+			Class.forName(DRIVER);
+			
+			//open connection
+			connection = (Connection) DriverManager.getConnection(URL,USER,PASS);
+			
+			
+			//Execute a query
+			
+			String query = "SELECT * FROM authorPublication WHERE (pID = ?)";
+	
+			statement = connection.prepareStatement(query);
+			statement.setInt(1, pID);
+			statement.executeQuery();
+			
+			ResultSet rs = statement.getResultSet();
+	
+			
+			  //Extract data from result set
+			while(rs.next()){
+				//Retrieve by column name
+				temp = rs.getInt("aID");
+				listOfAuthor.add(temp);
+	
+			}
+			
+			//Clean-up environment
+			rs.close();
+			statement.close();
+			connection.close();	
+			
+			return listOfAuthor;
+			
+		} catch (SQLException se) {
+			//Handle errors for JDBC
+			    se.printStackTrace();
+		} catch (Exception e) {
+		    //Handle errors for Class.forName
+		    e.printStackTrace();
+		} finally {
+			try {
+			   if(connection!=null)
+			      connection.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			} 
+		} 				
+		return listOfAuthor; 
+	}
+	
 	
 	// Editors table ////////////////////////////////////////////////////////////////
 	public void createEditors(String name){
@@ -1586,7 +1963,124 @@ public class dbController {
 		}
 	}
 	
-	//TODO
+	public ArrayList<Integer> getEditorPublication(int eID){
+		Connection connection = null;
+		PreparedStatement statement = null;
+		int temp = 0;
+		ArrayList<Integer> listOfPub = new ArrayList<Integer>();
+
+		
+		try {
+			//Register JDBC driver
+			Class.forName(DRIVER);
+			
+			//open connection
+			connection = (Connection) DriverManager.getConnection(URL,USER,PASS);
+			
+			
+			//Execute a query
+			
+			String query = "SELECT * FROM editorPublication WHERE (eID = ?)";
+	
+			statement = connection.prepareStatement(query);
+			statement.setInt(1, eID);
+			statement.executeQuery();
+			
+			ResultSet rs = statement.getResultSet();
+	
+			
+			  //Extract data from result set
+			while(rs.next()){
+				//Retrieve by column name
+				temp = rs.getInt("pID");
+				listOfPub.add(temp);
+	
+			}
+			
+			//Clean-up environment
+			rs.close();
+			statement.close();
+			connection.close();	
+			
+			return listOfPub;
+			
+		} catch (SQLException se) {
+			//Handle errors for JDBC
+			    se.printStackTrace();
+		} catch (Exception e) {
+		    //Handle errors for Class.forName
+		    e.printStackTrace();
+		} finally {
+			try {
+			   if(connection!=null)
+			      connection.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			} 
+		} 				
+		return listOfPub; 
+	}
+	
+	
+	public ArrayList<Integer> gerPublicationEditor(int pID){
+		Connection connection = null;
+		PreparedStatement statement = null;
+		int temp = 0;
+		ArrayList<Integer> listOfEditor = new ArrayList<Integer>();
+
+		
+		try {
+			//Register JDBC driver
+			Class.forName(DRIVER);
+			
+			//open connection
+			connection = (Connection) DriverManager.getConnection(URL,USER,PASS);
+			
+			
+			//Execute a query
+			
+			String query = "SELECT * FROM editorPublication WHERE (pID = ?)";
+	
+			statement = connection.prepareStatement(query);
+			statement.setInt(1, pID);
+			statement.executeQuery();
+			
+			ResultSet rs = statement.getResultSet();
+	
+			
+			  //Extract data from result set
+			while(rs.next()){
+				//Retrieve by column name
+				temp = rs.getInt("eID");
+				listOfEditor.add(temp);
+	
+			}
+			
+			//Clean-up environment
+			rs.close();
+			statement.close();
+			connection.close();	
+			
+			return listOfEditor;
+			
+		} catch (SQLException se) {
+			//Handle errors for JDBC
+			    se.printStackTrace();
+		} catch (Exception e) {
+		    //Handle errors for Class.forName
+		    e.printStackTrace();
+		} finally {
+			try {
+			   if(connection!=null)
+			      connection.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			} 
+		} 				
+		return listOfEditor; 
+	}		
+	
+	
 	// Activity table /////////////////////////////////////////////////////////////////
 	public void createActivity(String actName){
 		Connection connection = null;
@@ -1725,9 +2219,124 @@ public class dbController {
 		}
 	}
 	
-	public sth getUserActivity(){
+	public ArrayList<Integer> getUserActivity(int uID){
+		Connection connection = null;
+		PreparedStatement statement = null;
+		int temp = 0;
+		ArrayList<Integer> listOfAct = new ArrayList<Integer>();
+
 		
+		try {
+			//Register JDBC driver
+			Class.forName(DRIVER);
+			
+			//open connection
+			connection = (Connection) DriverManager.getConnection(URL,USER,PASS);
+			
+			
+			//Execute a query
+			
+			String query = "SELECT * FROM userActivity WHERE (uID = ?)";
+	
+			statement = connection.prepareStatement(query);
+			statement.setInt(1, uID);
+			statement.executeQuery();
+			
+			ResultSet rs = statement.getResultSet();
+	
+			
+			  //Extract data from result set
+			while(rs.next()){
+				//Retrieve by column name
+				temp = rs.getInt("aID");
+				listOfAct.add(temp);
+	
+			}
+			
+			//Clean-up environment
+			rs.close();
+			statement.close();
+			connection.close();	
+			
+			return listOfAct;
+			
+		} catch (SQLException se) {
+			//Handle errors for JDBC
+			    se.printStackTrace();
+		} catch (Exception e) {
+		    //Handle errors for Class.forName
+		    e.printStackTrace();
+		} finally {
+			try {
+			   if(connection!=null)
+			      connection.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			} 
+		} 				
+		return listOfAct; 
+			
 	}
+
+	public ArrayList<Integer> getUserPublicationActivity(int uID, int actID){
+		Connection connection = null;
+		PreparedStatement statement = null;
+		int temp = 0;
+		ArrayList<Integer> listOfPub = new ArrayList<Integer>();
+
+		
+		try {
+			//Register JDBC driver
+			Class.forName(DRIVER);
+			
+			//open connection
+			connection = (Connection) DriverManager.getConnection(URL,USER,PASS);
+			
+			
+			//Execute a query
+			
+			String query = "SELECT * FROM userActivity WHERE (uID = ?) AND (aID = ?)";
+	
+			statement = connection.prepareStatement(query);
+			statement.setInt(1, uID);
+			statement.setInt(2, actID);
+			statement.executeQuery();
+			
+			ResultSet rs = statement.getResultSet();
+	
+			
+			  //Extract data from result set
+			while(rs.next()){
+				//Retrieve by column name
+				temp = rs.getInt("pID");
+				listOfPub.add(temp);
+	
+			}
+			
+			//Clean-up environment
+			rs.close();
+			statement.close();
+			connection.close();	
+			
+			return listOfPub;
+			
+		} catch (SQLException se) {
+			//Handle errors for JDBC
+			    se.printStackTrace();
+		} catch (Exception e) {
+		    //Handle errors for Class.forName
+		    e.printStackTrace();
+		} finally {
+			try {
+			   if(connection!=null)
+			      connection.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			} 
+		} 				
+		return listOfPub; 
+	}
+	
 	
 	// other //////////////////////////////////////////////////////
 	public int maxUsersID() {
