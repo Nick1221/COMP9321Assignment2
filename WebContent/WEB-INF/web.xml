@@ -42,7 +42,7 @@
   </servlet>
   <servlet-mapping>
   	<servlet-name>PublicationController</servlet-name>
-  	<url-pattern>/publication</url-pattern>
+  	<url-pattern>/publications</url-pattern>
   </servlet-mapping>
   
   <servlet>
@@ -53,4 +53,5 @@
   	<servlet-name>SearchController</servlet-name>
   	<url-pattern>/search</url-pattern>
   </servlet-mapping>
+  
 </web-app>
