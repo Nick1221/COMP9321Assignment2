@@ -1,6 +1,7 @@
 package user;
 
 import java.sql.ResultSet;
+import java.util.HashMap;
 import java.util.List;
 
 import general.BanableModel;
@@ -63,16 +64,35 @@ public class User extends BanableModel<User> {
 	public static void main(String[] args) {
 		System.out.println("-- Starting User tests --");
 		
-		// get all users
+		// returns a list of all the users which qualify for this key - value pair
 		List<User> users = new User().searchByKey("1",1);
 		for(User u : users) {
 			System.out.println(u.get("Username"));
 		}
 		System.out.println(users.size());
 		
-		// get user named publific
+		// returns the first user who has the username : "publific"
 		User u = new User().findByKey("Username", "publific");
 		System.out.println(u.get("Username"));
+		
+		u.set("Username", "MyAwesome");// change the Username
+		u.save(); // save it to database -- Needed otherwise only this specific user instance will have the change
+		u.get("Username"); // "MyAwesomeUsername"
+		
+		// REVERTING BACK USERNAME
+		u.set("Username", "publific");// change the Username
+		u.save();
+		
+		HashMap<String,Object> temp = new HashMap<String,Object>();
+		temp.put("Username", "Amazing");
+		temp.put("password", "shieze");
+		temp.put("email", "jules@holiboat.com");
+		temp.put("confirmedEmail", "0");
+		temp.put("first_name", "Jules");
+		temp.put("last_name", "Rig");
+		temp.put("Bdate", "2013-10-30");
+		User u_c = new User().create(temp);
+		System.out.println(u_c.get("Username"));
 		
 		System.out.println("-- Ending User tests --");
 	}

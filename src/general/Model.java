@@ -55,7 +55,7 @@ public class Model<E> {
 	public List<E> searchByKey(String key, Object value) {
 	    String query = "select * " + 
 	                   "from " + this.table +
-	                   " where " + key + " = " + value.toString();
+	                   " where " + key + " = '" + value.toString() + "'";
 	    
 	    List<E> ret = new LinkedList<E>();
 	    
@@ -113,7 +113,43 @@ public class Model<E> {
 		return ret;
 	}
 	
-	//	TODO: public Object create();
+	public E create(HashMap<String,Object> data) {
+		this.column_to_data = data;
+		String query = "INSERT INTO `" + this.table + "` (";
+		for(String key : column_to_data.keySet()) {
+			query += "`" + key + "`,";
+		}
+		query = query.substring(0,query.length()-1);
+		query += ") VALUES (";
+		for(Object value : column_to_data.values()) {
+			query += "'" + value.toString() + "',";
+		}
+		query = query.substring(0,query.length()-1);
+		query += ")";
+		DatabaseConnection dbc = null;
+		try {
+		 	 dbc = new DatabaseConnection();
+		 	
+		 	 dbc.executeUpdateQuery(query);
+
+		} catch (SQLException e ) {
+		     e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+		    if (dbc.hasActiveStatement()) { 
+		     	try {
+					dbc.closeStatement();
+				} catch (SQLException e) {
+					e.printStackTrace();
+					// TODO throw error 500
+				}
+			} else {
+				return null; // something went horribly wrong...
+			}
+		}
+		return (E)this;
+	}
 	
 	// returns the object that has been deleted
 	public E delete() {
@@ -145,7 +181,7 @@ public class Model<E> {
 			}
 		}
 		
-		return null;
+		return (E)this;
 	}
 	
 	public Object get(String column_name) {

@@ -1,18 +1,32 @@
 package ban;
 
+import java.sql.ResultSet;
 import java.util.Date;
 
 import general.Model;
+import user.Activity;
+import user.User;
 
-public class Ban extends Model {
+public class Ban extends Model<Ban> {
 	private String reason;
 	private Date timestamp;
 	private int admin_id;
 	private int banned_id;
 	private String item_table;
 	
+	public Ban() {
+		super(Ban.class);
+	}
+	
+	public Ban(ResultSet rs) {
+		super(Ban.class);
+		this.primary_key = User.TABLE_PRIMARY_KEY;
+		this.updateData(rs);
+	}
+	
 	public Ban(String reason, Date timestamp, int admin_id,
 			int banned_id, String banned_item_table) {
+		super(Ban.class);
 		this.reason = reason;
 		this.admin_id = admin_id;
 		this.timestamp = new Date();
