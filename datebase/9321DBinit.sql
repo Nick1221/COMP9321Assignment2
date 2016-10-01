@@ -86,7 +86,7 @@ CREATE TABLE IF NOT EXISTS `9321DB`.`userRegisteredPublication` (
   `uID` INT NOT NULL,
   `pID` INT NOT NULL,
   `timeStamp` DATE NOT NULL,
-  `is__visible` TINYINT(1) NOT NULL DEFAULT 0)
+  `isVisible` TINYINT(1) NOT NULL DEFAULT 0)
 ENGINE = InnoDB;
 
 
