@@ -34,20 +34,20 @@ public class dbController {
 			
 			// Execute query
 			String query;
-			query = "INSERT INTO `User` "
-					+ "(`uID`, `Username`, `password`, `email`, `confirmedEmail, `first_name`, `last_name`, `Bdate`, `isAdmin`) "
-					+ "VALUES(?,?,?,?,?,?,?,?,?)";
+			query = "INSERT INTO `user` "
+					+ "(`uID`, `Username`, `password`, `email`, `confirmedEmail, `firstName`, `lastName`, `bDate`, `isAdmin`) "
+					+ "VALUES(NULL,?,?,?,?,?,?,?,?)";
 			
 			PreparedStatement statement = connection.prepareStatement(query);
-			statement.setInt(1, maxUsersID()+1);
-			statement.setString(2, username);
-			statement.setString(3, password);
-			statement.setString(4, email);
-			statement.setInt(5, 0);
-			statement.setString(6, fname);
-			statement.setString(7, lname);
-			statement.setString(8, Bdate);
-			statement.setInt(9, 0);
+			//statement.setInt(1, null);
+			statement.setString(1, username);
+			statement.setString(2, password);
+			statement.setString(3, email);
+			statement.setInt(4, 0);
+			statement.setString(5, fname);
+			statement.setString(6, lname);
+			statement.setString(7, Bdate);
+			statement.setInt(8, 0);
 			
 			statement.executeUpdate();
 			statement.close();
@@ -84,7 +84,7 @@ public class dbController {
 			
 			//Execute a query
 			
-			String query = "SELECT * FROM User WHERE (Username = ?)";
+			String query = "SELECT * FROM user WHERE (Username = ?)";
 	
 			statement = connection.prepareStatement(query);
 			statement.setString(1, username);
@@ -138,7 +138,7 @@ public class dbController {
 			
 			//Execute a query
 			
-			String query = "SELECT * FROM User WHERE (uID = ?)";
+			String query = "SELECT * FROM user WHERE (uID = ?)";
 	
 			statement = connection.prepareStatement(query);
 			statement.setInt(1, uID);
@@ -192,7 +192,7 @@ public class dbController {
 			
 			//Execute a query
 			
-			String query = "SELECT * FROM User WHERE (uID = ?)";
+			String query = "SELECT * FROM user WHERE (uID = ?)";
 	
 			statement = connection.prepareStatement(query);
 			statement.setInt(1, uID);
@@ -300,7 +300,7 @@ public class dbController {
 			
 			//Execute a query
 			
-			String query = "SELECT * FROM User WHERE (uID = ?)";
+			String query = "SELECT * FROM user WHERE (uID = ?)";
 	
 			statement = connection.prepareStatement(query);
 			statement.setInt(1, uID);
@@ -356,7 +356,7 @@ public class dbController {
 			
 			//Execute a query
 			
-			String query = "SELECT * FROM User WHERE (uID = ?)";
+			String query = "SELECT * FROM user WHERE (uID = ?)";
 	
 			statement = connection.prepareStatement(query);
 			statement.setInt(1, uID);
@@ -367,7 +367,7 @@ public class dbController {
 			  //Extract data from result set
 			while(rs.next()){
 				//Retrieve by column name
-				fName = rs.getString("first_name");
+				fName = rs.getString("firstName");
 		
 			}
 			
@@ -410,7 +410,7 @@ public class dbController {
 			
 			//Execute a query
 			
-			String query = "SELECT * FROM User WHERE (uID = ?)";
+			String query = "SELECT * FROM user WHERE (uID = ?)";
 	
 			statement = connection.prepareStatement(query);
 			statement.setInt(1, uID);
@@ -421,7 +421,7 @@ public class dbController {
 			  //Extract data from result set
 			while(rs.next()){
 				//Retrieve by column name
-				lName = rs.getString("last_name");
+				lName = rs.getString("lastName");
 		
 			}
 			
@@ -464,7 +464,7 @@ public class dbController {
 			
 			//Execute a query
 			
-			String query = "SELECT * FROM User WHERE (uID = ?)";
+			String query = "SELECT * FROM user WHERE (uID = ?)";
 	
 			statement = connection.prepareStatement(query);
 			statement.setInt(1, uID);
@@ -475,7 +475,7 @@ public class dbController {
 			  //Extract data from result set
 			while(rs.next()){
 				//Retrieve by column name
-				Bdate = rs.getDate("Bdate");
+				Bdate = rs.getDate("bDate");
 				
 		
 			}
@@ -519,7 +519,7 @@ public class dbController {
 			
 			//Execute a query
 			
-			String query = "SELECT * FROM User WHERE (uID = ?)";
+			String query = "SELECT * FROM user WHERE (uID = ?)";
 	
 			statement = connection.prepareStatement(query);
 			statement.setInt(1, uID);
@@ -673,7 +673,7 @@ public class dbController {
 			
 			// Execute query
 			String query;
-			query = "INSERT INTO `EmailConfirmation` "
+			query = "INSERT INTO `emailConfirmation` "
 					+ "(`uID`, `code`, `attempts`) "
 					+ "VALUES(?,?,?)";
 			
@@ -717,7 +717,7 @@ public class dbController {
 			
 			//Execute a query
 			
-			String query = "SELECT * FROM EmailConfirmation WHERE (uID = ?)";
+			String query = "SELECT * FROM emailConfirmation WHERE (uID = ?)";
 	
 			statement = connection.prepareStatement(query);
 			statement.setInt(1, uID);
@@ -771,7 +771,7 @@ public class dbController {
 			
 			//Execute a query
 			
-			String query = "SELECT * FROM EmailConfirmation WHERE (uID = ?)";
+			String query = "SELECT * FROM emailConfirmation WHERE (uID = ?)";
 	
 			statement = connection.prepareStatement(query);
 			statement.setInt(1, uID);
@@ -823,17 +823,17 @@ public class dbController {
 			
 			// Execute query
 			String query;
-			query = "INSERT INTO `Publications` "
+			query = "INSERT INTO `publications` "
 					+ "(`pID`, `title`, `year`, `volume`, `price, `picture`) "
-					+ "VALUES(?,?,?,?,?,?)";
+					+ "VALUES(NULL,?,?,?,?,?)";
 			
 			PreparedStatement statement = connection.prepareStatement(query);
-			statement.setInt(1, maxpID()+1);
-			statement.setString(2, title);
-			statement.setInt(3, year);
-			statement.setInt(4, volume);
-			statement.setFloat(5, 0);
-			statement.setString(6, pic);
+			//statement.setInt(1, maxpID()+1);
+			statement.setString(1, title);
+			statement.setInt(2, year);
+			statement.setInt(3, volume);
+			statement.setFloat(4, 0);
+			statement.setString(5, pic);
 		
 			statement.executeUpdate();
 			statement.close();
@@ -870,7 +870,7 @@ public class dbController {
 			
 			//Execute a query
 			
-			String query = "SELECT * FROM Publications WHERE (title = ?)";
+			String query = "SELECT * FROM publications WHERE (title = ?)";
 	
 			statement = connection.prepareStatement(query);
 			statement.setInt(1, pID);
@@ -924,7 +924,7 @@ public class dbController {
 			
 			//Execute a query
 			
-			String query = "SELECT * FROM Publications WHERE (pID = ?)";
+			String query = "SELECT * FROM publications WHERE (pID = ?)";
 	
 			statement = connection.prepareStatement(query);
 			statement.setInt(1, pID);
@@ -978,7 +978,7 @@ public class dbController {
 			
 			//Execute a query
 			
-			String query = "SELECT * FROM Publications WHERE (pID = ?)";
+			String query = "SELECT * FROM publications WHERE (pID = ?)";
 	
 			statement = connection.prepareStatement(query);
 			statement.setInt(1, pID);
@@ -1032,7 +1032,7 @@ public class dbController {
 			
 			//Execute a query
 			
-			String query = "SELECT * FROM Publications WHERE (pID = ?)";
+			String query = "SELECT * FROM publications WHERE (pID = ?)";
 	
 			statement = connection.prepareStatement(query);
 			statement.setInt(1, pID);
@@ -1086,7 +1086,7 @@ public class dbController {
 			
 			//Execute a query
 			
-			String query = "SELECT * FROM Publications WHERE (pID = ?)";
+			String query = "SELECT * FROM publications WHERE (pID = ?)";
 	
 			statement = connection.prepareStatement(query);
 			statement.setInt(1, pID);
@@ -1140,7 +1140,7 @@ public class dbController {
 			
 			//Execute a query
 			
-			String query = "SELECT * FROM Publications WHERE (pID = ?)";
+			String query = "SELECT * FROM publications WHERE (pID = ?)";
 	
 			statement = connection.prepareStatement(query);
 			statement.setInt(1, pID);
@@ -1196,7 +1196,7 @@ public class dbController {
 			
 			//Execute a query
 			
-			String query = "SELECT * FROM Publications";
+			String query = "SELECT * FROM publications";
 	
 			statement = connection.prepareStatement(query);
 			statement.executeQuery();
@@ -1586,6 +1586,119 @@ public class dbController {
 		}
 	}
 	
+	public ArrayList<Integer> getBoughtPub(int uID){
+		Connection connection = null;
+		PreparedStatement statement = null;
+		int temp = 0;
+		ArrayList<Integer> listOfPub = new ArrayList<Integer>();
+
+		
+		try {
+			//Register JDBC driver
+			Class.forName(DRIVER);
+			
+			//open connection
+			connection = (Connection) DriverManager.getConnection(URL,USER,PASS);
+			
+			
+			//Execute a query
+			
+			String query = "SELECT * FROM userBoughtPublication WHERE (uID = ?)";
+	
+			statement = connection.prepareStatement(query);
+			statement.setInt(1, uID);
+			statement.executeQuery();
+			
+			ResultSet rs = statement.getResultSet();
+	
+			
+			  //Extract data from result set
+			while(rs.next()){
+				//Retrieve by column name
+				temp = rs.getInt("pID");
+				listOfPub.add(temp);
+	
+			}
+			
+			//Clean-up environment
+			rs.close();
+			statement.close();
+			connection.close();	
+			
+			return listOfPub;
+			
+		} catch (SQLException se) {
+			//Handle errors for JDBC
+			    se.printStackTrace();
+		} catch (Exception e) {
+		    //Handle errors for Class.forName
+		    e.printStackTrace();
+		} finally {
+			try {
+			   if(connection!=null)
+			      connection.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			} 
+		} 				
+		return listOfPub; 
+	}
+	
+	public Date getBoughtPubtimeStamp(int uID, int pID){
+		Connection connection = null;
+		PreparedStatement statement = null;
+		Date timeStamp = null;
+		
+		try {
+			//Register JDBC driver
+			Class.forName(DRIVER);
+			
+			//open connection
+			connection = (Connection) DriverManager.getConnection(URL,USER,PASS);
+			
+			
+			//Execute a query
+			
+			String query = "SELECT * FROM userRegisteredPublication WHERE (uID = ?) AND (pID = ?)";
+	
+			statement = connection.prepareStatement(query);
+			statement.setInt(1, uID);
+			statement.setInt(2, pID);
+			statement.executeQuery();
+			
+			ResultSet rs = statement.getResultSet();
+	
+			  //Extract data from result set
+			while(rs.next()){
+				//Retrieve by column name
+				timeStamp = rs.getDate("timeStamp");
+		
+			}
+			
+			//Clean-up environment
+			rs.close();
+			statement.close();
+			connection.close();	
+			
+			return timeStamp;
+			
+		} catch (SQLException se) {
+			//Handle errors for JDBC
+			    se.printStackTrace();
+		} catch (Exception e) {
+		    //Handle errors for Class.forName
+		    e.printStackTrace();
+		} finally {
+			try {
+			   if(connection!=null)
+			      connection.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			} 
+		} 				
+		return timeStamp;
+	}
+	
 	// Ban publication table /////////////////////////////////////////////////////////
 	public void addBanPublication(int uID, int pID, String reason, Date timeStamp){
 		Connection connection = null;
@@ -1599,8 +1712,8 @@ public class dbController {
 			
 			// Execute query
 			String query;
-			query = "INSERT INTO `BanPublication` "
-					+ "(`uID`, `BanPID`, `Reason`, `timeStamp`) "
+			query = "INSERT INTO `banPublication` "
+					+ "(`uID`, `banPID`, `reason`, `timeStamp`) "
 					+ "VALUES(?,?,?,?)";
 			
 			PreparedStatement statement = connection.prepareStatement(query);
@@ -1629,6 +1742,172 @@ public class dbController {
 		}
 	}
 	
+	public ArrayList<Integer> getListOfBanPub(int uID){
+		Connection connection = null;
+		PreparedStatement statement = null;
+		int temp = 0;
+		ArrayList<Integer> listOfPub = new ArrayList<Integer>();
+
+		
+		try {
+			//Register JDBC driver
+			Class.forName(DRIVER);
+			
+			//open connection
+			connection = (Connection) DriverManager.getConnection(URL,USER,PASS);
+			
+			
+			//Execute a query
+			
+			String query = "SELECT * FROM banPublication WHERE (uID = ?)";
+	
+			statement = connection.prepareStatement(query);
+			statement.setInt(1, uID);
+			statement.executeQuery();
+			
+			ResultSet rs = statement.getResultSet();
+	
+			
+			  //Extract data from result set
+			while(rs.next()){
+				//Retrieve by column name
+				temp = rs.getInt("banPID");
+				listOfPub.add(temp);
+	
+			}
+			
+			//Clean-up environment
+			rs.close();
+			statement.close();
+			connection.close();	
+			
+			return listOfPub;
+			
+		} catch (SQLException se) {
+			//Handle errors for JDBC
+			    se.printStackTrace();
+		} catch (Exception e) {
+		    //Handle errors for Class.forName
+		    e.printStackTrace();
+		} finally {
+			try {
+			   if(connection!=null)
+			      connection.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			} 
+		} 				
+		return listOfPub; 
+	}
+	
+	public String getBanPubReason(int banPID){
+		Connection connection = null;
+		PreparedStatement statement = null;
+		String reason = null;
+		
+		try {
+			//Register JDBC driver
+			Class.forName(DRIVER);
+			
+			//open connection
+			connection = (Connection) DriverManager.getConnection(URL,USER,PASS);
+			
+			
+			//Execute a query
+			
+			String query = "SELECT * FROM userRegisteredPublication WHERE (banPID = ?)";
+	
+			statement = connection.prepareStatement(query);
+			statement.setInt(1, banPID);
+			statement.executeQuery();
+			
+			ResultSet rs = statement.getResultSet();
+	
+			  //Extract data from result set
+			while(rs.next()){
+				//Retrieve by column name
+				reason = rs.getString("reason");
+		
+			}
+			
+			//Clean-up environment
+			rs.close();
+			statement.close();
+			connection.close();	
+			
+			return reason;
+			
+		} catch (SQLException se) {
+			//Handle errors for JDBC
+			    se.printStackTrace();
+		} catch (Exception e) {
+		    //Handle errors for Class.forName
+		    e.printStackTrace();
+		} finally {
+			try {
+			   if(connection!=null)
+			      connection.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			} 
+		} 				
+		return reason;	
+	}
+
+	public Date getBanPubTimeStamp(int banPID){
+		Connection connection = null;
+		PreparedStatement statement = null;
+		Date timeStamp = null;
+		
+		try {
+			//Register JDBC driver
+			Class.forName(DRIVER);
+			
+			//open connection
+			connection = (Connection) DriverManager.getConnection(URL,USER,PASS);
+			
+			
+			//Execute a query
+			
+			String query = "SELECT * FROM banPublication WHERE (banPID = ?)";
+	
+			statement = connection.prepareStatement(query);
+			statement.setInt(1, banPID);
+			statement.executeQuery();
+			
+			ResultSet rs = statement.getResultSet();
+	
+			  //Extract data from result set
+			while(rs.next()){
+				//Retrieve by column name
+				timeStamp = rs.getDate("timeStamp");
+		
+			}
+			
+			//Clean-up environment
+			rs.close();
+			statement.close();
+			connection.close();	
+			
+			return timeStamp;
+			
+		} catch (SQLException se) {
+			//Handle errors for JDBC
+			    se.printStackTrace();
+		} catch (Exception e) {
+		    //Handle errors for Class.forName
+		    e.printStackTrace();
+		} finally {
+			try {
+			   if(connection!=null)
+			      connection.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			} 
+		} 				
+		return timeStamp;
+	}
+	
 	// User Ban table ////////////////////////////////////////////////////////////////
 	public void addBanUser(int uID, int BanUID,String Reason, Date timeStamp){
 		Connection connection = null;
@@ -1642,8 +1921,8 @@ public class dbController {
 			
 			// Execute query
 			String query;
-			query = "INSERT INTO `UserBan` "
-					+ "(`uID`, `BanUID`, `Reason`, `timeStamp`) "
+			query = "INSERT INTO `userBan` "
+					+ "(`uID`, `banUID`, `reason`, `timeStamp`) "
 					+ "VALUES(?,?,?,?";
 			
 			PreparedStatement statement = connection.prepareStatement(query);
@@ -1671,6 +1950,172 @@ public class dbController {
 			  } 
 		}
 	}
+
+	public ArrayList<Integer> getListOfBanUser(int uID){
+		Connection connection = null;
+		PreparedStatement statement = null;
+		int temp = 0;
+		ArrayList<Integer> listOfUser = new ArrayList<Integer>();
+
+		
+		try {
+			//Register JDBC driver
+			Class.forName(DRIVER);
+			
+			//open connection
+			connection = (Connection) DriverManager.getConnection(URL,USER,PASS);
+			
+			
+			//Execute a query
+			
+			String query = "SELECT * FROM userBan WHERE (uID = ?)";
+	
+			statement = connection.prepareStatement(query);
+			statement.setInt(1, uID);
+			statement.executeQuery();
+			
+			ResultSet rs = statement.getResultSet();
+	
+			
+			  //Extract data from result set
+			while(rs.next()){
+				//Retrieve by column name
+				temp = rs.getInt("banUID");
+				listOfUser.add(temp);
+	
+			}
+			
+			//Clean-up environment
+			rs.close();
+			statement.close();
+			connection.close();	
+			
+			return listOfUser;
+			
+		} catch (SQLException se) {
+			//Handle errors for JDBC
+			    se.printStackTrace();
+		} catch (Exception e) {
+		    //Handle errors for Class.forName
+		    e.printStackTrace();
+		} finally {
+			try {
+			   if(connection!=null)
+			      connection.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			} 
+		} 				
+		return listOfUser; 
+	}
+	
+	public String getBanUserReason(int banPID){
+		Connection connection = null;
+		PreparedStatement statement = null;
+		String reason = null;
+		
+		try {
+			//Register JDBC driver
+			Class.forName(DRIVER);
+			
+			//open connection
+			connection = (Connection) DriverManager.getConnection(URL,USER,PASS);
+			
+			
+			//Execute a query
+			
+			String query = "SELECT * FROM userBan WHERE (banUID = ?)";
+	
+			statement = connection.prepareStatement(query);
+			statement.setInt(1, banPID);
+			statement.executeQuery();
+			
+			ResultSet rs = statement.getResultSet();
+	
+			  //Extract data from result set
+			while(rs.next()){
+				//Retrieve by column name
+				reason = rs.getString("reason");
+		
+			}
+			
+			//Clean-up environment
+			rs.close();
+			statement.close();
+			connection.close();	
+			
+			return reason;
+			
+		} catch (SQLException se) {
+			//Handle errors for JDBC
+			    se.printStackTrace();
+		} catch (Exception e) {
+		    //Handle errors for Class.forName
+		    e.printStackTrace();
+		} finally {
+			try {
+			   if(connection!=null)
+			      connection.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			} 
+		} 				
+		return reason;	
+	}
+	
+	public Date getBanUserTimeStamp(int banPID){
+		Connection connection = null;
+		PreparedStatement statement = null;
+		Date timeStamp = null;
+		
+		try {
+			//Register JDBC driver
+			Class.forName(DRIVER);
+			
+			//open connection
+			connection = (Connection) DriverManager.getConnection(URL,USER,PASS);
+			
+			
+			//Execute a query
+			
+			String query = "SELECT * FROM userBan WHERE (banUID = ?)";
+	
+			statement = connection.prepareStatement(query);
+			statement.setInt(1, banPID);
+			statement.executeQuery();
+			
+			ResultSet rs = statement.getResultSet();
+	
+			  //Extract data from result set
+			while(rs.next()){
+				//Retrieve by column name
+				timeStamp = rs.getDate("timeStamp");
+		
+			}
+			
+			//Clean-up environment
+			rs.close();
+			statement.close();
+			connection.close();	
+			
+			return timeStamp;
+			
+		} catch (SQLException se) {
+			//Handle errors for JDBC
+			    se.printStackTrace();
+		} catch (Exception e) {
+		    //Handle errors for Class.forName
+		    e.printStackTrace();
+		} finally {
+			try {
+			   if(connection!=null)
+			      connection.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			} 
+		} 				
+		return timeStamp;
+	}
 	
 	// Authors table ////////////////////////////////////////////////////////////////
 	public void createAuthor(String name){
@@ -1687,11 +2132,11 @@ public class dbController {
 			String query;
 			query = "INSERT INTO `authors` "
 					+ "(`aID`, `name`) "
-					+ "VALUES(?,?)";
+					+ "VALUES(NULL,?)";
 			
 			PreparedStatement statement = connection.prepareStatement(query);
-			statement.setInt(1, maxaID()+1);
-			statement.setString(2, name);
+			//statement.setInt(1, maxaID()+1);
+			statement.setString(1, name);
 
 			statement.executeUpdate();
 			statement.close();
@@ -1940,11 +2385,11 @@ public class dbController {
 			String query;
 			query = "INSERT INTO `editors` "
 					+ "(`eID`, `name`) "
-					+ "VALUES(?,?)";
+					+ "VALUES(NULL,?)";
 			
 			PreparedStatement statement = connection.prepareStatement(query);
-			statement.setInt(1, maxeID()+1);
-			statement.setString(2, name);
+			//statement.setInt(1, maxeID()+1);
+			statement.setString(1, name);
 			
 			statement.executeUpdate();
 			statement.close();
@@ -2194,11 +2639,11 @@ public class dbController {
 			String query;
 			query = "INSERT INTO `activity` "
 					+ "(`actID`, `actName`) "
-					+ "VALUES(?,?)";
+					+ "VALUES(NULL,?)";
 			
 			PreparedStatement statement = connection.prepareStatement(query);
-			statement.setInt(1, maxactID()+1);
-			statement.setString(2, actName);
+			//statement.setInt(1, maxactID()+1);
+			statement.setString(1, actName);
 			
 			statement.executeUpdate();
 			statement.close();
