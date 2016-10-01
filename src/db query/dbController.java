@@ -1251,7 +1251,7 @@ public class dbController {
 			// Execute query
 			String query;
 			query = "INSERT INTO `userRegisteredPublication` "
-					+ "(`uID`, `pID`, `timeStamp`, `visible`) "
+					+ "(`uID`, `pID`, `timeStamp`, `isVisible`) "
 					+ "VALUES(?,?,?,?)";
 			
 			PreparedStatement statement = connection.prepareStatement(query);
@@ -1472,7 +1472,7 @@ public class dbController {
 			  //Extract data from result set
 			while(rs.next()){
 				//Retrieve by column name
-				visible = rs.getInt("is_visible");
+				visible = rs.getInt("isVisible");
 		
 			}
 			
@@ -1515,7 +1515,7 @@ public class dbController {
 
 			
 			//Statement to change details of the database
-			String sql = "UPDATE userRegisterPublication SET is_visible=? WHERE (uID = ?) AND (pID = ?)";
+			String sql = "UPDATE userRegisterPublication SET isVisible=? WHERE (uID = ?) AND (pID = ?)";
 	
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, visible);
