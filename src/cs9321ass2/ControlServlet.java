@@ -40,8 +40,8 @@ public class ControlServlet extends HttpServlet {
     public ControlServlet() 
     {
         super();
-        // TODO Auto-generated constructor stub
-        try 
+        // not using xml file as db anymore, so no DOM/SAX parser
+        /*try 
 		{
         	users = new LinkedList<UserSimulation>();
         	users.add(new UserSimulation("asd", "asd", "asd@asdas.com")); //-----------some examples------------
@@ -138,7 +138,7 @@ public class ControlServlet extends HttpServlet {
 		catch (Exception e) 
 		{
 			e.printStackTrace();
-		}
+		}*/
     }
 
 	/**
@@ -146,6 +146,19 @@ public class ControlServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
+		String action = request.getParameter("action"); //may be different name from view level
+		String nextPage = "";
+		if(action.equals("userRegister") || action.equals("userLogin") || action.equals("userLogout"))  //may be different action name coming from the view level
+			nextPage = "UserController";
+		else if(action.equals("adminRegister") || action.equals("adminLogin") || action.equals("adminLogout") || action.equals("banUser") || action.equals("removeItemForSale"))
+			nextPage = "AdminController";
+		else if(action.equals("addPublication") || action.equals("pausePublication") || action.equals("activatePublication"))
+			nextPage="PublicationController";
+		else if(action.equals("mainSearch") || action.equals("specSearch") || action.equals("shopCart"))
+			nextPage="SearchController";
+		RequestDispatcher rd = request.getRequestDispatcher("/" + nextPage);   
+		rd.forward(request, response);
+		/*
 		// TODO Auto-generated method stub
 		String action = request.getParameter("action");
 		System.out.println("Action is " + action);
@@ -423,7 +436,7 @@ public class ControlServlet extends HttpServlet {
 		}
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		RequestDispatcher rd = request.getRequestDispatcher("/"+nextPage);
-		rd.forward(request, response);
+		rd.forward(request, response);*/
 	}
 
 	/**
