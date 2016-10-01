@@ -3,10 +3,11 @@ package general;
 import ban.Ban;
 import ban.Banable;
 
-public class BanableModel extends Model implements Banable {
+public class BanableModel<E> extends Model<E> implements Banable {
 	private Ban ban = null;
 	
-	public BanableModel() {
+	public BanableModel(Class<E> c) {
+		super(c);
 	}
 	
 	@Override

@@ -1,12 +1,29 @@
 package user;
 
+import java.sql.ResultSet;
 import java.util.List;
 
 import general.BanableModel;
 import publication.Publication;
 
-public class User extends BanableModel {
-	private static final String table = "users";
+public class User extends BanableModel<User> {
+	public static final String TABLE_NAME = "User";
+	public static final String TABLE_PRIMARY_KEY = "uID";
+	
+	public User() {
+		super(User.class);
+		this.primary_key = User.TABLE_PRIMARY_KEY;
+		this.table = User.TABLE_NAME;
+		this.column_to_cast.put("confirmedEmail", "boolean");
+	}
+	
+	public User(ResultSet rs) {
+		super(User.class);
+		this.primary_key = User.TABLE_PRIMARY_KEY;
+		this.table = User.TABLE_NAME;
+		this.column_to_cast.put("confirmedEmail", "boolean");
+		this.updateData(rs);
+	}
 	
 	public List<CreditCard> getCreditCards() {
 		return null;
@@ -39,7 +56,24 @@ public class User extends BanableModel {
 	}
 	
 	public boolean attemptLogin(String password) {
-		// make sure the password is bcrypted first
+		// TODO : make sure the password is bcrypted first
 		return this.get("password") == password;
+	}
+	
+	public static void main(String[] args) {
+		System.out.println("-- Starting User tests --");
+		
+		// get all users
+		List<User> users = new User().searchByKey("1",1);
+		for(User u : users) {
+			System.out.println(u.get("Username"));
+		}
+		System.out.println(users.size());
+		
+		// get user named publific
+		User u = new User().findByKey("Username", "publific");
+		System.out.println(u.get("Username"));
+		
+		System.out.println("-- Ending User tests --");
 	}
 }

@@ -8,33 +8,36 @@ import java.sql.Statement;
 import java.util.Properties;
 
 public class DatabaseConnection {
-	public static final String DATABASE_NAME = "creativity";
-	private final String user = "";
-	private final String password = "";
+	public static final String DRIVER = "com.mysql.jdbc.Driver";
+	public static final String DATABASE_NAME = "9321DB";
+	private final String user = "root";
+	private final String password = "root";
 	
 	private final String dbms = "mysql";
 	
 	private final String server_name = "localhost";
-	private final String port = "8009";
+	private final String port = "8889";
 	
 	private Connection conn = null;
 	
 	private Statement stmt = null;
 	
-	public DatabaseConnection() throws SQLException {
+	public DatabaseConnection() throws SQLException, ClassNotFoundException {
 		this.conn = this.getConnection();
 	}
 	
-	public Connection getConnection() throws SQLException {
+	public Connection getConnection() throws SQLException, ClassNotFoundException {
 		Connection conn = null;
 	    Properties connectionProps = new Properties();
 	    connectionProps.put("user", this.user);
 	    connectionProps.put("password", this.password);
 	    
-	    conn = DriverManager.getConnection(
+	    Class.forName(DRIVER);
+	    
+    	conn = DriverManager.getConnection(
                 "jdbc:" + this.dbms + "://" +
                 		this.server_name +
-                ":" + this.port + "/",
+                ":" + this.port + "/" + this.DATABASE_NAME + "?zeroDateTimeBehavior=convertToNull",
                 connectionProps);
 	    return conn;
 	}
@@ -42,9 +45,17 @@ public class DatabaseConnection {
 	public ResultSet executeQuery(String query) throws SQLException {
 		this.stmt = conn.createStatement();
 		
-		this.stmt.executeQuery(query);
+		System.out.println(query);
 		
-		return null;
+		return this.stmt.executeQuery(query);
+	}
+	
+	public int executeUpdateQuery(String query) throws SQLException {
+		this.stmt = conn.createStatement();
+		
+		System.out.println(query);
+		
+		return this.stmt.executeUpdate(query);
 	}
 	
 	public void closeStatement() throws SQLException {

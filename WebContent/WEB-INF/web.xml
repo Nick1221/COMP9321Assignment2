@@ -53,5 +53,4 @@
   	<servlet-name>SearchController</servlet-name>
   	<url-pattern>/search</url-pattern>
   </servlet-mapping>
-  
 </web-app>

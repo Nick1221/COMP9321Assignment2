@@ -6,6 +6,7 @@ import general.BanableModel;
 import user.User;
 
 public class Publication extends BanableModel {
+	private static final String table = "Publications";
 	
 	public Publication() {
 		
