@@ -1,6 +1,7 @@
 package cs9321ass2;
 
 import java.util.*;
+import publication.*;
 
 public class DetailBean 
 {

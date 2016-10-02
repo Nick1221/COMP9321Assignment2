@@ -1,21 +1,22 @@
 package cs9321ass2;
 
 import java.util.*;
+import user.*;
 
 public class UserBean 
 {
-	private List<UserSimulation> loggedInUser;
+	private List<User> loggedInUser;
 	
 	public UserBean()
 	{
-		loggedInUser = new LinkedList<UserSimulation>();
+		loggedInUser = new LinkedList<User>();
 	}
 
-	public List<UserSimulation> getLoggedInUser() {
+	public List<User> getLoggedInUser() {
 		return loggedInUser;
 	}
 
-	public void setLoggedInUser(List<UserSimulation> loggedInUser) {
+	public void setLoggedInUser(List<User> loggedInUser) {
 		this.loggedInUser = loggedInUser;
 	}
 

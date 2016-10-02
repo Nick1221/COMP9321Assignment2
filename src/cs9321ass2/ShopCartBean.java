@@ -1,6 +1,7 @@
 package cs9321ass2;
 
 import java.io.Serializable;
+import publication.*;
 import java.util.*;
 
 public class ShopCartBean implements Serializable

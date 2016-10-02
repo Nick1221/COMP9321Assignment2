@@ -29,7 +29,7 @@ import org.xml.sax.SAXException;
 import cs9321ass2.*;
 import user.*;
 import search.*;
-@WebServlet("/publication")
+//@WebServlet("/publication")
 public class PublicationController extends HttpServlet 
 {
 	private static final long serialVersionUID = 1L;
@@ -44,62 +44,63 @@ public class PublicationController extends HttpServlet
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		String action = request.getParameter("action");
+		String nextPage = "";
 		if(action.equals("addPublication"))
 		{
 			Publication p1 = new Publication();
 			UserBean ub = (UserBean) request.getSession().getAttribute("user");
-			List<Publication> addedPubs = ub.getLoggedInUser().get(0).getMyRegisteredPublications();
+			List<Publication> addedPubs = ub.getLoggedInUser().get(0).getRegisteredPublications();
 			String [] athrs = request.getParameter("publishAuthor").split(",");
 			for(String as : athrs) as.trim();
 			List<String> authorList = Arrays.asList(athrs);
 			p1.setTitle(request.getParameter("publishTitle"));
 			p1.setAuthor(authorList);
 			p1.setYear(request.getParameter("publishYear"));
-			//publications.add(p1); add to db instead
+			
 			addedPubs.add(p1);
-			ub.getLoggedInUser().get(0).setMyRegisteredPublications(addedPubs);
+			ub.getLoggedInUser().get(0).setRegisteredPublications(addedPubs);
 		}
-		else if(action.equals("pausePublication"))
+		else if(action.equals("pauseItem"))
 		{
 			UserBean ub = (UserBean) request.getSession().getAttribute("user");
-			List<Publication> addedPubs = ub.getLoggedInUser().get(0).getMyRegisteredPublications();
+			List<Publication> addedPubs = ub.getLoggedInUser().get(0).getRegisteredPublications();
 			if(!(request.getParameter("ownItems") == null))
 			{
 				int toPause = Integer.parseInt(request.getParameter("ownItems").trim());
-				Publication pubToPause = ub.getLoggedInUser().get(0).getMyRegisteredPublications().get(toPause);
+				Publication pubToPause = ub.getLoggedInUser().get(0).getRegisteredPublications().get(toPause);
 				boolean alreadyPaused = true;
 				//go thru db to pause the item by the user
 				//if paused, set alreadyPaused to true
 				if(alreadyPaused)
 					request.setAttribute("paused", true);
 				else
-					ub.getLoggedInUser().get(0).getMyRegisteredPublications().get(toPause).setActive(false);
+					ub.getLoggedInUser().get(0).getRegisteredPublications().get(toPause).setActive(false);
 			}
 			else
 				request.setAttribute("nothingSelected", true);
-			//nextPage = "existingItems.jsp";
+			nextPage = "existingItems.jsp";
 		}
-		else if(action.equals("activatePublication"))
+		else if(action.equals("activateItem"))
 		{
 			UserBean ub = (UserBean) request.getSession().getAttribute("user");
 			if(!(request.getParameter("ownItems") ==  null))
 			{
 				int toActivate = Integer.parseInt(request.getParameter("ownItems").trim());
-				Publication pubToActivate = ub.getLoggedInUser().get(0).getMyRegisteredPublications().get(toActivate);
+				Publication pubToActivate = ub.getLoggedInUser().get(0).getRegisteredPublications().get(toActivate);
 				if(pubToActivate.isActive()) //if already active
 					request.setAttribute("active", true);
 				else
 				{
 					//publications.add(pubToActivate); go to db and include item to search results
-					ub.getLoggedInUser().get(0).getMyRegisteredPublications().get(toActivate).setActive(true);
+					ub.getLoggedInUser().get(0).getRegisteredPublications().get(toActivate).setActive(true);
 				}
 			}
 			else
 				request.setAttribute("nothingSelected", true);
-			//nextPage = "existingItems.jsp";
+			nextPage = "existingItems.jsp";
 		}
-		//RequestDispatcher rd = request.getRequestDispatcher("/"+nextPage);
-		//rd.forward(request, response);
+		RequestDispatcher rd = request.getRequestDispatcher("/"+nextPage);
+		rd.forward(request, response);
 	}
 	
 	/**

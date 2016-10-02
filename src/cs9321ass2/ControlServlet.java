@@ -32,8 +32,8 @@ import org.xml.sax.SAXException;
 @WebServlet("/control")
 public class ControlServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    private List<Publication> publications;
-    private List<UserSimulation> users;
+    //private List<Publication> publications;
+    //private List<UserSimulation> users;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -148,14 +148,14 @@ public class ControlServlet extends HttpServlet {
 	{
 		String action = request.getParameter("action"); //may be different name from view level
 		String nextPage = "";
-		if(action.equals("userRegister") || action.equals("userLogin") || action.equals("userLogout"))  //may be different action name coming from the view level
-			nextPage = "UserController";
+		if(action.equals("newUserSignUp") || action.equals("loginUser") || action.equals("userLogout") || action.equals("registerUser"))  //may be different action name coming from the view level
+			nextPage = "user";
 		else if(action.equals("adminRegister") || action.equals("adminLogin") || action.equals("adminLogout") || action.equals("banUser") || action.equals("removeItemForSale"))
-			nextPage = "AdminController";
-		else if(action.equals("addPublication") || action.equals("pausePublication") || action.equals("activatePublication"))
-			nextPage="PublicationController";
-		else if(action.equals("mainSearch") || action.equals("specSearch") || action.equals("shopCart"))
-			nextPage="SearchController";
+			nextPage = "admin";
+		else if(action.equals("addPublication") || action.equals("pauseItem") || action.equals("activateItem"))
+			nextPage="publication";
+		else if(action.equals("mainSearch") || action.equals("specSearch") || action.equals("shopCart") || action.equals("addtocartFrDetail") || action.equals("addtocartFrSearchResult") || action.equals("removeFrCart"))
+			nextPage="search";
 		RequestDispatcher rd = request.getRequestDispatcher("/" + nextPage);   
 		rd.forward(request, response);
 		/*
@@ -447,7 +447,7 @@ public class ControlServlet extends HttpServlet {
 		doGet(request, response);
 	}
 
-	public List<Publication> getRandomObjs()
+	/*public List<Publication> getRandomObjs()
 	{
 		List<Publication> toShow = new LinkedList<Publication>();
 		Random random = new Random();
@@ -459,5 +459,5 @@ public class ControlServlet extends HttpServlet {
 		}
 		//System.out.println("Size of publications after randoms is " + publications.size());
 		return toShow;
-	}
+	}*/
 }

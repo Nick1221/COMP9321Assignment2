@@ -29,7 +29,7 @@ import org.xml.sax.SAXException;
 import cs9321ass2.*;
 import publication.*;
 import user.*;
-@WebServlet("/search")
+//@WebServlet("/search")
 public class SearchController extends HttpServlet 
 {
 	private static final long serialVersionUID = 1L;
@@ -44,39 +44,55 @@ public class SearchController extends HttpServlet
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		String action = request.getParameter("action");
+		String nextPage = "";
 		if(action.equals("mainSearch"))
 		{
-			String input1 = request.getParameter("input1"); //maybe some other name from view level
 			ResultsBean rsts = (ResultsBean) request.getSession().getAttribute("result");
-			List<Publication> mainSearchResults = new LinkedList<Publication>();
-			if(!(input1.equals("")))
+			List<publication.Publication> mainSearchResults = new LinkedList<publication.Publication>();
+			if(!(request.getParameter("input1").equals("")))
 			{
-				//go thru db and find publications
+				mainSearchResults.addAll(new Publication().searchByKey("title", request.getParameter("input1")/*, false*/));
+				mainSearchResults.addAll(new Publication().searchByKey("author", request.getParameter("input1")/*, false*/));
+				mainSearchResults.addAll(new Publication().searchByKey("year", request.getParameter("input1")/*, false*/));
+				mainSearchResults.addAll(new Publication().searchByKey("publisher", request.getParameter("input1")/*, false*/));
+				mainSearchResults.addAll(new Publication().searchByKey("volume", request.getParameter("input1")/*, false*/));
 			}
-			/*if(mainSearchResults.size() == 0) request.setAttribute("isEmpty", true);
+			if(mainSearchResults.size() == 0) request.setAttribute("isEmpty", true);
 			else
 			{
 				request.setAttribute("isEmpty", false);
 				rsts.setResults(mainSearchResults);
-			}*/
+			}
+			nextPage = "results.jsp";
 		}
 		else if(action.equals("specSearch"))
 		{
-			String year = request.getParameter("year");
-			String addr = request.getParameter("address");
-			String author = request.getParameter("author");
-			String publisher = request.getParameter("publisher");
-			String isbn = request.getParameter("isbn");
 			ResultsBean rsts = (ResultsBean) request.getSession().getAttribute("result");
-			List<Publication> searchResults = new LinkedList<Publication>();
-			//go thru db, see if publications match the specified criteria
+			List<Publication> results = new LinkedList<Publication>();
+			if(!(request.getParameter("year").equals("")))
+				results.addAll(new Publication().searchByKey("year", request.getParameter("year")/*, false*/));
+			if(!(request.getParameter("address").equals("")))
+				results.addAll(new Publication().searchByKey("address", request.getParameter("address")/*, false*/));
+			if(!(request.getParameter("author").equals("")))
+				results.addAll(new Publication().searchByKey("author", request.getParameter("author")/*, false*/));
+			if(!(request.getParameter("publisher").equals("")))
+				results.addAll(new Publication().searchByKey("publisher", request.getParameter("publisher")/*, false*/));
+			if(!(request.getParameter("isbn").equals("")))
+				results.addAll(new Publication().searchByKey("isbn", request.getParameter("isbn")/*, false*/));
+			if(results.size() == 0) request.setAttribute("isEmpty", true);
+			else
+			{
+				request.setAttribute("isEmpty", false);
+				rsts.setResults(results);
+			}
+			nextPage = "results.jsp";
 		}
 		else if(action.equals("shopCart")) 
 		{ //not involving db
 			ShopCartBean scb = (ShopCartBean) request.getSession().getAttribute("shopcart");
 			if(scb.getPublications().size() == 0) request.setAttribute("isEmpty", true);
 			else request.setAttribute("isEmpty", false);
-			//nextPage = "shopCart.jsp";
+			nextPage = "shopCart.jsp";
 		}
 		else if(action.equals("addtocartFrDetail"))
 		{
@@ -85,7 +101,7 @@ public class SearchController extends HttpServlet
 			List<Publication> inCart = scb.getPublications();
 			inCart.add(detailed.getFullDetailed().get(0));
 			scb.setPublications(inCart);
-			//nextPage="shopCart.jsp";
+			nextPage="shopCart.jsp";
 		}
 		else if(action.equals("addtocartFrSearchResult"))
 		{
@@ -98,12 +114,12 @@ public class SearchController extends HttpServlet
 				List<Publication> inCart = scb.getPublications();
 				inCart.add(toAdd);
 				scb.setPublications(inCart);
-				//nextPage = "shopCart.jsp";
+				nextPage = "shopCart.jsp";
 			}
 			else
 			{
 				request.setAttribute("noneSelected", true);
-				//nextPage = "results.jsp";
+				nextPage = "results.jsp";
 			}
 		}
 		else if(action.equals("removeFrCart"))
@@ -120,10 +136,10 @@ public class SearchController extends HttpServlet
 			}
 			else
 				request.setAttribute("noneSelected", true);
-			//nextPage = "shopCart.jsp";
+			nextPage = "shopCart.jsp";
 		}
-		//RequestDispatcher rd = request.getRequestDispatcher("/"+nextPage);
-		//rd.forward(request, response);
+		RequestDispatcher rd = request.getRequestDispatcher("/"+nextPage);
+		rd.forward(request, response);
 	}
 	
 	/**
