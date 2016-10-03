@@ -59,10 +59,10 @@ public class Model<E> {
 	    
 	    List<E> ret = new LinkedList<E>();
 	    
-	    DatabaseConnection dbc = null;
+	    DBConnection dbc = null;
 	    
 	    try {
-	    	 dbc = new DatabaseConnection();
+	    	 dbc = new DBConnection();
 	    	 
 	    	 ResultSet rs = dbc.executeQuery(query);
 	    	 
@@ -126,9 +126,9 @@ public class Model<E> {
 		}
 		query = query.substring(0,query.length()-1);
 		query += ")";
-		DatabaseConnection dbc = null;
+		DBConnection dbc = null;
 		try {
-		 	 dbc = new DatabaseConnection();
+		 	 dbc = new DBConnection();
 		 	
 		 	 dbc.executeUpdateQuery(query);
 
@@ -155,12 +155,12 @@ public class Model<E> {
 	public E delete() {
 		// TODO : test and exception handling
 		String query = "delete " +
-                "from " + DatabaseConnection.DATABASE_NAME + "." + this.table +
+                "from " + DBConnection.DATABASE_NAME + "." + this.table +
                 "where" + this.primary_key + " = " + this.column_to_data.get(this.primary_key);
 		
-		DatabaseConnection dbc = null;
+		DBConnection dbc = null;
 		try {
-		 	 dbc = new DatabaseConnection();
+		 	 dbc = new DBConnection();
 		 	
 		 	 dbc.executeQuery(query);
 
@@ -208,9 +208,9 @@ public class Model<E> {
 		
 		query += " WHERE " + this.primary_key + " = " + this.get(this.primary_key);
 		
-		DatabaseConnection dbc = null;
+		DBConnection dbc = null;
 		try {
-		 	 dbc = new DatabaseConnection();
+		 	 dbc = new DBConnection();
 		 	
 		 	 dbc.executeUpdateQuery(query);
 
