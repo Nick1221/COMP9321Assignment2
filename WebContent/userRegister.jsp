@@ -59,7 +59,7 @@
 				<td>Last name: </td> <td><input type="text" name="lastname"></td>
 			</tr>
 			<tr>
-				<td>Year of birth: </td> <td><input type="text" name="yearOfBirth"></td>
+				<td>Year of birth: </td> <td><input type="text" name="yearOfBirth"><input type="text" name="yearOfBirth"><input type="text" name="yearOfBirth"></td>
 			</tr>
 			<tr>
 				<td>Full address: </td> <td><input type="text" name="fullAddress"></td>

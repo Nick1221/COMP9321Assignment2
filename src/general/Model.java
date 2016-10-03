@@ -73,7 +73,10 @@ public class Model<E> {
 	    			 Constructor<?> temp = null;
 	    			 for(Constructor<?> c : typeArgumentClass.getDeclaredConstructors()) {
 	    				 if (c.getParameterCount() == 1) {
-	    					 temp = c;
+	    					 for(Class<?> arg : c.getParameterTypes()) {
+	    						 if (arg.equals(ResultSet.class))
+	    							 temp = c;
+	    					 }
 	    				 }
 	    			 }
 	    			 ret.add((E) temp.newInstance(args));
