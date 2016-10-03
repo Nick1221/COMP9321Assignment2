@@ -18,12 +18,21 @@ public class User extends BanableModel<User> {
 		this.column_to_cast.put("confirmedEmail", "boolean");
 	}
 	
+	// 
 	public User(ResultSet rs) {
 		super(User.class);
 		this.primary_key = User.TABLE_PRIMARY_KEY;
 		this.table = User.TABLE_NAME;
 		this.column_to_cast.put("confirmedEmail", "boolean");
 		this.updateData(rs);
+	}
+	
+	// Creates a new User -- THIS DOES NOT SAVE THE NEW USER"S INFORMATION TO DATABASE
+	public User(HashMap<String,Object> data) {
+		super(User.class);
+		this.primary_key = User.TABLE_PRIMARY_KEY;
+		this.table = User.TABLE_NAME;
+		this.updateData(data);
 	}
 	
 	public List<CreditCard> getCreditCards() {

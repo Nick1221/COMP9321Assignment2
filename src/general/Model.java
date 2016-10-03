@@ -233,6 +233,12 @@ public class Model<E> {
 		return (E)this;
 	};
 	
+	public E updateData(HashMap<String, Object> data) {
+		for(String key : data.keySet())
+			this.set(key, data.get(key));
+		return (E)this;
+	}
+	
 	public E updateData(ResultSet rs) {
 		try {
 			// Set the data based on column name
@@ -248,20 +254,36 @@ public class Model<E> {
 		return (E)this;
 	}
 	
-	private void testDataTypes() {
-		List<Object> data = new ArrayList<Object>();
-		data.add("test"); // String
-		data.add(1); // Integer
-		data.add(true); // Boolean
-		data.add(1.22); // Double
-		data.add(new Date()); // Date
-		
-		for(Object o : data)
-			System.out.println(o.getClass().getSimpleName());
+	public List<E> hasMany(String connection_table, String key_column, Class<E> c) {
+		// TODO : find all the id of the connected Model using the connection_table
+		return null;
 	}
 	
-	public static void main (String[] args) {
-//		Model m = new Model();
-//		m.testDataTypes();
+	public E hasOne(String connection_table, Class<E> c, String key_column) {
+		List<E> m = this.hasMany(connection_table, key_column, c);
+	    return m == null || m.isEmpty()? null : m.get(0); // return null if nothing found2 or the first item in search
+	}
+	
+	public E addRelatedItem(String connection_table, String key_column, Class<E> c, HashMap<String, Object> data) {
+		// TODO
+		
+		// 1. Create a new item
+		
+//		Object[] args = new Object[]{};
+//		Constructor<?> temp = null;
+//		for(Constructor<?> c : typeArgumentClass.getDeclaredConstructors()) {
+//			 if (c.getParameterCount() == 1) {
+//				 temp = c;
+//			 }
+//		 }
+//		 ret.add((E) temp.newInstance(args));
+		
+//		Class<E> new_c = c.getConstructor()
+				
+		// 2. Link the two items
+		
+		// 3. Return ???
+		
+		return null;
 	}
 }
