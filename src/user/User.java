@@ -67,7 +67,7 @@ public class User extends BanableModel<User> {
 	
 	public boolean attemptLogin(String password) {
 		// TODO : make sure the password is bcrypted first
-		return this.get("password") == password;
+		return this.get("password").equals(password);
 	}
 	
 	public static void main(String[] args) {
