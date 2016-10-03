@@ -149,13 +149,13 @@ public class ControlServlet extends HttpServlet {
 		String action = request.getParameter("action"); //may be different name from view level
 		String nextPage = "";
 		if(action.equals("newUserSignUp") || action.equals("loginUser") || action.equals("userLogout") || action.equals("registerUser"))  //may be different action name coming from the view level
-			nextPage = "user";
-		else if(action.equals("adminRegister") || action.equals("adminLogin") || action.equals("adminLogout") || action.equals("banUser") || action.equals("removeItemForSale"))
-			nextPage = "admin";
-		else if(action.equals("addPublication") || action.equals("pauseItem") || action.equals("activateItem"))
-			nextPage="publication";
-		else if(action.equals("mainSearch") || action.equals("specSearch") || action.equals("shopCart") || action.equals("addtocartFrDetail") || action.equals("addtocartFrSearchResult") || action.equals("removeFrCart"))
-			nextPage="search";
+            nextPage = "user";
+        else if(action.equals("adminRegister") || action.equals("adminLogin") || action.equals("adminLogout") || action.equals("banUser") || action.equals("removeItemForSale"))
+            nextPage = "admin";
+        else if(action.equals("addPublication") || action.equals("pauseItem") || action.equals("activateItem"))
+            nextPage="publication";
+        else if(action.equals("mainSearch") || action.equals("specSearch") || action.equals("shopCart") || action.equals("addtocartFrDetail") || action.equals("addtocartFrSearchResult") || action.equals("removeFrCart"))
+            nextPage="search";
 		RequestDispatcher rd = request.getRequestDispatcher("/" + nextPage);   
 		rd.forward(request, response);
 		/*

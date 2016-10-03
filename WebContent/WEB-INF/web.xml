@@ -45,13 +45,13 @@
   	<url-pattern>/publications</url-pattern>
   </servlet-mapping>
   
-  <servlet>
+ <!--  <servlet>
   	<servlet-name>SearchController</servlet-name>
   	<servlet-class>search.SearchController</servlet-class>
   </servlet>
   <servlet-mapping>
   	<servlet-name>SearchController</servlet-name>
   	<url-pattern>/search</url-pattern>
-  </servlet-mapping>
+  </servlet-mapping> -->
   
 </web-app>

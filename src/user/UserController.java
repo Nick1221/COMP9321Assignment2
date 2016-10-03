@@ -70,7 +70,7 @@ public class UserController extends HttpServlet
 			else data.put("yob", "");
 			if(!(request.getParameter("fullAddress").equals(""))) data.put("fullAddress", request.getParameter("fullAddress"));
 			else data.put("fullAddress", "");
-			if(creditCardNos.length == 0 || creditCardNos == null) data.put("creditCardNo", "");
+			if(creditCardNos == null || creditCardNos.length == 0) data.put("creditCardNo", "");
 			else
 			{
 				int i = 1;

@@ -29,7 +29,7 @@ import org.xml.sax.SAXException;
 import cs9321ass2.*;
 import publication.*;
 import user.*;
-//@WebServlet("/search")
+@WebServlet("/search")
 public class SearchController extends HttpServlet 
 {
 	private static final long serialVersionUID = 1L;

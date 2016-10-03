@@ -137,7 +137,7 @@ public class Model<E> {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} finally {
-		    if (dbc.hasActiveStatement()) { 
+		    if (dbc.hasActiveStatement()) {
 		     	try {
 					dbc.closeStatement();
 				} catch (SQLException e) {
