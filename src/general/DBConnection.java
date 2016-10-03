@@ -12,12 +12,12 @@ public class DBConnection {
 	public static final String DRIVER = "com.mysql.jdbc.Driver";
 	public static final String DATABASE_NAME = "9321DB";
 	private final String user = "root";
-	private final String password = "12345";
+	private final String password = "root";
 	
 	private final String dbms = "mysql";
 	
-	private final String server_name = "localhost";
-	private final String port = "3306";
+	private final String server_name = "127.0.0.1";
+	private final String port = "8889";
 	
 	private Connection conn = null;
 	
