@@ -38,7 +38,7 @@ public class DBConnection {
     	conn = DriverManager.getConnection(
                 "jdbc:" + this.dbms + "://" +
                 		this.server_name +
-                ":" + this.port + "/" + this.DATABASE_NAME + "?zeroDateTimeBehavior=convertToNull",
+                ":" + this.port + "/" + DBConnection.DATABASE_NAME + "?zeroDateTimeBehavior=convertToNull",
                 connectionProps);
 	    return conn;
 	}

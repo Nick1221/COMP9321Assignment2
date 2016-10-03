@@ -7,12 +7,14 @@ import java.util.List;
 import general.BanableModel;
 import publication.Publication;
 
+@SuppressWarnings("unchecked")
 public class User extends BanableModel<User> {
 	public static final String TABLE_NAME = "User";
+	public static final String BAN_TABLE = "UserBan";
 	public static final String TABLE_PRIMARY_KEY = "uID";
 	
 	public User() {
-		super(User.class);
+		super(User.class,User.BAN_TABLE);
 		this.primary_key = User.TABLE_PRIMARY_KEY;
 		this.table = User.TABLE_NAME;
 		this.column_to_cast.put("confirmedEmail", "boolean");
@@ -20,7 +22,7 @@ public class User extends BanableModel<User> {
 	
 	// 
 	public User(ResultSet rs) {
-		super(User.class);
+		super(User.class,User.BAN_TABLE);
 		this.primary_key = User.TABLE_PRIMARY_KEY;
 		this.table = User.TABLE_NAME;
 		this.column_to_cast.put("confirmedEmail", "boolean");
@@ -29,26 +31,26 @@ public class User extends BanableModel<User> {
 	
 	// Creates a new User -- THIS DOES NOT SAVE THE NEW USER"S INFORMATION TO DATABASE
 	public User(HashMap<String,Object> data) {
-		super(User.class);
+		super(User.class,User.BAN_TABLE);
 		this.primary_key = User.TABLE_PRIMARY_KEY;
 		this.table = User.TABLE_NAME;
 		this.updateData(data);
 	}
 	
 	public List<CreditCard> getCreditCards() {
-		return null;
+		return (List<CreditCard>) this.hasMany("userCreditCard", "uID", CreditCard.class);
 	}
 	
 	public List<Publication> getRegisteredPublications() {
-		return null;
+		return (List<Publication>) this.hasMany("userRegisteredPublication", "uID", Publication.class);
 	}
 	
 	public List<Publication> getBoughtPublications() {
-		return null;
+		return (List<Publication>) this.hasMany("userBoughtPublication", "uID", Publication.class);
 	}
 	
 	public List<Activity> getActivity() {
-		return null;
+		return (List<Activity>) this.hasMany("userActivity", "uID", Activity.class);
 	}
 	
 	// attempts to validate the email
@@ -65,11 +67,16 @@ public class User extends BanableModel<User> {
 		return (boolean)this.get("confirmed_email");
 	}
 	
+	public boolean isAdmin() {
+		return this.get("isAdmin").equals("1");
+	}
+	
 	public boolean attemptLogin(String password) {
-		// TODO : make sure the password is bcrypted first
 		return this.get("password").equals(password);
 	}
 	
+	
+	// TESTING - DEBUG
 	public static void main(String[] args) {
 		System.out.println("-- Starting User tests --");
 		

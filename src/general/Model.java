@@ -5,13 +5,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
 // and make it so its easier for models to extend it
+@SuppressWarnings("unchecked")
 public class Model<E> {
 	
 	private Class<E> typeArgumentClass;
@@ -69,6 +68,7 @@ public class Model<E> {
 	    	 if (rs.first()) { // check if it is empty or not
 	    		 rs.beforeFirst();
 	    		 while (rs.next()) {
+	    			 // Hacky but works....
 	    			 Object[] args = new Object[]{rs};
 	    			 Constructor<?> temp = null;
 	    			 for(Constructor<?> c : typeArgumentClass.getDeclaredConstructors()) {
@@ -257,17 +257,30 @@ public class Model<E> {
 		return (E)this;
 	}
 	
-	public List<E> hasMany(String connection_table, String key_column, Class<E> c) {
+	public String getPrimaryKey() {
+		return this.get(this.primary_key).toString();
+	}
+	
+	// connection_table -- in between table
+	// key_column -- column of key to use
+	// connected_class -- class to return
+	public List<?> hasMany(String connection_table, String key_column, Class<?> connected_model) {
 		// TODO : find all the id of the connected Model using the connection_table
+		
+//		String query = "SELECT * " + 
+//				"FROM " + connection_table + " RIGHT OUTER JOIN " + connected_model.getTable() +
+//				" ON " + connection_table+"."+key_column+"="+connected_model.getTable()+"."+connected_model.getPrimaryKey()+
+//				" WHERE " + key_column + " = " + this.getPrimaryKey();
+		
 		return null;
 	}
 	
-	public E hasOne(String connection_table, Class<E> c, String key_column) {
-		List<E> m = this.hasMany(connection_table, key_column, c);
+	public Object hasOne(String connection_table, String key_column, Class<?> connected_model) {
+		List<?> m = (List<?>) this.hasMany(connection_table, key_column, connected_model);
 	    return m == null || m.isEmpty()? null : m.get(0); // return null if nothing found2 or the first item in search
 	}
 	
-	public E addRelatedItem(String connection_table, String key_column, Class<E> c, HashMap<String, Object> data) {
+	public Object addRelatedItem(String connection_table, String key_column, Class<E> c, HashMap<String, Object> data) {
 		// TODO
 		
 		// 1. Create a new item

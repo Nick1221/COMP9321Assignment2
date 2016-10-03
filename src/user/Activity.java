@@ -1,26 +1,28 @@
 package user;
 
 import java.sql.ResultSet;
-import java.util.List;
+import java.util.HashMap;
 
 import general.Model;
 
 public class Activity extends Model<Activity> {
-
+	private static final String TABLE_NAME = "activity";
 	public Activity() {
 		super(Activity.class);
+		this.table = Activity.TABLE_NAME;
 	}
 	
+	// 
 	public Activity(ResultSet rs) {
 		super(Activity.class);
-		this.primary_key = User.TABLE_PRIMARY_KEY;
+		this.table = Activity.TABLE_NAME;
 		this.updateData(rs);
 	}
-
-	private static String table = "activity";
 	
-	// returns the users that performed this activity
-	public List<User> getUsers() {
-		return null;
+	// Creates a new User -- THIS DOES NOT SAVE THE NEW USER"S INFORMATION TO DATABASE
+	public Activity(HashMap<String,Object> data) {
+		super(Activity.class);
+		this.table = Activity.TABLE_NAME;
+		this.updateData(data);
 	}
 }

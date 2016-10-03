@@ -53,12 +53,12 @@ public class PublicationController extends HttpServlet
 			String [] athrs = request.getParameter("publishAuthor").split(",");
 			for(String as : athrs) as.trim();
 			List<String> authorList = Arrays.asList(athrs);
-			p1.setTitle(request.getParameter("publishTitle"));
-			p1.setAuthor(authorList);
-			p1.setYear(request.getParameter("publishYear"));
+			p1.set("title",request.getParameter("publishTitle"));
+			p1.set("Author",authorList);
+			p1.set("Year",request.getParameter("publishYear"));
 			
 			addedPubs.add(p1);
-			ub.getLoggedInUser().get(0).setRegisteredPublications(addedPubs);
+//			ub.getLoggedInUser().get(0).setRegisteredPublications(addedPubs);
 		}
 		else if(action.equals("pauseItem"))
 		{
@@ -73,8 +73,8 @@ public class PublicationController extends HttpServlet
 				//if paused, set alreadyPaused to true
 				if(alreadyPaused)
 					request.setAttribute("paused", true);
-				else
-					ub.getLoggedInUser().get(0).getRegisteredPublications().get(toPause).setActive(false);
+//				else
+//					ub.getLoggedInUser().get(0).getRegisteredPublications().get(toPause).setActive(false);
 			}
 			else
 				request.setAttribute("nothingSelected", true);
@@ -87,13 +87,13 @@ public class PublicationController extends HttpServlet
 			{
 				int toActivate = Integer.parseInt(request.getParameter("ownItems").trim());
 				Publication pubToActivate = ub.getLoggedInUser().get(0).getRegisteredPublications().get(toActivate);
-				if(pubToActivate.isActive()) //if already active
-					request.setAttribute("active", true);
-				else
-				{
-					//publications.add(pubToActivate); go to db and include item to search results
-					ub.getLoggedInUser().get(0).getRegisteredPublications().get(toActivate).setActive(true);
-				}
+//				if(pubToActivate.isActive()) //if already active
+//					request.setAttribute("active", true);
+//				else
+//				{
+//					//publications.add(pubToActivate); go to db and include item to search results
+//					ub.getLoggedInUser().get(0).getRegisteredPublications().get(toActivate).setActive(true);
+//				}
 			}
 			else
 				request.setAttribute("nothingSelected", true);

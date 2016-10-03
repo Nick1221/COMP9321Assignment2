@@ -5,9 +5,11 @@ import ban.Banable;
 
 public class BanableModel<E> extends Model<E> implements Banable {
 	private Ban ban = null;
+	private String ban_table;
 	
-	public BanableModel(Class<E> c) {
+	public BanableModel(Class<E> c, String ban_table) {
 		super(c);
+		this.ban_table = ban_table;
 	}
 	
 	@Override
@@ -22,13 +24,12 @@ public class BanableModel<E> extends Model<E> implements Banable {
 
 	@Override
 	public void findBan(int id) {
-		// TODO
+		
 	}
 
 	@Override
 	public void ban() {
-		// TODO Auto-generated method stub
-		
+		// TODO
 	}
 
 	@Override
