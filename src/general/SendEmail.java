@@ -1,8 +1,9 @@
+package general;
 import java.util.*;
 import javax.mail.*;
 import javax.mail.internet.*;
 
-public class sendEmail {
+public class SendEmail {
 
     private static String USER_NAME = "16s2cs9321@gmail.com";  // GMail user name (just the part before "@gmail.com")
     private static String PASSWORD = "assignmenttwo"; // GMail password

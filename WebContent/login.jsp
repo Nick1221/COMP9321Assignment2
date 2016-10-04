@@ -43,6 +43,7 @@
 	<!-- Login interface -->
 	<div class="bg-primary">
 		<form action="control" method="post">
+			<fieldset>
 			<legend>User Login</legend>
 				<table>
 					<tr>
@@ -51,10 +52,16 @@
 					<tr>
 						<td>Password: </td> <td><input type="text" name="passwordLogin" style="color: black"></td>
 					</tr>
+					<tr>
+						<%-- <td><input type="hidden" name="action" value="newUserSignUp"><input type="submit" value="Sign Up"></td> --%>
+						<%--<td><input type="hidden" name="action" value="loginUser"><input type="submit" value="Log In"></td> --%>
+					</tr>
 				</table>
 				<input type="submit" name="action" value="loginUser">
-                <input type="submit" name="action" value="newUserSignUp" >
+				<input type="submit" name="action" value="newUserSignUp" >
+			</fieldset>
 		</form>
+	
 	</div>
 	</center>
 	

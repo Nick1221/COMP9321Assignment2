@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ page import="cs9321ass2.*, java.util.*"%>
+<%@ page import="cs9321ass2.*, user.*, java.util.*"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:useBean id="result" class="cs9321ass2.ResultsBean" scope="session" />
@@ -27,6 +27,10 @@
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
 </head>
 
+<%
+	User currUser = user.getLoggedInUser().get(0);
+%>
+
 <body>
 
 	<!-- Navigation -->
@@ -35,28 +39,60 @@
     <nav id="sidebar-wrapper">
         <ul class="sidebar-nav">
             <a id="menu-close" href="#" class="btn btn-light btn-lg pull-right toggle"><i class="fa fa-times"></i></a>
-            <li class="sidebar-brand">
-                <a href="#top" onclick=$("#menu-close").click();>Menu</a>
-            </li>
-            <li>
-                <form action="control" method="post">
-					<input type="hidden" name="action" value="shopCart">
-					<input type="submit" value="Shopping Cart">
-				</form>
-            </li>
-            <li>
-            	<form action="addItem.jsp" method="post">
-					<input type="submit" value="Register a Publication">
-				</form>
-            </li>
-            <li>
-            	<form action="existingItems.jsp" method="post">
-					<input type="submit" value="See my existing publications">
-				</form>
-            </li>
+            <c:choose>
+            	<c:when test="${currUser.isAdmin() }">
+            		<li class="sidebar-brand">
+		                <a href="#top" onclick=$("#menu-close").click();>Welcome, <%= currUser.get("Username") %>!</a>
+		            </li>
+		             <li>
+		            	<form action="admin.jsp" method="post">
+							<input type="submit" value="Admin Control Panel">
+						</form>
+		            </li>
+		            <li>
+		                <form action="control" method="post">
+							<input type="hidden" name="action" value="shopCart">
+							<input type="submit" value="Shopping Cart">
+						</form>
+		            </li>
+		            <li>
+		            	<form action="addItem.jsp" method="post">
+							<input type="submit" value="Register a Publication">
+						</form>
+		            </li>
+		            <li>
+		            	<form action="existingItems.jsp" method="post">
+							<input type="submit" value="See my existing publications">
+						</form>
+		            </li>
+            	</c:when>
+            	<c:otherwise>
+            		<li class="sidebar-brand">
+		                <a href="#top" onclick=$("#menu-close").click();>Welcome, <%= currUser.get("Username") %>!</a>
+		            </li>
+		            <li>
+		                <form action="control" method="post">
+							<input type="hidden" name="action" value="shopCart">
+							<input type="submit" value="Shopping Cart">
+						</form>
+		            </li>
+		            <li>
+		            	<form action="addItem.jsp" method="post">
+							<input type="submit" value="Register a Publication">
+						</form>
+		            </li>
+		            <li>
+		            	<form action="existingItems.jsp" method="post">
+							<input type="submit" value="See my existing publications">
+						</form>
+		            </li>
+            	</c:otherwise>
+            </c:choose>
+            
         </ul>
     </nav>
-	
+    
+    
 	<!-- Header -->
     <header id="top" class="header">
         <div class="text-vertical-center">
@@ -98,6 +134,7 @@
 	
 
 	<c:choose>
+		
 		<c:when test="${isEmpty eq 'true'}">
 			<h1>Sorry, no results were found.</h1>
 		</c:when>
@@ -108,12 +145,12 @@
 			<form action="control">
 				<div id="tablecontainer" style="overflow: auto; height: 200px;">
 					<table border="2">					
-						<c:forEach var="rslt" items="${result.results}" begin="${pageStart}" end="${pageStart + perPage - 1}">
+						<c:forEach var="rslt" items="${results}" begin="${pageStart}" end="${pageStart + perPage - 1}">
 							<tr>
 								<td><input type="radio" name="srchRslts" value="<%out.println(i);%>">
-									Title: <c:out value="${rslt.getTitle()}" />, 
-									Year: <c:out value="${rslt.getYear()}" />, 
-									Author(s): <c:out value="${rslt.getAuthor()}" />
+									Title: <c:out value="${rslt.get('title')}" />, 
+									Year: <c:out value="${rslt.get('year')}" />, 
+									Author(s): <c:out value="${rslt.get('author')}" />
 								</td>
 							</tr>
 							<%i++; %>
@@ -131,12 +168,12 @@
 			<form action="control">
 				<div id="tablewrapper">
 					<table border="2">
-						<c:forEach var="rslt" items="${result.results}" begin="${pageStart}" end="${pageStart + perPage - 1}">
+						<c:forEach var="rslt" items="${results}" begin="${pageStart}" end="${pageStart + perPage - 1}">
 							<tr>
 								<td><input type="radio" name="srchRslts" value="<%out.println(i);%>">
-									Title: <c:out value="${rslt.getTitle()}" />, 
-									Year: <c:out value="${rslt.getYear()}" />, 
-									Author(s): <c:out value="${rslt.getAuthor()}" />
+									Title: <c:out value="${rslt.get('title')}" />, 
+									Year: <c:out value="${rslt.get('year')}" />, 
+									Author(s): <c:out value="${rslt.get('author')}" />
 								</td>
 							</tr>				
 							<%i++; %>

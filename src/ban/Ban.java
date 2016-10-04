@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.util.HashMap;
 
 import general.Model;
+import user.User;
 
 public class Ban extends Model<Ban> {	
 	public static final String PRIMARY_KEY = "bID";

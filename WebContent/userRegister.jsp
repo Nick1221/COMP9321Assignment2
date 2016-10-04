@@ -22,7 +22,7 @@
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
-<title>User Registration</title>
+	<title>User Registration</title>
 </head>
 <body>
 	<!-- Header -->
@@ -59,7 +59,7 @@
 				<td>Last name: </td> <td><input type="text" name="lastname"></td>
 			</tr>
 			<tr>
-				<td>Year of birth: </td> <td><input type="text" name="yearOfBirth"><input type="text" name="yearOfBirth"><input type="text" name="yearOfBirth"></td>
+				<td>Year of birth:</td>  <td><input type="text" name="yearOfBirth"><input type="text" name="monthOfBirth"><input type="text" name="dateOfBirth"></td>
 			</tr>
 			<tr>
 				<td>Full address: </td> <td><input type="text" name="fullAddress"></td>

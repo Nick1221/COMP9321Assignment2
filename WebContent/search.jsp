@@ -1,10 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ page import="cs9321ass2.*, java.util.*" %>
+<%@ page import="cs9321ass2.*, user.*, publication.*, java.util.*" %>
 <jsp:useBean id="shopcart" class="cs9321ass2.ShopCartBean" scope="session" />
 <jsp:useBean id="result" class="cs9321ass2.ResultsBean" scope="session" />
 <jsp:useBean id="detail" class="cs9321ass2.DetailBean" scope="session" />
 <jsp:useBean id="user" class="cs9321ass2.UserBean" scope="session" />
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -31,6 +34,15 @@
 <%
 	//here, if  have to show 10 items, extrct shld happen here?
 	ControlServlet cs = new ControlServlet();
+	User currUser = user.getLoggedInUser().get(0);
+	List<Publication> ps = new Publication().searchByKey("1",1);
+	List<Publication> results = new LinkedList<Publication>();
+	for(int i=0; i<10;i++) {
+		Random rand = new Random();
+		results.add(ps.get(rand.nextInt((ps.size() - 1) + 1)));
+	}
+	pageContext.setAttribute("result", results);
+	
 %>
 
 <body>
@@ -40,25 +52,56 @@
     <nav id="sidebar-wrapper">
         <ul class="sidebar-nav">
             <a id="menu-close" href="#" class="btn btn-light btn-lg pull-right toggle"><i class="fa fa-times"></i></a>
-            <li class="sidebar-brand">
-                <a href="#top" onclick=$("#menu-close").click();>Menu</a>
-            </li>
-            <li>
-                <form action="control" method="post">
-					<input type="hidden" name="action" value="shopCart">
-					<input type="submit" value="Shopping Cart">
-				</form>
-            </li>
-            <li>
-            	<form action="addItem.jsp" method="post">
-					<input type="submit" value="Register a Publication">
-				</form>
-            </li>
-            <li>
-            	<form action="existingItems.jsp" method="post">
-					<input type="submit" value="See my existing publications">
-				</form>
-            </li>
+            <c:choose>
+            	<c:when test="${currUser.isAdmin() }">
+            		<li class="sidebar-brand">
+		                <a href="#top" onclick=$("#menu-close").click()");>Welcome, <%= currUser.get("Username") %>, <%= currUser.get("isAdmin") %>!</a>
+		            </li>
+		             <li>
+		            	<form action="admin.jsp" method="post">
+							<input type="submit" value="Admin Control Panel">
+						</form>
+		            </li>
+		            <li>
+		                <form action="control" method="post">
+							<input type="hidden" name="action" value="shopCart">
+							<input type="submit" value="Shopping Cart">
+						</form>
+		            </li>
+		            <li>
+		            	<form action="addItem.jsp" method="post">
+							<input type="submit" value="Register a Publication">
+						</form>
+		            </li>
+		            <li>
+		            	<form action="existingItems.jsp" method="post">
+							<input type="submit" value="See my existing publications">
+						</form>
+		            </li>
+            	</c:when>
+            	<c:otherwise>
+            		<li class="sidebar-brand">
+		                <a href="#top" onclick=$("#menu-close").click();>Welcome, <%= currUser.get("Username") %>!</a>
+		            </li>
+		            <li>
+		                <form action="control" method="post">
+							<input type="hidden" name="action" value="shopCart">
+							<input type="submit" value="Shopping Cart">
+						</form>
+		            </li>
+		            <li>
+		            	<form action="addItem.jsp" method="post">
+							<input type="submit" value="Register a Publication">
+						</form>
+		            </li>
+		            <li>
+		            	<form action="existingItems.jsp" method="post">
+							<input type="submit" value="See my existing publications">
+						</form>
+		            </li>
+            	</c:otherwise>
+            </c:choose>
+            
         </ul>
     </nav>
     
@@ -88,8 +131,6 @@
 	<div class="col-lg-6" align="center">
 		<form action="control">
 			<fieldset>
-				<h2>Specific search(case-sensitive)</h2>
-
 				<h2>Advanced search(case-sensitive)</h2>
 
 				<table>
@@ -115,36 +156,24 @@
 		</form>
 	</div>
 	
-	<div class="row">
-		<div class="col-lg-12" align="center" style="overflow: auto">
-			<form action="control">
-				<fieldset>
-					<legend>Titles that you might be interested in</legend>
-					<%--10 random objs of publications, then maybe a button(Details)/(Buy) beside them --%>
-					<table border="3" style="width:100%">
-						<tr>
-							<th>Title</th>
-							<th>Author</th>
-							<th>Key</th>
-						</tr>
-						<% List<Publication> itemsToShow = cs.getRandomObjs(); 
-							for(Publication p : itemsToShow)
-							{ %>
-						<tr>
-							<td><input type="radio" name="randoms" value="<%out.println(p.getKey());%>"><%out.println(p.getTitle());%></td>
-							<td><%out.println(p.getAuthor());%></td>
-							<td><%out.println(p.getKey());%></td>
-							<%--<td><input type="hidden" name="action" value="detail">
-							<input type="submit" value="Find Details"></td> --%>
-						</tr>
-							<%} %>
-					</table>
-					<input type="hidden" name="action" value="getdetail">
-					<input type="submit" value="Find Details">
-				</fieldset>
-			</form>
+	<form action="control">
+		<div id="tablewrapper">
+			<table border="2" style="width:100%">
+				<% int i = 0; %>
+				<c:forEach var="rslt" items="${result}">
+					<tr>
+						<td><input type="radio" name="srchRslts" value="<%out.println(i);%>">
+							Title: <c:out value="${rslt.get('title')}" />, 
+							Author(s): <c:out value="${rslt.get('author')}" />
+						</td>
+					</tr>
+					<% i++; %>	
+				</c:forEach>
+			</table>
 		</div>
-	</div>
+		<button type="submit" name="action" value="addtocartFrSearchResult">Add to Cart</button>
+		<button type="submit" name="action" value="getdetail">Details</button>
+		</form>					
 	
 
 	<!-- jQuery -->
