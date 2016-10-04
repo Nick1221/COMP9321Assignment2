@@ -45,7 +45,7 @@ public class Model<E> {
 	public E findByKey(String key, Object value) {
 		// Search by key
 
-		List<E> m = this.searchByKey(key, value);
+		List<E> m = this.searchByKey(key, value,true);
 
 		return m == null || m.isEmpty()? null : m.get(0); // return null if nothing found2 or the first item in search results
 	}
@@ -243,6 +243,7 @@ public class Model<E> {
 			ResultSetMetaData rsmd = rs.getMetaData();
 
 			for(int i = 1; i < rsmd.getColumnCount(); i++) {
+				System.out.println(rsmd.getColumnName(i) + " " + rs.getObject(rsmd.getColumnLabel(i)));
 				this.set(rsmd.getColumnName(i), rs.getObject(rsmd.getColumnLabel(i)));
 			}
 		} catch (SQLException e) {
