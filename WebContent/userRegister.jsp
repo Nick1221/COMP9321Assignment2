@@ -65,6 +65,9 @@
 				<td>Full address: </td> <td><input type="text" name="fullAddress"></td>
 			</tr>
 			<tr>
+				<td>Nickname: </td> <td><input type="text" name="nickname"></td>
+			</tr>
+			<tr>
 				<td>Credit card number: </td> <td><input type="text" name="creditCardNo"></td>
 			</tr> 
 		</table>

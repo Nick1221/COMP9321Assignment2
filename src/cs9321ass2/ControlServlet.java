@@ -148,7 +148,7 @@ public class ControlServlet extends HttpServlet {
 	{
 		String action = request.getParameter("action"); //may be different name from view level
 		String nextPage = "";
-		if(action.equals("newUserSignUp") || action.equals("loginUser") || action.equals("userLogout") || action.equals("registerUser"))  //may be different action name coming from the view level
+		if(action.equals("newUserSignUp") || action.equals("loginUser") || action.equals("userLogout") || action.equals("registerUser") || action.equals("confirmEmail"))  //may be different action name coming from the view level
             nextPage = "user";
         else if(action.equals("adminRegister") || action.equals("adminLogin") || action.equals("adminLogout") || action.equals("banUser") || action.equals("removeItemForSale"))
             nextPage = "admin";

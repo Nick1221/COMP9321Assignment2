@@ -37,8 +37,10 @@ public class UserController extends HttpServlet
 		{
 			String username = request.getParameter("username");
 			String code = request.getParameter("code");
+			System.out.println(username + code);
 			User u = new User().findByKey("Username",username);
-			if (u != null) u.attemptEmailConfirmation(code);
+			if (u.get("code") != null) u.attemptEmailConfirmation(code);
+			nextPage ="search.jsp";
 		}
 		else if(action.equals("registerUser"))
 		{

@@ -28,10 +28,10 @@ public class SearchController extends HttpServlet
 	{
 		String action = request.getParameter("action");
 		String nextPage = "";
+		List<Publication> results = new LinkedList<Publication>();
 		if(action.equals("homepage")) {
 			ResultsBean rsts = (ResultsBean) request.getSession().getAttribute("result");
 			List<Publication> ps = new Publication().searchByKey("1",1);
-			List<Publication> results = new LinkedList<Publication>();
 			for(int i=0; i<10;i++) {
 				Random rand = new Random();
 				results.add(ps.get(rand.nextInt((ps.size() - 0) + 1)));
@@ -42,27 +42,25 @@ public class SearchController extends HttpServlet
 		else if(action.equals("mainSearch"))
 		{
 			ResultsBean rsts = (ResultsBean) request.getSession().getAttribute("result");
-			List<publication.Publication> mainSearchResults = new LinkedList<publication.Publication>();
 			if(!(request.getParameter("input1").equals("")))
 			{
-				mainSearchResults.addAll(new Publication().searchByKey("title", request.getParameter("input1")/*, false*/));
-				mainSearchResults.addAll(new Publication().searchByKey("author", request.getParameter("input1")/*, false*/));
-				mainSearchResults.addAll(new Publication().searchByKey("year", request.getParameter("input1")/*, false*/));
-				mainSearchResults.addAll(new Publication().searchByKey("publisher", request.getParameter("input1")/*, false*/));
-				mainSearchResults.addAll(new Publication().searchByKey("volume", request.getParameter("input1")/*, false*/));
+				results.addAll(new Publication().searchByKey("title", request.getParameter("input1"), false));
+				results.addAll(new Publication().searchByKey("author", request.getParameter("input1"), false));
+				results.addAll(new Publication().searchByKey("year", request.getParameter("input1"), false));
+				results.addAll(new Publication().searchByKey("editor", request.getParameter("input1"), false));
+				results.addAll(new Publication().searchByKey("volume", request.getParameter("input1"), false));
 			}
-			if(mainSearchResults.size() == 0) request.setAttribute("isEmpty", true);
+			if(results.size() == 0) request.setAttribute("isEmpty", true);
 			else
 			{
 				request.setAttribute("isEmpty", false);
-				rsts.setResults(mainSearchResults);
+				rsts.setResults(results);
 			}
 			nextPage = "results.jsp";
 		}
 		else if(action.equals("specSearch"))
 		{
 			ResultsBean rsts = (ResultsBean) request.getSession().getAttribute("result");
-			List<Publication> results = new LinkedList<Publication>();
 			if(!(request.getParameter("year").equals("")))
 				results.addAll(new Publication().searchByKey("year", request.getParameter("year")/*, false*/));
 			if(!(request.getParameter("address").equals("")))
@@ -132,6 +130,7 @@ public class SearchController extends HttpServlet
 				request.setAttribute("noneSelected", true);
 			nextPage = "shopCart.jsp";
 		}
+		request.setAttribute("results", results);
 		RequestDispatcher rd = request.getRequestDispatcher("/"+nextPage);
 		rd.forward(request, response);
 	}

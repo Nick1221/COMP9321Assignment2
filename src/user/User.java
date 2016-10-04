@@ -77,15 +77,11 @@ public class User extends BanableModel<User> {
 	// attempts to validate the email
 	// returns true if email is valid else returns false
 	public boolean attemptEmailConfirmation(String code) {
-		// TODO
-		// get the email confirmation data
-		// query : "select * from email_confirmations where user_id = " + this.id 
-		
-		// if both code match :
-			// this.confirmed_email = true;
-			// this.save();
-		
-		return (boolean)this.get("confirmed_email");
+		if (this.get("code").equals(code)) {
+			this.set("confirmedEmail", "1");
+			this.save();
+		}
+		return (boolean)this.get("confirmedEmail");
 	}
 	
 	public boolean isAdmin() {
