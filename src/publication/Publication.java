@@ -45,12 +45,4 @@ public class Publication extends BanableModel<Publication> {
 	public List<User> getBoughtBy() {
 		return (List<User>) this.hasMany("userBoughtPublication", "pID", User.class);
 	}
-	
-	public List<Author> getAuthors() {
-		return (List<Author>) this.hasMany("authorPublication", "pID", Author.class);
-	}
-	
-	public List<Editor> getEditors() {
-		return (List<Editor>) this.hasMany("editorPublication","pID", Editor.class);
-	}
 }

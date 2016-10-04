@@ -1,16 +1,12 @@
 package user;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 
 import general.BanableModel;
-import general.Model;
-import publication.Publication;
+import general.DataHolder;
 
-@SuppressWarnings("unchecked")
 public class User extends BanableModel<User> {
 	public static final String TABLE_NAME = "User";
 	public static final String BAN_TABLE = "UserBan";
@@ -69,18 +65,8 @@ public class User extends BanableModel<User> {
 		new UserActivity().create(data);
 	}
 	
-	public List<UserActivity> getActivity() {
-		ResultSet rs = this.hasMany("userActivity", "aID","uID",this.get(this.primary_key).toString(),"activity","actID");
-		List<UserActivity> lua = new LinkedList<UserActivity>();
-		try {
-			rs.beforeFirst();
-			while(rs.next()) {
-				lua.add(new UserActivity(rs));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return lua;
+	public List<DataHolder> getActivity() {
+		return this.hasMany("userActivity", "aID","uID",this.get(this.primary_key).toString(),"activity","actID");
 	}
 	
 	// attempts to validate the email
@@ -122,8 +108,10 @@ public class User extends BanableModel<User> {
 		System.out.println(u.get("Username"));
 		
 		u.set("Username", "MyAwesome");// change the Username
+		u.set("isAdmin", "1");
 		u.save(); // save it to database -- Needed otherwise only this specific user instance will have the change
-		u.get("Username"); // "MyAwesomeUsername"
+		System.out.println("Is admin : " + u.isAdmin());
+		System.out.println(u.get("Username")); // "MyAwesome"
 		
 		// REVERTING BACK USERNAME
 		u.set("Username", "publific");// change the Username
@@ -137,7 +125,7 @@ public class User extends BanableModel<User> {
 			System.out.println("User banned");
 		}
 		
-		List<UserActivity> a = u.getActivity();
+		List<DataHolder> a = u.getActivity();
 		System.out.println("User activity size : " + a.size());
 		
 		System.out.println("-- Ending User tests --");
