@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import cs9321ass2.*;
+import general.DataHolder;
 
 //@WebServlet("/publication")
 public class PublicationController extends HttpServlet 
@@ -29,7 +30,7 @@ public class PublicationController extends HttpServlet
 		{
 			Publication p1 = new Publication();
 			UserBean ub = (UserBean) request.getSession().getAttribute("user");
-			List<Publication> addedPubs = ub.getLoggedInUser().get(0).getRegisteredPublications();
+			List<DataHolder> addedPubs = ub.getLoggedInUser().get(0).getRegisteredPublications();
 			String [] athrs = request.getParameter("publishAuthor").split(",");
 			for(String as : athrs) as.trim();
 			List<String> authorList = Arrays.asList(athrs);

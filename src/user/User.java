@@ -39,17 +39,6 @@ public class User extends BanableModel<User> {
 		this.updateData(data);
 	}
 	
-	public void addCreditCard(String card) {
-		HashMap<String, Object> temp = new HashMap<String,Object>();
-		temp.put("uID", this.get("uID"));
-		temp.put("cardNumber", card);
-		new CreditCard().create(temp);
-	}
-	
-	public List<CreditCard> getCreditCards() {
-		return new CreditCard().searchByKey("uID", this.get("uID"));
-	}
-	
 	public void registerPublication(Publication p) {
 		HashMap<String,Object> temp = new HashMap<String,Object>();
 		temp.put("uID", this.get("uID"));
@@ -58,7 +47,7 @@ public class User extends BanableModel<User> {
 		new UserRegisteredPublication().create(temp);
 	}
 	
-	public List<DataHolder> getRegisteredPublication() {
+	public List<DataHolder> getRegisteredPublications() {
 		return this.hasMany("userRegisteredPublication", "pID","uID",this.get(this.primary_key).toString(),"Publications","pID");
 	}
 	
@@ -74,11 +63,10 @@ public class User extends BanableModel<User> {
 	}
 	
 	public void addActivity(String activity_title, Publication p) {
-		Activity a = new Activity().findByKey("actName",activity_title);
 		HashMap<String, Object> data = new HashMap<String, Object>();
 		data.put("uID", this.get("uID"));
 		data.put("pID",p.get("pID"));
-		data.put("aID", a.get("aID"));
+		data.put("activity", activity_title);
 		new UserActivity().create(data);
 	}
 	
