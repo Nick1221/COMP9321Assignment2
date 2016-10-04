@@ -64,7 +64,8 @@ public class Model<E> {
 	    	 dbc = new DBConnection();
 	    	 
 	    	 ResultSet rs = dbc.executeQuery(query);
-	    	 
+	    	 rs.last();
+	    	 System.out.println(rs.getRow());
 	    	 if (rs.first()) { // check if it is empty or not
 	    		 rs.beforeFirst();
 	    		 while (rs.next()) {
@@ -87,19 +88,14 @@ public class Model<E> {
 	    } catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 	        if (dbc.hasActiveStatement()) { 
@@ -107,7 +103,6 @@ public class Model<E> {
 					dbc.closeStatement();
 				} catch (SQLException e) {
 					e.printStackTrace();
-					// TODO throw error 500
 				}
 	        } else {
 	        	return null; // something went horribly wrong...
@@ -145,7 +140,6 @@ public class Model<E> {
 					dbc.closeStatement();
 				} catch (SQLException e) {
 					e.printStackTrace();
-					// TODO throw error 500
 				}
 			} else {
 				return null; // something went horribly wrong...
@@ -155,17 +149,16 @@ public class Model<E> {
 	}
 	
 	// returns the object that has been deleted
-	public E delete() {
-		// TODO : test and exception handling
+	public E delete(String table, String key, Object value) {
 		String query = "delete " +
-                "from " + DBConnection.DATABASE_NAME + "." + this.table +
-                "where" + this.primary_key + " = " + this.column_to_data.get(this.primary_key);
+                "from " + table +
+                " where " + key + " = " + value;
 		
 		DBConnection dbc = null;
 		try {
 		 	 dbc = new DBConnection();
 		 	
-		 	 dbc.executeQuery(query);
+		 	 dbc.executeUpdateQuery(query);
 
 		} catch (SQLException e ) {
 		     e.printStackTrace();
@@ -177,7 +170,6 @@ public class Model<E> {
 					dbc.closeStatement();
 				} catch (SQLException e) {
 					e.printStackTrace();
-					// TODO throw error 500
 				}
 			} else {
 				return null; // something went horribly wrong...
@@ -196,7 +188,6 @@ public class Model<E> {
 	}
 	
 	public E save() {
-		// TODO: save all the data to the database
 		String query = "UPDATE `" + this.table + "`" +
 						" SET";
 		for(String col : column_to_data.keySet()) {
@@ -227,7 +218,6 @@ public class Model<E> {
 					dbc.closeStatement();
 				} catch (SQLException e) {
 					e.printStackTrace();
-					// TODO throw error 500
 				}
 			} else {
 				return null; // something went horribly wrong...
@@ -251,7 +241,6 @@ public class Model<E> {
 				this.set(rsmd.getColumnName(i), rs.getObject(rsmd.getColumnLabel(i)));
 			}
 		} catch (SQLException e) {
-			// TODO throw error 500
 			e.printStackTrace();
 		}
 		return (E)this;
@@ -264,21 +253,49 @@ public class Model<E> {
 	// connection_table -- in between table
 	// key_column -- column of key to use
 	// connected_class -- class to return
-	public List<?> hasMany(String connection_table, String key_column, Class<?> connected_model) {
+	public ResultSet hasMany(String connection_table, String connection_column, String connection_key_column, String connection_key_value, String connected_table, String connected_column) {
 		// TODO : find all the id of the connected Model using the connection_table
 		
-//		String query = "SELECT * " + 
-//				"FROM " + connection_table + " RIGHT OUTER JOIN " + connected_model.getTable() +
-//				" ON " + connection_table+"."+key_column+"="+connected_model.getTable()+"."+connected_model.getPrimaryKey()+
-//				" WHERE " + key_column + " = " + this.getPrimaryKey();
+		String query = "SELECT * " + 
+				"FROM " + connection_table + " JOIN " + connected_table +
+				" ON " + connection_table+"."+connection_column+"="+connected_table+"."+connected_column+
+				" WHERE " + connection_key_column + " = " + connection_key_value;
 		
-		return null;
+		DBConnection dbc = null;
+		ResultSet rs = null;
+	    try {
+	    	 dbc = new DBConnection();
+	    	 
+	    	 rs = dbc.executeQuery(query);
+	    } catch (SQLException e ) {
+	        e.printStackTrace();
+	    } catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		} finally {
+	        if (dbc.hasActiveStatement()) { 
+	        	try {
+					dbc.closeStatement();
+					return rs;
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+	        } else {
+	        	return null; // something went horribly wrong...
+	        }
+	    }
+		
+	    return null;
 	}
 	
-	public Object hasOne(String connection_table, String key_column, Class<?> connected_model) {
-		List<?> m = (List<?>) this.hasMany(connection_table, key_column, connected_model);
-	    return m == null || m.isEmpty()? null : m.get(0); // return null if nothing found2 or the first item in search
-	}
+//	public ResultSet hasOne(String connection_table, String connection_column, String connected_table, String connected_column, Model<?> connected_model) {
+//		ResultSet rs = this.hasMany(connection_table, connection_column, connected_table, connected_column, connected_model);
+//		rs.
+//	    return (m == null || m.isEmpty())? null : m.get(0); // return null if nothing found or the first item in search
+//	}
 	
 	public Object addRelatedItem(String connection_table, String key_column, Class<E> c, HashMap<String, Object> data) {
 		// TODO

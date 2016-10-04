@@ -11,17 +11,18 @@ import user.User;
 public class Publication extends BanableModel<Publication> {
 	private static final String TABLE_NAME = "Publications";
 	private static final String BAN_TABLE = "BanPublication";
+	private static final String BAN_TABLE_KEY = "uID";
 	private static final String PRIMARY_KEY = "pID";
 	
 	public Publication() {
-		super(Publication.class,Publication.BAN_TABLE);
+		super(Publication.class,Publication.BAN_TABLE,Publication.BAN_TABLE_KEY);
 		this.table = Publication.TABLE_NAME;
 		this.primary_key = Publication.PRIMARY_KEY;
 	}
 	
 	// 
 	public Publication(ResultSet rs) {
-		super(Publication.class,Publication.BAN_TABLE);
+		super(Publication.class,Publication.BAN_TABLE,Publication.BAN_TABLE_KEY);
 		this.table = Publication.TABLE_NAME;
 		this.primary_key = Publication.PRIMARY_KEY;
 		this.updateData(rs);
@@ -29,7 +30,7 @@ public class Publication extends BanableModel<Publication> {
 	
 	// Creates a new User -- THIS DOES NOT SAVE THE NEW USER"S INFORMATION TO DATABASE
 	public Publication(HashMap<String,Object> data) {
-		super(Publication.class,Publication.BAN_TABLE);
+		super(Publication.class,Publication.BAN_TABLE,Publication.BAN_TABLE_KEY);
 		this.table = Publication.TABLE_NAME;
 		this.primary_key = Publication.PRIMARY_KEY;
 		this.updateData(data);

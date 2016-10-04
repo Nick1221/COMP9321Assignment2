@@ -1,20 +1,24 @@
 package user;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 import general.BanableModel;
+import general.Model;
 import publication.Publication;
 
 @SuppressWarnings("unchecked")
 public class User extends BanableModel<User> {
 	public static final String TABLE_NAME = "User";
 	public static final String BAN_TABLE = "UserBan";
+	public static final String BAN_TABLE_KEY = "uID";
 	public static final String TABLE_PRIMARY_KEY = "uID";
 	
 	public User() {
-		super(User.class,User.BAN_TABLE);
+		super(User.class,User.BAN_TABLE,User.BAN_TABLE_KEY);
 		this.primary_key = User.TABLE_PRIMARY_KEY;
 		this.table = User.TABLE_NAME;
 		this.column_to_cast.put("confirmedEmail", "boolean");
@@ -22,7 +26,7 @@ public class User extends BanableModel<User> {
 	
 	// 
 	public User(ResultSet rs) {
-		super(User.class,User.BAN_TABLE);
+		super(User.class,User.BAN_TABLE,User.BAN_TABLE_KEY);
 		this.primary_key = User.TABLE_PRIMARY_KEY;
 		this.table = User.TABLE_NAME;
 		this.column_to_cast.put("confirmedEmail", "boolean");
@@ -31,26 +35,52 @@ public class User extends BanableModel<User> {
 	
 	// Creates a new User -- THIS DOES NOT SAVE THE NEW USER"S INFORMATION TO DATABASE
 	public User(HashMap<String,Object> data) {
-		super(User.class,User.BAN_TABLE);
+		super(User.class,User.BAN_TABLE,User.BAN_TABLE_KEY);
 		this.primary_key = User.TABLE_PRIMARY_KEY;
 		this.table = User.TABLE_NAME;
 		this.updateData(data);
 	}
 	
+	public void addCreditCard(String card) {
+		HashMap<String, Object> temp = new HashMap<String,Object>();
+		temp.put("uID", this.get("uID"));
+		temp.put("cardNumber", card);
+		new CreditCard().create(temp);
+	}
+	
 	public List<CreditCard> getCreditCards() {
-		return (List<CreditCard>) this.hasMany("userCreditCard", "uID", CreditCard.class);
+		return new CreditCard().searchByKey("uID", this.get("uID"));
 	}
 	
-	public List<Publication> getRegisteredPublications() {
-		return (List<Publication>) this.hasMany("userRegisteredPublication", "uID", Publication.class);
+//	public List<Publication> getRegisteredPublications() {
+//		return (List<Publication>) this.hasMany("userRegisteredPublication", "uID", Publication.class);
+//	}
+//	
+//	public List<Publication> getBoughtPublications() {
+//		return (List<Publication>) this.hasMany("userBoughtPublication", "uID", Publication.class);
+//	}
+	
+	public void addActivity(String activity_title, String publication_id) {
+		Activity a = new Activity().findByKey("actName",activity_title);
+		HashMap<String, Object> data = new HashMap<String, Object>();
+		data.put("uID", this.get("uID"));
+		data.put("pID",publication_id);
+		data.put("aID", a.get("aID"));
+		new UserActivity().create(data);
 	}
 	
-	public List<Publication> getBoughtPublications() {
-		return (List<Publication>) this.hasMany("userBoughtPublication", "uID", Publication.class);
-	}
-	
-	public List<Activity> getActivity() {
-		return (List<Activity>) this.hasMany("userActivity", "uID", Activity.class);
+	public List<UserActivity> getActivity() {
+		ResultSet rs = this.hasMany("userActivity", "aID","uID",this.get(this.primary_key).toString(),"activity","actID");
+		List<UserActivity> lua = new LinkedList<UserActivity>();
+		try {
+			rs.beforeFirst();
+			while(rs.next()) {
+				lua.add(new UserActivity(rs));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return lua;
 	}
 	
 	// attempts to validate the email
@@ -99,16 +129,16 @@ public class User extends BanableModel<User> {
 		u.set("Username", "publific");// change the Username
 		u.save();
 		
-		HashMap<String,Object> temp = new HashMap<String,Object>();
-		temp.put("Username", "Amazing");
-		temp.put("password", "shieze");
-		temp.put("email", "jules@holiboat.com");
-		temp.put("confirmedEmail", "0");
-		temp.put("first_name", "Jules");
-		temp.put("last_name", "Rig");
-		temp.put("Bdate", "2013-10-30");
-		User u_c = new User().create(temp);
-		System.out.println(u_c.get("Username"));
+		if (u.isBanned()) {
+			u.unban();
+			System.out.println("User Unbanned");
+		} else {
+			u.ban();
+			System.out.println("User banned");
+		}
+		
+		List<UserActivity> a = u.getActivity();
+		System.out.println("User activity size : " + a.size());
 		
 		System.out.println("-- Ending User tests --");
 	}

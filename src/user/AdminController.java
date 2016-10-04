@@ -48,6 +48,14 @@ public class AdminController extends HttpServlet
 				nextPage = "login.jsp";
 			}
 		}
+		else if(action.equals("banUser"))		
+		{		
+			if(!(request.getParameter("bannedUser").equals("")))		
+			{		
+				User u1 = new User().findByKey("username", request.getParameter("bannedUser"));		
+				if(!u1.isBanned()) u1.ban();		
+			}	
+		}
 		else if(action.equals("removeItemForSale"))
 		{
 			if(!(request.getParameter("toRemove").equals("")))
