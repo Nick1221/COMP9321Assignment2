@@ -10,7 +10,7 @@ import java.util.Properties;
 public class DBConnection {
 
 	public static final String DRIVER = "com.mysql.jdbc.Driver";
-	public static final String DATABASE_NAME = "9321DB";
+	public static final String DATABASE_NAME = "9321DataBase";
 	private final String user = "root";
 	private final String password = "root";
 	
