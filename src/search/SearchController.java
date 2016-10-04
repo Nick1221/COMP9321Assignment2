@@ -29,13 +29,14 @@ public class SearchController extends HttpServlet
 		String action = request.getParameter("action");
 		String nextPage = "";
 		if(action.equals("homepage")) {
+			ResultsBean rsts = (ResultsBean) request.getSession().getAttribute("result");
 			List<Publication> ps = new Publication().searchByKey("1",1);
 			List<Publication> results = new LinkedList<Publication>();
 			for(int i=0; i<10;i++) {
 				Random rand = new Random();
 				results.add(ps.get(rand.nextInt((ps.size() - 0) + 1)));
 			}
-			request.setAttribute("results", results);
+			rsts.setResults(results);
 			nextPage = "search.jsp";
 		}
 		else if(action.equals("mainSearch"))

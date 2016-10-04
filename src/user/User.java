@@ -1,11 +1,13 @@
 package user;
 
 import java.sql.ResultSet;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 import general.BanableModel;
 import general.DataHolder;
+import publication.Publication;
 
 public class User extends BanableModel<User> {
 	public static final String TABLE_NAME = "User";
@@ -48,19 +50,34 @@ public class User extends BanableModel<User> {
 		return new CreditCard().searchByKey("uID", this.get("uID"));
 	}
 	
-//	public List<Publication> getRegisteredPublications() {
-//		return (List<Publication>) this.hasMany("userRegisteredPublication", "uID", Publication.class);
-//	}
-//	
-//	public List<Publication> getBoughtPublications() {
-//		return (List<Publication>) this.hasMany("userBoughtPublication", "uID", Publication.class);
-//	}
+	public void registerPublication(Publication p) {
+		HashMap<String,Object> temp = new HashMap<String,Object>();
+		temp.put("uID", this.get("uID"));
+		temp.put("pID", p.get("pID"));
+		temp.put("isVisible", "1");
+		new UserRegisteredPublication().create(temp);
+	}
 	
-	public void addActivity(String activity_title, String publication_id) {
+	public List<DataHolder> getRegisteredPublication() {
+		return this.hasMany("userRegisteredPublication", "pID","uID",this.get(this.primary_key).toString(),"Publications","pID");
+	}
+	
+	public void buyPublication(Publication p) {
+		HashMap<String,Object> temp = new HashMap<String,Object>();
+		temp.put("uID", this.get("uID"));
+		temp.put("pID", p.get("pID"));
+		new UserRegisteredPublication().create(temp);
+	}
+	
+	public List<DataHolder> getBoughtPublications() {
+		return this.hasMany("userBoughtPublication", "pID","uID",this.get(this.primary_key).toString(),"Publications","pID");
+	}
+	
+	public void addActivity(String activity_title, Publication p) {
 		Activity a = new Activity().findByKey("actName",activity_title);
 		HashMap<String, Object> data = new HashMap<String, Object>();
 		data.put("uID", this.get("uID"));
-		data.put("pID",publication_id);
+		data.put("pID",p.get("pID"));
 		data.put("aID", a.get("aID"));
 		new UserActivity().create(data);
 	}
