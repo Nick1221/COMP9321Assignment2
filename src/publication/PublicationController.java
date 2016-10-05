@@ -28,7 +28,7 @@ public class PublicationController extends HttpServlet
 		String nextPage = "";
 		if(action.equals("addPublication"))
 		{
-			Publication p1 = new Publication();
+			DataHolder p1 = new DataHolder();
 			UserBean ub = (UserBean) request.getSession().getAttribute("user");
 			List<DataHolder> addedPubs = ub.getLoggedInUser().get(0).getRegisteredPublications();
 			String [] athrs = request.getParameter("publishAuthor").split(",");
@@ -44,18 +44,14 @@ public class PublicationController extends HttpServlet
 		else if(action.equals("pauseItem"))
 		{
 			UserBean ub = (UserBean) request.getSession().getAttribute("user");
-			List<Publication> addedPubs = ub.getLoggedInUser().get(0).getRegisteredPublications();
 			if(!(request.getParameter("ownItems") == null))
 			{
 				int toPause = Integer.parseInt(request.getParameter("ownItems").trim());
-				Publication pubToPause = ub.getLoggedInUser().get(0).getRegisteredPublications().get(toPause);
-				boolean alreadyPaused = true;
-				//go thru db to pause the item by the user
-				//if paused, set alreadyPaused to true
-				if(alreadyPaused)
+				DataHolder pubToPause = ub.getLoggedInUser().get(0).getRegisteredPublications().get(toPause);
+				if(pubToPause.get("isVisible").equals(false)) //if already paused
 					request.setAttribute("paused", true);
-//				else
-//					ub.getLoggedInUser().get(0).getRegisteredPublications().get(toPause).setActive(false);
+				else
+					ub.getLoggedInUser().get(0).getRegisteredPublications().get(toPause).set("isVisible", false); //pause the publication
 			}
 			else
 				request.setAttribute("nothingSelected", true);
@@ -67,14 +63,11 @@ public class PublicationController extends HttpServlet
 			if(!(request.getParameter("ownItems") ==  null))
 			{
 				int toActivate = Integer.parseInt(request.getParameter("ownItems").trim());
-				Publication pubToActivate = ub.getLoggedInUser().get(0).getRegisteredPublications().get(toActivate);
-//				if(pubToActivate.isActive()) //if already active
-//					request.setAttribute("active", true);
-//				else
-//				{
-//					//publications.add(pubToActivate); go to db and include item to search results
-//					ub.getLoggedInUser().get(0).getRegisteredPublications().get(toActivate).setActive(true);
-//				}
+				DataHolder pubToActivate = ub.getLoggedInUser().get(0).getRegisteredPublications().get(toActivate);
+				if(pubToActivate.get("isVisible").equals(true)) //if already active
+					request.setAttribute("active", true);
+				else
+					ub.getLoggedInUser().get(0).getRegisteredPublications().get(toActivate).set("isVisible", true);//activate the publication
 			}
 			else
 				request.setAttribute("nothingSelected", true);
