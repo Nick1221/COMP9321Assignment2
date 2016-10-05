@@ -80,6 +80,22 @@ public class PublicationController extends HttpServlet
 				request.setAttribute("nothingSelected", true);
 			nextPage = "existingItems.jsp";
 		}
+		else if(action.equals("getdetail"))
+		{
+			DetailBean toFind = (DetailBean) request.getSession().getAttribute("detail");
+			ResultsBean rsts = (ResultsBean) request.getSession().getAttribute("result");
+			List<Publication> allDetails = new LinkedList<Publication>();
+			if(!(request.getParameter("srchRslts") == null))
+			{
+				String position = request.getParameter("srchRslts").trim();
+				Publication toGet = rsts.getResults().get(Integer.parseInt(position));
+				allDetails.add(toGet);
+				toFind.setFullDetailed(allDetails);
+			}
+			if(allDetails.size() == 0) request.setAttribute("isEmpty", true);
+			else request.setAttribute("isEmpty", false);
+			nextPage = "details.jsp";
+		}
 		RequestDispatcher rd = request.getRequestDispatcher("/"+nextPage);
 		rd.forward(request, response);
 	}

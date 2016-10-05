@@ -152,8 +152,8 @@ public class ControlServlet extends HttpServlet {
             nextPage = "user";
         else if(action.equals("adminRegister") || action.equals("adminLogin") || action.equals("adminLogout") || action.equals("banUser") || action.equals("removeItemForSale"))
             nextPage = "admin";
-        else if(action.equals("addPublication") || action.equals("pauseItem") || action.equals("activateItem"))
-            nextPage="publication";
+        else if(action.equals("addPublication") || action.equals("pauseItem") || action.equals("activateItem") || action.equals("getdetail"))
+            nextPage="publications";
         else if(action.equals("mainSearch") || action.equals("specSearch") || action.equals("shopCart") || action.equals("addtocartFrDetail") || action.equals("addtocartFrSearchResult") || action.equals("removeFrCart"))
             nextPage="search";
 		RequestDispatcher rd = request.getRequestDispatcher("/" + nextPage);   

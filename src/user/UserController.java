@@ -103,7 +103,8 @@ public class UserController extends HttpServlet
 		}
 		else if(action.equals("userLogout"))
 		{
-			request.getSession().setAttribute("user",null);
+			UserBean ub = (UserBean)request.getSession().getAttribute("user");
+			ub.getLoggedInUser().clear();
 			nextPage = "login.jsp";
 		}
 		
