@@ -5,7 +5,7 @@ import java.util.HashMap;
 import general.BanableModel;
 
 public class Publication extends BanableModel<Publication> {
-	private static final String TABLE_NAME = "Publications";
+	private static final String TABLE_NAME = "publications";
 	private static final String BAN_TABLE = "BanPublication";
 	private static final String BAN_TABLE_KEY = "uID";
 	private static final String PRIMARY_KEY = "pID";
@@ -31,4 +31,8 @@ public class Publication extends BanableModel<Publication> {
 		this.primary_key = Publication.PRIMARY_KEY;
 		this.updateData(data);
 	}
+	@Override
+	public Publication findById(int id) {
+        return this.findByKey("pID", id);
+    }
 }

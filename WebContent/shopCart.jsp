@@ -28,6 +28,7 @@
 
 <%
 	User currUser = user.getLoggedInUser().get(0);
+	pageContext.setAttribute("isAdmin", currUser.get("isAdmin"));
 %>
 
 <body>
@@ -38,13 +39,18 @@
         <ul class="sidebar-nav">
             <a id="menu-close" href="#" class="btn btn-light btn-lg pull-right toggle"><i class="fa fa-times"></i></a>
             <c:choose>
-            	<c:when test="${currUser.isAdmin() }">
+            	<c:when test="${isAdmin == 'true'}">
             		<li class="sidebar-brand">
-		                <a href="#top" onclick=$("#menu-close").click();>Welcome, <%= currUser.get("Username") %>!</a>
+		                <a href="#top" onclick=$("#menu-close").click()");>Welcome, <%= currUser.get("Username") %>!</a>
 		            </li>
-		             <li>
+		            <li>
 		            	<form action="admin.jsp" method="post">
 							<input type="submit" value="Admin Control Panel">
+						</form>
+		            </li>
+		            <li>
+		            	<form action="search.jsp" method="post">
+							<input type="submit" value="Home Page">
 						</form>
 		            </li>
 		            <li>
@@ -63,12 +69,17 @@
 							<input type="submit" value="See my existing publications">
 						</form>
 		            </li>
-            	</c:when>
+            	</c:when>           
             	<c:otherwise>
             		<li class="sidebar-brand">
 		                <a href="#top" onclick=$("#menu-close").click();>Welcome, <%= currUser.get("Username") %>!</a>
 		            </li>
 		            <li>
+		            	<form action="search.jsp" method="post">
+							<input type="submit" value="Home Page">
+						</form>
+		            </li>
+		            <li>		            
 		                <form action="control" method="post">
 							<input type="hidden" name="action" value="shopCart">
 							<input type="submit" value="Shopping Cart">

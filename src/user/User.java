@@ -1,6 +1,7 @@
 package user;
 
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -40,16 +41,23 @@ public class User extends BanableModel<User> {
 	}
 	
 	public void registerPublication(Publication p) {
-		HashMap<String,Object> temp = new HashMap<String,Object>();
-		temp.put("uID", this.get("uID"));
-		temp.put("pID", p.get("pID"));
-		temp.put("isVisible", "1");
-		new UserRegisteredPublication().create(temp);
+		 HashMap<String,Object> temp = new HashMap<String,Object>();
+	        
+	        temp.put("uID", this.get("uID"));
+	        temp.put("pID", p.get("pID"));
+	        temp.put("isVisible", "1");
+	        temp.put("timeStamp", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+	        new UserRegisteredPublication().create(temp);
 	}
 	
 	public List<DataHolder> getRegisteredPublications() {
 		return this.hasMany("userRegisteredPublication", "pID","uID",this.get(this.primary_key).toString(),"Publications","pID");
 	}
+	
+	@Override
+	public User findById(int id) {
+        return this.findByKey("uID", id);
+    }
 	
 	public void buyPublication(Publication p) {
 		HashMap<String,Object> temp = new HashMap<String,Object>();

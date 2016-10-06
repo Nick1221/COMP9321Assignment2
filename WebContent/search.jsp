@@ -39,10 +39,10 @@
 	List<Publication> results = new LinkedList<Publication>();
 	for(int i=0; i<10;i++) {
 		Random rand = new Random();
-		results.add(ps.get(rand.nextInt((ps.size() - 1) + 1)));
+		results.add(ps.get(rand.nextInt(ps.size())));
 	}
 	pageContext.setAttribute("result", results);
-	
+	pageContext.setAttribute("isAdmin", currUser.get("isAdmin"));
 %>
 
 <body>
@@ -53,9 +53,9 @@
         <ul class="sidebar-nav">
             <a id="menu-close" href="#" class="btn btn-light btn-lg pull-right toggle"><i class="fa fa-times"></i></a>
             <c:choose>
-            	<c:when test="${currUser.isAdmin() }">
+            	<c:when test="${isAdmin == 'true'}">
             		<li class="sidebar-brand">
-		                <a href="#top" onclick=$("#menu-close").click()");>Welcome, <%= currUser.get("Username") %>, <%= currUser.get("isAdmin") %>!</a>
+		                <a href="#top" onclick=$("#menu-close").click()");>Welcome, <%= currUser.get("Username") %>!</a>
 		            </li>
 		             <li>
 		            	<form action="admin.jsp" method="post">
@@ -78,10 +78,21 @@
 							<input type="submit" value="See my existing publications">
 						</form>
 		            </li>
+		            <li>
+		            	<form action="control" method="post">
+							<input type="hidden" name="action" value="userLogout">
+							<input type="submit" value="Logout">
+						</form>
+		            </li>
             	</c:when>
             	<c:otherwise>
             		<li class="sidebar-brand">
 		                <a href="#top" onclick=$("#menu-close").click();>Welcome, <%= currUser.get("Username") %>!</a>
+		            </li>
+		            <li>
+		            	<form action="search.jsp" method="post">
+							<input type="submit" value="Home Page">
+						</form>
 		            </li>
 		            <li>
 		                <form action="control" method="post">
@@ -159,16 +170,18 @@
 	<form action="control">
 		<div id="tablewrapper">
 			<table border="2" style="width:100%">
-				<% int i = 0; %>
-				<c:forEach var="rslt" items="${result}">
+				 <%-- int i = 0; --%>
+				<%-- <c:forEach var="rslt" items="${result}"> --%>
+				<%for(Publication p : results){ %>
 					<tr>
-						<td><input type="radio" name="srchRslts" value="<%out.println(i);%>">
-							Title: <c:out value="${rslt.get('title')}" />, 
-							Author(s): <c:out value="${rslt.get('author')}" />
+						<td><input type="radio" name="srchRslts" value="<%out.println(p.get("pID"));%>">
+							Title: <% out.println(p.get("title"));%><%--<c:out value="${rslt.get('title')}" /> --%>, 
+							Author(s): <% out.println(p.get("author"));%> <%--<c:out value="${rslt.get('author')}" /> --%>
 						</td>
 					</tr>
-					<% i++; %>	
-				</c:forEach>
+					<%-- i++; --%>	
+				<%-- </c:forEach> --%>
+				<%} %>
 			</table>
 		</div>
 		<button type="submit" name="action" value="addtocartFrSearchResult">Add to Cart</button>

@@ -50,7 +50,7 @@
 						<td>Username: </td> <td><input type="text" name="usernameLogin" style="color: black"></td>
 					</tr>
 					<tr>
-						<td>Password: </td> <td><input type="text" name="passwordLogin" style="color: black"></td>
+						<td>Password: </td> <td><input type="password" name="passwordLogin" style="color: black"></td>
 					</tr>
 					<tr>
 						<%-- <td><input type="hidden" name="action" value="newUserSignUp"><input type="submit" value="Sign Up"></td> --%>

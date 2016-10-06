@@ -26,6 +26,7 @@
 
 <%
 	User currUser = user.getLoggedInUser().get(0);
+	pageContext.setAttribute("isAdmin", currUser.get("isAdmin"));
 %>
 
 <body>
@@ -36,13 +37,18 @@
         <ul class="sidebar-nav">
             <a id="menu-close" href="#" class="btn btn-light btn-lg pull-right toggle"><i class="fa fa-times"></i></a>
             <c:choose>
-            	<c:when test="${currUser.isAdmin() }">
+            	<c:when test="${isAdmin == 'true'}">
             		<li class="sidebar-brand">
-		                <a href="#top" onclick=$("#menu-close").click();>Welcome, <%= currUser.get("Username") %>!</a>
+		                <a href="#top" onclick=$("#menu-close").click()");>Welcome, <%= currUser.get("Username") %>!</a>
 		            </li>
-		             <li>
+		            <li>
 		            	<form action="admin.jsp" method="post">
 							<input type="submit" value="Admin Control Panel">
+						</form>
+		            </li>
+		            <li>
+		            	<form action="search.jsp" method="post">
+							<input type="submit" value="Home Page">
 						</form>
 		            </li>
 		            <li>
@@ -61,10 +67,15 @@
 							<input type="submit" value="See my existing publications">
 						</form>
 		            </li>
-            	</c:when>
+            	</c:when>           
             	<c:otherwise>
             		<li class="sidebar-brand">
 		                <a href="#top" onclick=$("#menu-close").click();>Welcome, <%= currUser.get("Username") %>!</a>
+		            </li>
+		            <li>
+		            	<form action="search.jsp" method="post">
+							<input type="submit" value="Home Page">
+						</form>
 		            </li>
 		            <li>
 		                <form action="control" method="post">
@@ -110,6 +121,18 @@
 			</tr>
 			<tr>
 				<td>Year: </td><td><input type="text" name="publishYear"></td>
+			</tr>
+			<tr>
+				<td>Volume: </td><td><input type="text" name="publishVolume"></td>
+			</tr>
+			<tr>
+				<td>Editors: </td><td><input type="text" name="publishEditors"></td>
+			</tr>
+			<tr>
+				<td>Picture: </td><td><input type="text" name="publishPic"></td>
+			</tr>
+			<tr>
+				<td>Price: </td><td><input type="text" name="publishPrice"></td>
 			</tr>
 		</table>
 		<input type="hidden" name="action" value="addPublication">

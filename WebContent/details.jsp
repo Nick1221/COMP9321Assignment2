@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ page import="cs9321ass2.*, user.*, java.util.*"%>
+<%@ page import="cs9321ass2.*, user.*, java.util.*, publication.*"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:useBean id="shopcart" class="cs9321ass2.ShopCartBean" scope="session" />
 <jsp:useBean id="detail" class="cs9321ass2.DetailBean" scope="session" />
@@ -28,6 +28,8 @@
 </head>
 <%
 	User currUser = user.getLoggedInUser().get(0);
+	pageContext.setAttribute("isAdmin", currUser.get("isAdmin"));
+	List<Publication> pubDetail = detail.getFullDetailed();
 %>
 
 
@@ -39,13 +41,18 @@
         <ul class="sidebar-nav">
             <a id="menu-close" href="#" class="btn btn-light btn-lg pull-right toggle"><i class="fa fa-times"></i></a>
             <c:choose>
-            	<c:when test="${currUser.isAdmin() }">
+            	<c:when test="${isAdmin == 'true'}">
             		<li class="sidebar-brand">
-		                <a href="#top" onclick=$("#menu-close").click();>Welcome, <%= currUser.get("Username") %>!</a>
+		                <a href="#top" onclick=$("#menu-close").click()");>Welcome, <%= currUser.get("Username") %>!</a>
 		            </li>
-		             <li>
+		            <li>
 		            	<form action="admin.jsp" method="post">
 							<input type="submit" value="Admin Control Panel">
+						</form>
+		            </li>
+		            <li>
+		            	<form action="search.jsp" method="post">
+							<input type="submit" value="Home Page">
 						</form>
 		            </li>
 		            <li>
@@ -64,10 +71,15 @@
 							<input type="submit" value="See my existing publications">
 						</form>
 		            </li>
-            	</c:when>
+            	</c:when>           
             	<c:otherwise>
             		<li class="sidebar-brand">
 		                <a href="#top" onclick=$("#menu-close").click();>Welcome, <%= currUser.get("Username") %>!</a>
+		            </li>
+		            <li>
+		            	<form action="search.jsp" method="post">
+							<input type="submit" value="Home Page">
+						</form>
 		            </li>
 		            <li>
 		                <form action="control" method="post">
@@ -110,9 +122,19 @@
 			<c:otherwise>
 				<fieldset>
 				<legend>Full Details</legend>
-					<c:forEach var="info" items="${detail.fullDetailed}">
+				<table>
+					<%for(Publication p : pubDetail){%>
+					<tr>
+						<td>
+							Title: <% out.println(p.get("title")); %>,
+							Author: <% out.println(p.get("author")); %>
+						</td>
+					</tr>
+					 <%-- <c:forEach var="info" items="${detail.fullDetailed}">
 					<c:out value="${info}" />
-					</c:forEach>
+					</c:forEach> --%>
+					<%} %>
+				</table>
 				</fieldset>
 				<form action="control">
 				<input type="hidden" name="action" value="addtocartFrDetail">

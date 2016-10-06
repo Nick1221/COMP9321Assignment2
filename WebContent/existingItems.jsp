@@ -27,6 +27,7 @@
 <%
 	User currUser = user.getLoggedInUser().get(0);
 	List<DataHolder> existing = currUser.getRegisteredPublications();
+	pageContext.setAttribute("isAdmin", currUser.get("isAdmin"));
 %>
 
 <body>
@@ -38,13 +39,18 @@
         <ul class="sidebar-nav">
             <a id="menu-close" href="#" class="btn btn-light btn-lg pull-right toggle"><i class="fa fa-times"></i></a>
             <c:choose>
-            	<c:when test="${currUser.isAdmin() }">
+            	<c:when test="${isAdmin == 'true'}">
             		<li class="sidebar-brand">
-		                <a href="#top" onclick=$("#menu-close").click();>Welcome, <%= currUser.get("Username") %>!</a>
+		                <a href="#top" onclick=$("#menu-close").click()");>Welcome, <%= currUser.get("Username") %>!</a>
 		            </li>
-		             <li>
+		            <li>
 		            	<form action="admin.jsp" method="post">
 							<input type="submit" value="Admin Control Panel">
+						</form>
+		            </li>
+		            <li>
+		            	<form action="search.jsp" method="post">
+							<input type="submit" value="Home Page">
 						</form>
 		            </li>
 		            <li>
@@ -63,10 +69,15 @@
 							<input type="submit" value="See my existing publications">
 						</form>
 		            </li>
-            	</c:when>
+            	</c:when>           
             	<c:otherwise>
             		<li class="sidebar-brand">
 		                <a href="#top" onclick=$("#menu-close").click();>Welcome, <%= currUser.get("Username") %>!</a>
+		            </li>
+		            <li>
+		            	<form action="search.jsp" method="post">
+							<input type="submit" value="Home Page">
+						</form>
 		            </li>
 		            <li>
 		                <form action="control" method="post">
@@ -125,7 +136,7 @@
 		<%--<c:forEach var="item" items="${loggedUser.getRegisteredPublications()}"> --%> <%--each publications it has registered --%>
 		<%for(DataHolder e : existing){ %>	
 			<tr>
-				<td><input type="radio" name="ownItems" value="<%out.println(i);%>">
+				<td><input type="radio" name="ownItems" value="<%out.println(e.get("pID"));%>">
 					Title: <%out.println(e.get("title")); %>, 
 					Year: <%out.println(e.get("year")); %>, 
 					<%--Author(s): <c:out value="${item.getAuthor()}" />,  --%>
@@ -137,7 +148,7 @@
 							Active: true
 						</c:otherwise>
 					</c:choose> --%>
-					<%	if(e.get("isVisible").equals(true)){ 
+					<%	if(e.get("isVisible").equals(1)){ 
 							out.println("Active: true");
 						} else {
 							out.println("Active : false");

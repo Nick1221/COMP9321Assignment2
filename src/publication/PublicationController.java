@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import cs9321ass2.*;
 import general.DataHolder;
+import user.*;
 
 //@WebServlet("/publication")
 public class PublicationController extends HttpServlet 
@@ -28,18 +29,29 @@ public class PublicationController extends HttpServlet
 		String nextPage = "";
 		if(action.equals("addPublication"))
 		{
-			DataHolder p1 = new DataHolder();
 			UserBean ub = (UserBean) request.getSession().getAttribute("user");
-			List<DataHolder> addedPubs = ub.getLoggedInUser().get(0).getRegisteredPublications();
-			String [] athrs = request.getParameter("publishAuthor").split(",");
-			for(String as : athrs) as.trim();
-			List<String> authorList = Arrays.asList(athrs);
-			p1.set("title",request.getParameter("publishTitle"));
-			p1.set("Author",authorList);
-			p1.set("Year",request.getParameter("publishYear"));
-			
-			addedPubs.add(p1);
-//			ub.getLoggedInUser().get(0).setRegisteredPublications(addedPubs);
+            HashMap<String,Object> data = new HashMap<String,Object>();
+            
+            for(String k : request.getParameterMap().keySet()) {
+                System.out.println(k);
+            }
+            
+            data.put("title", request.getParameter("publishTitle"));
+            data.put("author", request.getParameter("publishAuthor"));
+            data.put("editor", request.getParameter("publishEditors"));
+            data.put("year", request.getParameter("publishYear"));
+            data.put("volume", request.getParameter("publishVolume"));
+            data.put("price", request.getParameter("publishPrice"));
+            data.put("picture", request.getParameter("publishPic"));
+            
+            
+            
+            Publication p = new Publication().create(data);
+            
+            Publication p_u = new Publication().findByKey("title",request.getParameter("publishTitle")); //same titles will give only the first one found
+            
+            ub.getLoggedInUser().get(0).registerPublication(p_u);
+            nextPage= "existingItems.jsp";
 		}
 		else if(action.equals("pauseItem"))
 		{
@@ -47,11 +59,12 @@ public class PublicationController extends HttpServlet
 			if(!(request.getParameter("ownItems") == null))
 			{
 				int toPause = Integer.parseInt(request.getParameter("ownItems").trim());
-				DataHolder pubToPause = ub.getLoggedInUser().get(0).getRegisteredPublications().get(toPause);
-				if(pubToPause.get("isVisible").equals(false)) //if already paused
-					request.setAttribute("paused", true);
-				else
-					ub.getLoggedInUser().get(0).getRegisteredPublications().get(toPause).set("isVisible", false); //pause the publication
+				System.out.println("The id to puase is " + toPause);
+				UserRegisteredPublication urp = new UserRegisteredPublication().findByKey("pID",toPause);
+                if (urp != null && urp.get("uID").toString().equals(ub.getLoggedInUser().get(0).get("uID"))) {
+                    urp.set("isVisible","0");
+                    urp.save();
+                }
 			}
 			else
 				request.setAttribute("nothingSelected", true);
@@ -63,11 +76,11 @@ public class PublicationController extends HttpServlet
 			if(!(request.getParameter("ownItems") ==  null))
 			{
 				int toActivate = Integer.parseInt(request.getParameter("ownItems").trim());
-				DataHolder pubToActivate = ub.getLoggedInUser().get(0).getRegisteredPublications().get(toActivate);
-				if(pubToActivate.get("isVisible").equals(true)) //if already active
-					request.setAttribute("active", true);
-				else
-					ub.getLoggedInUser().get(0).getRegisteredPublications().get(toActivate).set("isVisible", true);//activate the publication
+				UserRegisteredPublication urp = new UserRegisteredPublication().findByKey("pID",toActivate);
+				if (urp != null && urp.get("uID").toString().equals(ub.getLoggedInUser().get(0).get("uID"))) {
+                    urp.set("isVisible","1");
+                    urp.save();
+                }
 			}
 			else
 				request.setAttribute("nothingSelected", true);
@@ -76,12 +89,15 @@ public class PublicationController extends HttpServlet
 		else if(action.equals("getdetail"))
 		{
 			DetailBean toFind = (DetailBean) request.getSession().getAttribute("detail");
-			ResultsBean rsts = (ResultsBean) request.getSession().getAttribute("result");
+			//ResultsBean rsts = (ResultsBean) request.getSession().getAttribute("result");
+			System.out.println("got here");
 			List<Publication> allDetails = new LinkedList<Publication>();
 			if(!(request.getParameter("srchRslts") == null))
 			{
-				String position = request.getParameter("srchRslts").trim();
-				Publication toGet = rsts.getResults().get(Integer.parseInt(position));
+				System.out.println("the requested id is " + request.getParameter("srchRslts"));
+				String pubID = request.getParameter("srchRslts").trim();
+				System.out.println("publishID is " + pubID);
+				Publication toGet = new Publication().findById(Integer.parseInt(pubID));//rsts.getResults().get(Integer.parseInt(position));
 				allDetails.add(toGet);
 				toFind.setFullDetailed(allDetails);
 			}

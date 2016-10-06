@@ -31,9 +31,11 @@
 	List<User> users = new User().searchByKey("1",1);
 	List<Publication> books = new Publication().searchByKey("1","1");
 	User currUser = user.getLoggedInUser().get(0);
+	pageContext.setAttribute("isAdmin", currUser.get("isAdmin"));
 	pageContext.setAttribute("userList", users);
 	pageContext.setAttribute("bookList", books);
 	pageContext.setAttribute("currUser", currUser);
+	
 %>
 
 
@@ -45,35 +47,19 @@
         <ul class="sidebar-nav">
             <a id="menu-close" href="#" class="btn btn-light btn-lg pull-right toggle"><i class="fa fa-times"></i></a>
             <c:choose>
-            	<c:when test="${currUser.isAdmin() == true }">
+            	<c:when test="${isAdmin == 'true'}">
             		<li class="sidebar-brand">
-		                <a href="#top" onclick=$("#menu-close").click();>Welcome, <%= currUser.get("Username") %>!</a>
+		                <a href="#top" onclick=$("#menu-close").click()");>Welcome, <%= currUser.get("Username") %>!</a>
 		            </li>
-		             <li>
+		            <li>
 		            	<form action="admin.jsp" method="post">
 							<input type="submit" value="Admin Control Panel">
 						</form>
 		            </li>
 		            <li>
-		                <form action="control" method="post">
-							<input type="hidden" name="action" value="shopCart">
-							<input type="submit" value="Shopping Cart">
+		            	<form action="search.jsp" method="post">
+							<input type="submit" value="Home Page">
 						</form>
-		            </li>
-		            <li>
-		            	<form action="addItem.jsp" method="post">
-							<input type="submit" value="Register a Publication">
-						</form>
-		            </li>
-		            <li>
-		            	<form action="existingItems.jsp" method="post">
-							<input type="submit" value="See my existing publications">
-						</form>
-		            </li>
-            	</c:when>
-            	<c:otherwise>
-            		<li class="sidebar-brand">
-		                <a href="#top" onclick=$("#menu-close").click();>Welcome, <%= currUser.get("Username") %>!</a>
 		            </li>
 		            <li>
 		                <form action="control" method="post">
@@ -91,9 +77,8 @@
 							<input type="submit" value="See my existing publications">
 						</form>
 		            </li>
-            	</c:otherwise>
-            </c:choose>
-            
+            	</c:when>           	
+            </c:choose>            
         </ul>
     </nav>
     
