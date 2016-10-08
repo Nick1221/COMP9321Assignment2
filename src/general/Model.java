@@ -207,7 +207,7 @@ public class Model<E> {
         String query = "UPDATE `" + this.table + "`" +
                 " SET";
         for(String col : column_to_data.keySet()) {
-            if (column_to_cast.containsKey(col)) {
+            if (column_to_cast.containsKey(col) || column_to_data.get(col).toString().equals("true") || column_to_data.get(col).toString().equals("false")) {
                 String temp = column_to_data.get(col).toString() == "true"?"1" : column_to_data.get(col).toString() == "false"? "0" : column_to_data.get(col).toString();
                 query += " " + col + " = \"" + temp + "\",";
             } else {

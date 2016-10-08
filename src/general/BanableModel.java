@@ -1,5 +1,7 @@
 package general;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 
 import ban.Ban;
@@ -32,6 +34,9 @@ public class BanableModel<E> extends Model<E> implements Banable {
 	public void ban() {
 		HashMap<String,Object> data = new HashMap<String,Object>();
 		data.put(this.ban_table_key,this.get(this.primary_key));
+		data.put(this.primary_key, this.get(this.primary_key));
+		data.put("reason","Banned");
+		data.put("timeStamp", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
 		this.ban = new Ban(ban_table).create(data);
 	}
 

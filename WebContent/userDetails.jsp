@@ -1,11 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ page import="cs9321ass2.*, user.*, publication.*, java.util.*" %>
+<%@ page import="cs9321ass2.*, user.*, java.util.*, general.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
 <jsp:useBean id="user" class="cs9321ass2.UserBean" scope="session" />
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -14,9 +11,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Library Assignment 2">
     <meta name="author" content="">
-	<title>Admin Panel - Digital Bibliographic Library</title>
-	
-	 <!-- Bootstrap Core CSS -->
+    <title>User registered items - Digital Bibliographic Library</title>
+    
+	<!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
@@ -28,19 +25,13 @@
 </head>
 
 <%
-	List<User> users = new User().searchByKey("1",1);
-	List<Publication> books = new Publication().searchByKey("1","1");
 	User currUser = user.getLoggedInUser().get(0);
+	List<DataHolder> existing = currUser.getRegisteredPublications();
 	pageContext.setAttribute("isAdmin", currUser.get("isAdmin"));
-	pageContext.setAttribute("userList", users);
-	pageContext.setAttribute("bookList", books);
-	pageContext.setAttribute("currUser", currUser);
-	
 %>
 
-
 <body>
-	<!-- Navigation -->
+<!-- Navigation -->
     <a id="menu-toggle" href="#" class="btn btn-dark btn-lg toggle"><i class="fa fa-bars"></i></a>
     <nav id="sidebar-wrapper">
         <ul class="sidebar-nav">
@@ -88,87 +79,92 @@
 						</form>
 		            </li>		            
             	</c:when>
+            	<c:otherwise>
+            		<li class="sidebar-brand">
+		                <a href="#top" onclick=$("#menu-close").click();>Welcome, <%= currUser.get("Username") %>!</a>
+		            </li>
+		            <li>
+		            	<form action="userDetails.jsp" method="post">
+							<input type="submit" value="Profile">
+						</form>
+		            </li>
+		            <li>
+		            	<form action="search.jsp" method="post">
+							<input type="submit" value="Home Page">
+						</form>
+		            </li>
+		            <li>
+		                <form action="control" method="post">
+							<input type="hidden" name="action" value="shopCart">
+							<input type="submit" value="Shopping Cart">
+						</form>
+		            </li>
+		            <li>
+		            	<form action="addItem.jsp" method="post">
+							<input type="submit" value="Register a Publication">
+						</form>
+		            </li>
+		            <li>
+		            	<form action="existingItems.jsp" method="post">
+							<input type="submit" value="See my existing publications">
+						</form>
+		            </li>
+		            <li>
+		            	<form action="control" method="post">
+							<input type="hidden" name="action" value="userLogout">
+							<input type="submit" value="Logout">
+						</form>
+		            </li>
+            	</c:otherwise>
             </c:choose>            
         </ul>
     </nav>
     
-    
-	
-	
-	<!-- Header -->
+    <!-- Header -->
     <header id="top" class="header">
         <div class="text-vertical-center">
             <h1>Digital Bibliographic Library</h1>
 		</div>
     </header>
-	<h1>Admin Control Panel</h1>
-		
+	<h1>Shopping Cart</h1>
+    
+    <div class="col-lg-12">
+    	<h1>User Details</h1>
+    	<form action="control" method="post">
+		<table>
+			<tr>
+				<td>Username: </td> <td><input type="text" name="username" value="<% out.println(currUser.get("Username").toString()); %>"></td>
+			</tr>
+			<tr>
+				<td>Password: </td> <td><input type="password" name="password" value="<% out.println(currUser.get("password").toString()); %>"></td>
+			</tr>
+			<tr>
+				<td>Email: </td> <td><input type="text" name="email" value="<% out.println(currUser.get("email").toString()); %>"></td>
+			</tr>
+			<tr>
+				<td>First name: </td> <td><input type="text" name="firstname" value="<%out.println(currUser.get("firstName").toString()); %>"></td>
+			</tr>
+			<tr>
+				<td>Last name: </td> <td><input type="text" name="lastname" value="<%out.println(currUser.get("lastName").toString()); %>"></td>
+			</tr>			
+			<tr>
+				<td>Full address: </td> <td><input type="text" name="fullAddress" value="<%out.println(currUser.get("fullAddress").toString()); %>"></td>
+			</tr>
+			<tr>
+				<td>Nickname: </td> <td><input type="text" name="nickname" value="<%out.println(currUser.get("nickname").toString()); %>"></td>
+			</tr>
+			<tr>
+				<td>Credit card number: </td> <td><input type="text" name="creditCardNo" value="<%out.println(currUser.get("cardNumber").toString()); %>"></td>
+			</tr> 
+		</table>
+		<input type="hidden" name="action" value="changeUser">
+		<input type="submit" value="Change Details">
+	</form>
+    </div>
 	
 	
-	<!-- Ban a user interface -->
-	<!-- Show list of users-->
-	<!-- Check user and ban user button here -->
-	<div class="col-lg-6">
-		<div class="panel panel-default">
-			<div class="panel-heading">Users</div>
-			<div class="panel-body">
-				<form action="control">
-					<div id="tablecontainer" style="overflow: auto; height: 200px;">
-						<table border="2">					
-							<c:forEach var="username" items="${userList}">
-								<tr>
-									<td><input type="radio" name="bannedUser" value="${username.get("Username")}">
-										Username: ${username.get("Username")}
-									</td>
-								</tr>
-							</c:forEach>
-						</table>
-					</div>
-					<button type="submit" name="action" value="getuserdetails">User Details</button>
-					<button type="submit" name="action" value="banUser">Ban User</button>		
-				</form>
-			</div>
-		</div>
-	</div>
 	
-	<!-- When user is selected show the list of items purchased -->
-	<!-- Here is where find detail button is(Should be the same as the other ones) -->
-	<div class="col-lg-6">
-		<form action="">
-			
-		</form>
-	</div>
-	
-	<!-- Search and toggle item availibility -->
-	<!-- Perform a search here (Need to add a admin specific button on results.jsp -->
-	<div class="col-lg-12">
-		<div class="panel panel-default">
-			<div class="panel-heading">Publications</div>
-			<div class="panel-body">
-				<form action="control">
-					<div id="tablecontainer" style="overflow: auto; height: 200px;">
-						<table border="2">					
-							<c:forEach var="book" items="${bookList}">
-								<tr>
-									<td><input type="radio" name="bk" value="${book.get('title')}">
-										Title: ${book.get("title")}
-									</td>
-								</tr>
-							</c:forEach>
-						</table>
-					</div>
-					<button type="submit" name="action" value="removeItemForSale">Remove Item from Sale</button>
-					<button type="submit" name="action" value="getdetail">Details</button>	
-				</form>
-			</div>
-		</div>
-	</div>
-	
-
-
-
-
-	<!-- jQuery -->
+		<!-- jQuery -->
     <script src="<%=request.getContextPath()%>/js/jquery.js"></script>
 
     <!-- Bootstrap Core JavaScript -->

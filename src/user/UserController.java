@@ -107,7 +107,30 @@ public class UserController extends HttpServlet
 			ub.getLoggedInUser().clear();
 			nextPage = "login.jsp";
 		}
-		
+		else if(action.equals("changeUser"))
+		{
+			UserBean ub = (UserBean) request.getSession().getAttribute("user");
+			HashMap<String, Object> newData = new HashMap<String, Object>();
+			if(!(request.getParameter("password").equals(""))) newData.put("password", request.getParameter("password"));
+			else newData.put("password", "");
+			if(!(request.getParameter("email").equals(""))) newData.put("email", request.getParameter("email"));
+			else newData.put("email", "");
+			if(!(request.getParameter("firstname").equals(""))) newData.put("firstName", request.getParameter("firstname"));
+			else newData.put("firstName", "");
+			if(!(request.getParameter("lastname").equals(""))) newData.put("lastName", request.getParameter("lastname"));
+			else newData.put("lastName", "");
+			if(!(request.getParameter("fullAddress").equals(""))) newData.put("fullAddress", request.getParameter("fullAddress"));
+			else newData.put("fullAddress", "");
+			if(!(request.getParameter("nickname").equals(""))) newData.put("nickname", request.getParameter("nickname"));
+			else newData.put("nickname", "");
+			
+			User curr = ub.getLoggedInUser().get(0).updateData(newData).save();
+			nextPage = "search.jsp";
+			//curr.updateData(newData);
+			//curr.save();
+			
+			
+		}
 		RequestDispatcher rd = request.getRequestDispatcher("/"+nextPage);
 		rd.forward(request, response);
 	}

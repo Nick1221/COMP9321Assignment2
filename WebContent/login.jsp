@@ -57,8 +57,8 @@
 						<%--<td><input type="hidden" name="action" value="loginUser"><input type="submit" value="Log In"></td> --%>
 					</tr>
 				</table>
-				<input type="submit" name="action" value="loginUser">
-				<input type="submit" name="action" value="newUserSignUp" >
+				<input type="submit" name="action" value="loginUser" style="color:black;">
+				<input type="submit" name="action" value="newUserSignUp" style="color:black;">
 			</fieldset>
 		</form>
 	

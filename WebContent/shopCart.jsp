@@ -33,7 +33,6 @@
 
 <body>
 	<!-- Navigation -->
-	<!-- TODO: still needs logout? Possible restyling in css to make buttons look like links -->
     <a id="menu-toggle" href="#" class="btn btn-dark btn-lg toggle"><i class="fa fa-bars"></i></a>
     <nav id="sidebar-wrapper">
         <ul class="sidebar-nav">
@@ -42,7 +41,7 @@
             	<c:when test="${isAdmin == 'true'}">
             		<li class="sidebar-brand">
 		                <a href="#top" onclick=$("#menu-close").click()");>Welcome, <%= currUser.get("Username") %>!</a>
-		            </li>
+		            </li>		            
 		            <li>
 		            	<form action="admin.jsp" method="post">
 							<input type="submit" value="Admin Control Panel">
@@ -54,6 +53,11 @@
 						</form>
 		            </li>
 		            <li>
+		            	<form action="userDetails.jsp" method="post">
+							<input type="submit" value="Profile">
+						</form>
+		            </li>
+		            <li>
 		                <form action="control" method="post">
 							<input type="hidden" name="action" value="shopCart">
 							<input type="submit" value="Shopping Cart">
@@ -69,17 +73,28 @@
 							<input type="submit" value="See my existing publications">
 						</form>
 		            </li>
-            	</c:when>           
+		            <li>
+		            	<form action="control" method="post">
+							<input type="hidden" name="action" value="userLogout">
+							<input type="submit" value="Logout">
+						</form>
+		            </li>		            
+            	</c:when>
             	<c:otherwise>
             		<li class="sidebar-brand">
 		                <a href="#top" onclick=$("#menu-close").click();>Welcome, <%= currUser.get("Username") %>!</a>
+		            </li>
+		            <li>
+		            	<form action="userDetails.jsp" method="post">
+							<input type="submit" value="Profile">
+						</form>
 		            </li>
 		            <li>
 		            	<form action="search.jsp" method="post">
 							<input type="submit" value="Home Page">
 						</form>
 		            </li>
-		            <li>		            
+		            <li>
 		                <form action="control" method="post">
 							<input type="hidden" name="action" value="shopCart">
 							<input type="submit" value="Shopping Cart">
@@ -95,12 +110,16 @@
 							<input type="submit" value="See my existing publications">
 						</form>
 		            </li>
+		            <li>
+		            	<form action="control" method="post">
+							<input type="hidden" name="action" value="userLogout">
+							<input type="submit" value="Logout">
+						</form>
+		            </li>
             	</c:otherwise>
-            </c:choose>
-            
+            </c:choose>            
         </ul>
     </nav>
-    
     
     
     <!-- Header -->
@@ -122,7 +141,7 @@
 				<table border="3">
 				<%int i = 0; %>
 					<c:forEach var="item" items="${shopcart.publications}">
-					<tr><td><input type="radio" name="inCarts" value="<%out.println(i);%>"><c:out value="${item}" /></td></tr>
+					<tr><td><input type="radio" name="inCarts" value="<%out.println(i);%>">${item.get("title").toString()}</td></tr>
 					<%++i; %>
 					</c:forEach>
 				</table>
@@ -135,7 +154,7 @@
 				<table border="3">
 				<%int i = 0; %>
 					<c:forEach var="item" items="${shopcart.publications}">
-					<tr><td><input type="radio" name="inCarts" value="<%out.println(i);%>"><c:out value="${item}" /></td></tr>
+					<tr><td><input type="radio" name="inCarts" value="<%out.println(i);%>">"Title: " + ${item.get("title").toString()} + ", Author: " + ${item.get("author") +", "+ $item.get("year")}</td></tr>
 					<%++i; %>
 					</c:forEach>
 				</table>

@@ -47,7 +47,6 @@
 
 <body>
 	<!-- Navigation -->
-	<!-- TODO: still needs logout? Possible restyling in css to make buttons look like links -->
     <a id="menu-toggle" href="#" class="btn btn-dark btn-lg toggle"><i class="fa fa-bars"></i></a>
     <nav id="sidebar-wrapper">
         <ul class="sidebar-nav">
@@ -56,10 +55,57 @@
             	<c:when test="${isAdmin == 'true'}">
             		<li class="sidebar-brand">
 		                <a href="#top" onclick=$("#menu-close").click()");>Welcome, <%= currUser.get("Username") %>!</a>
-		            </li>
-		             <li>
+		            </li>		            
+		            <li>
 		            	<form action="admin.jsp" method="post">
 							<input type="submit" value="Admin Control Panel">
+						</form>
+		            </li>
+		            <li>
+		            	<form action="search.jsp" method="post">
+							<input type="submit" value="Home Page">
+						</form>
+		            </li>
+		            <li>
+		            	<form action="userDetails.jsp" method="post">
+							<input type="submit" value="Profile">
+						</form>
+		            </li>
+		            <li>
+		                <form action="control" method="post">
+							<input type="hidden" name="action" value="shopCart">
+							<input type="submit" value="Shopping Cart">
+						</form>
+		            </li>
+		            <li>
+		            	<form action="addItem.jsp" method="post">
+							<input type="submit" value="Register a Publication">
+						</form>
+		            </li>
+		            <li>
+		            	<form action="existingItems.jsp" method="post">
+							<input type="submit" value="See my existing publications">
+						</form>
+		            </li>
+		            <li>
+		            	<form action="control" method="post">
+							<input type="hidden" name="action" value="userLogout">
+							<input type="submit" value="Logout">
+						</form>
+		            </li>		            
+            	</c:when>
+            	<c:otherwise>
+            		<li class="sidebar-brand">
+		                <a href="#top" onclick=$("#menu-close").click();>Welcome, <%= currUser.get("Username") %>!</a>
+		            </li>
+		            <li>
+		            	<form action="userDetails.jsp" method="post">
+							<input type="submit" value="Profile">
+						</form>
+		            </li>
+		            <li>
+		            	<form action="search.jsp" method="post">
+							<input type="submit" value="Home Page">
 						</form>
 		            </li>
 		            <li>
@@ -84,35 +130,8 @@
 							<input type="submit" value="Logout">
 						</form>
 		            </li>
-            	</c:when>
-            	<c:otherwise>
-            		<li class="sidebar-brand">
-		                <a href="#top" onclick=$("#menu-close").click();>Welcome, <%= currUser.get("Username") %>!</a>
-		            </li>
-		            <li>
-		            	<form action="search.jsp" method="post">
-							<input type="submit" value="Home Page">
-						</form>
-		            </li>
-		            <li>
-		                <form action="control" method="post">
-							<input type="hidden" name="action" value="shopCart">
-							<input type="submit" value="Shopping Cart">
-						</form>
-		            </li>
-		            <li>
-		            	<form action="addItem.jsp" method="post">
-							<input type="submit" value="Register a Publication">
-						</form>
-		            </li>
-		            <li>
-		            	<form action="existingItems.jsp" method="post">
-							<input type="submit" value="See my existing publications">
-						</form>
-		            </li>
             	</c:otherwise>
-            </c:choose>
-            
+            </c:choose>            
         </ul>
     </nav>
     
@@ -155,10 +174,7 @@
 						<td>Author: </td><td> <input type="text" name="author"></td>
 					</tr>
 					<tr>
-						<td>Publisher: </td><td> <input type="text" name="publisher"></td>
-					</tr>
-					<tr>
-						<td>ISBN: </td><td> <input type="text" name="isbn"></td>
+						<td>Editor: </td><td> <input type="text" name="editor"></td>
 					</tr>
 				</table>
 				<input type="hidden" name="action" value="specSearch">

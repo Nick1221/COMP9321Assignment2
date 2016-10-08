@@ -61,7 +61,7 @@ public class PublicationController extends HttpServlet
 				int toPause = Integer.parseInt(request.getParameter("ownItems").trim());
 				System.out.println("The id to puase is " + toPause);
 				UserRegisteredPublication urp = new UserRegisteredPublication().findByKey("pID",toPause);
-                if (urp != null && urp.get("uID").toString().equals(ub.getLoggedInUser().get(0).get("uID"))) {
+				if (urp != null && urp.get("uID").equals(ub.getLoggedInUser().get(0).get("uID"))) {
                     urp.set("isVisible","0");
                     urp.save();
                 }
@@ -77,7 +77,7 @@ public class PublicationController extends HttpServlet
 			{
 				int toActivate = Integer.parseInt(request.getParameter("ownItems").trim());
 				UserRegisteredPublication urp = new UserRegisteredPublication().findByKey("pID",toActivate);
-				if (urp != null && urp.get("uID").toString().equals(ub.getLoggedInUser().get(0).get("uID"))) {
+				if (urp != null && urp.get("uID").equals(ub.getLoggedInUser().get(0).get("uID"))) {
                     urp.set("isVisible","1");
                     urp.save();
                 }

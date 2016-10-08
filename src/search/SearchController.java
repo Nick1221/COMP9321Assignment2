@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import cs9321ass2.*;
 import publication.*;
+import user.UserRegisteredPublication;
 @WebServlet("/search")
 public class SearchController extends HttpServlet 
 {
@@ -44,11 +45,15 @@ public class SearchController extends HttpServlet
 			ResultsBean rsts = (ResultsBean) request.getSession().getAttribute("result");
 			if(!(request.getParameter("input1").equals("")))
 			{
-				results.addAll(new Publication().searchByKey("title", request.getParameter("input1"), false));
-				results.addAll(new Publication().searchByKey("author", request.getParameter("input1"), false));
-				results.addAll(new Publication().searchByKey("year", request.getParameter("input1"), false));
-				results.addAll(new Publication().searchByKey("editor", request.getParameter("input1"), false));
-				results.addAll(new Publication().searchByKey("volume", request.getParameter("input1"), false));
+				results.addAll(new Publication().searchByKey("title", "%"+request.getParameter("input1")+"%", false));
+				results.addAll(new Publication().searchByKey("author", "%"+request.getParameter("input1")+"%", false));
+				results.addAll(new Publication().searchByKey("year", "%"+request.getParameter("input1")+"%", false));
+				results.addAll(new Publication().searchByKey("editor", "%"+request.getParameter("input1")+"%", false));
+				results.addAll(new Publication().searchByKey("volume", "%"+request.getParameter("input1")+"%", false));
+//				for(Publication p : results) {
+//					if (new UserRegisteredPublication().findByKey("pID",p.get("pID")).get("isVisible").equals("false"))
+//						results.remove(p);
+//				}
 			}
 			if(results.size() == 0) request.setAttribute("isEmpty", true);
 			else
@@ -60,17 +65,22 @@ public class SearchController extends HttpServlet
 		}
 		else if(action.equals("specSearch"))
 		{
+			HashMap<String,Object> hash =  new HashMap<String,Object>();
 			ResultsBean rsts = (ResultsBean) request.getSession().getAttribute("result");
 			if(!(request.getParameter("year").equals("")))
-				results.addAll(new Publication().searchByKey("year", request.getParameter("year")/*, false*/));
+				hash.put("year", "%"+request.getParameter("year")+"%");
 			if(!(request.getParameter("address").equals("")))
-				results.addAll(new Publication().searchByKey("address", request.getParameter("address")/*, false*/));
+				hash.put("address", "%"+request.getParameter("address")+"%");
 			if(!(request.getParameter("author").equals("")))
-				results.addAll(new Publication().searchByKey("author", request.getParameter("author")/*, false*/));
-			if(!(request.getParameter("publisher").equals("")))
-				results.addAll(new Publication().searchByKey("publisher", request.getParameter("publisher")/*, false*/));
-			if(!(request.getParameter("isbn").equals("")))
-				results.addAll(new Publication().searchByKey("isbn", request.getParameter("isbn")/*, false*/));
+				hash.put("author", "%"+request.getParameter("author")+"%");
+			if(!(request.getParameter("editor").equals("")))
+				hash.put("editor", "%"+request.getParameter("editor")+"%");
+			results.addAll(new Publication().searchByKeys(hash,false));
+			
+//			for(Publication p : results) {
+//				if (new UserRegisteredPublication().findByKey("pID",p.get("pID")).get("isVisible").equals("false"))
+//					results.remove(p);
+//			}
 			if(results.size() == 0) request.setAttribute("isEmpty", true);
 			else
 			{
@@ -102,10 +112,12 @@ public class SearchController extends HttpServlet
 			if(!(request.getParameter("srchRslts") == null))
 			{
 				String position = request.getParameter("srchRslts").trim();
-				Publication toAdd = rsts.getResults().get(Integer.parseInt(position));
-				List<Publication> inCart = scb.getPublications();
-				inCart.add(toAdd);
-				scb.setPublications(inCart);
+				System.out.println("ID of pub to add to cart is " + position);
+				Publication toAdd = new Publication().findByKey("pID", Integer.parseInt(position));
+				scb.getPublications().add(toAdd);
+				//List<Publication> inCart = scb.getPublications();
+				//inCart.add(toAdd);
+				//scb.setPublications(inCart);
 				nextPage = "shopCart.jsp";
 			}
 			else

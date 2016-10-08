@@ -33,7 +33,6 @@
 <body>
 
 	<!-- Navigation -->
-	<!-- TODO: still needs logout? Possible restyling in css to make buttons look like links -->
     <a id="menu-toggle" href="#" class="btn btn-dark btn-lg toggle"><i class="fa fa-bars"></i></a>
     <nav id="sidebar-wrapper">
         <ul class="sidebar-nav">
@@ -42,7 +41,7 @@
             	<c:when test="${isAdmin == 'true'}">
             		<li class="sidebar-brand">
 		                <a href="#top" onclick=$("#menu-close").click()");>Welcome, <%= currUser.get("Username") %>!</a>
-		            </li>
+		            </li>		            
 		            <li>
 		            	<form action="admin.jsp" method="post">
 							<input type="submit" value="Admin Control Panel">
@@ -54,6 +53,11 @@
 						</form>
 		            </li>
 		            <li>
+		            	<form action="userDetails.jsp" method="post">
+							<input type="submit" value="Profile">
+						</form>
+		            </li>
+		            <li>
 		                <form action="control" method="post">
 							<input type="hidden" name="action" value="shopCart">
 							<input type="submit" value="Shopping Cart">
@@ -69,10 +73,21 @@
 							<input type="submit" value="See my existing publications">
 						</form>
 		            </li>
-            	</c:when>           
+		            <li>
+		            	<form action="control" method="post">
+							<input type="hidden" name="action" value="userLogout">
+							<input type="submit" value="Logout">
+						</form>
+		            </li>		            
+            	</c:when>
             	<c:otherwise>
             		<li class="sidebar-brand">
 		                <a href="#top" onclick=$("#menu-close").click();>Welcome, <%= currUser.get("Username") %>!</a>
+		            </li>
+		            <li>
+		            	<form action="userDetails.jsp" method="post">
+							<input type="submit" value="Profile">
+						</form>
 		            </li>
 		            <li>
 		            	<form action="search.jsp" method="post">
@@ -95,12 +110,16 @@
 							<input type="submit" value="See my existing publications">
 						</form>
 		            </li>
+		            <li>
+		            	<form action="control" method="post">
+							<input type="hidden" name="action" value="userLogout">
+							<input type="submit" value="Logout">
+						</form>
+		            </li>
             	</c:otherwise>
-            </c:choose>
-            
+            </c:choose>            
         </ul>
     </nav>
-    
     
     
 
@@ -140,15 +159,7 @@
 					Title: <%out.println(e.get("title")); %>, 
 					Year: <%out.println(e.get("year")); %>, 
 					<%--Author(s): <c:out value="${item.getAuthor()}" />,  --%>
-					<%--<c:choose>
-						<c:when test="${item.isActive() eq 'false'}">
-							Active: false
-						</c:when>
-						<c:otherwise>
-							Active: true
-						</c:otherwise>
-					</c:choose> --%>
-					<%	if(e.get("isVisible").equals(1)){ 
+					<%	if(e.get("isVisible").toString().equals("true")){ 
 							out.println("Active: true");
 						} else {
 							out.println("Active : false");
