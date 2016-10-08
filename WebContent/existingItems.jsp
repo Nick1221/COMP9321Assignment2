@@ -28,6 +28,7 @@
 	User currUser = user.getLoggedInUser().get(0);
 	List<DataHolder> existing = currUser.getRegisteredPublications();
 	pageContext.setAttribute("isAdmin", currUser.get("isAdmin"));
+	pageContext.setAttribute("results", existing);
 %>
 
 <body>
@@ -149,29 +150,73 @@
 		</c:when>
 	</c:choose>
 	<form action="control" method="post">
-	<table border="3">
-	<c:forEach var="loggedUser" items="${user.loggedInUser }"> <%--only one user --%>
-		<%int i = 0; %>
-		<%--<c:forEach var="item" items="${loggedUser.getRegisteredPublications()}"> --%> <%--each publications it has registered --%>
-		<%for(DataHolder e : existing){ %>	
+		<table class="table table-hover" border="2">	
 			<tr>
-				<td><input type="radio" name="ownItems" value="<%out.println(e.get("pID"));%>">
-					Title: <%out.println(e.get("title")); %>, 
-					Year: <%out.println(e.get("year")); %>, 
-					<%--Author(s): <c:out value="${item.getAuthor()}" />,  --%>
-					<%	if(e.get("isVisible").toString().equals("true")){ 
-							out.println("Active: true");
-						} else {
-							out.println("Active : false");
-						}
-					%>
-				</td>
-			</tr>
-			<% ++i; %>
-			<%} %>
-		<%--</c:forEach> --%>
-	</c:forEach>
-	</table>
+				<th></th>
+				<th>
+					Title
+				</th>
+				<th>
+					Author
+				</th>
+				<th>
+					Editor
+				</th>
+				<th>
+					Year
+				</th>
+				<th>
+					Volume
+				</th>
+				<th>
+					Price
+				</th>
+				<th>
+					Picture
+				</th>	
+				<th>
+					On Hold
+				</th>			
+			</tr>				
+			<c:forEach var="book" items="${results}">
+				<tr>
+					<td>
+						<input type="radio" name="ownItems" value="${book.get('pID')}">
+					</td>
+					<td>
+						${book.get("title")}
+					</td>
+					<td>
+						${book.get("author")}
+					</td>
+					<td>
+						${book.get("editor")}
+					</td>
+					<td>
+						${book.get("year")}
+					</td>
+					<td>
+						${book.get("volume")}
+					</td>
+					<td>
+						${book.get("price")}
+					</td>
+					<td>
+						${book.get("picture")}
+					</td>
+					<td>
+						<c:choose>
+							<c:when test="${book.get('isVisible')}">
+								  No
+							</c:when>
+							<c:otherwise>
+								  Yes
+							</c:otherwise>
+						</c:choose>
+					</td>
+				</tr>
+			</c:forEach>
+		</table>			
 		<input type="submit" name="action" value="activateItem">
 		<input type="submit" name="action" value="pauseItem" >
 	</form>

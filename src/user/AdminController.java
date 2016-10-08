@@ -54,8 +54,8 @@ public class AdminController extends HttpServlet
 			{		
 				User u1 = new User().findByKey("username", request.getParameter("bannedUser"));		
 				if(!u1.isBanned()) u1.ban();
-				nextPage = "admin.jsp";
-			}	
+			}
+			nextPage = "admin.jsp";
 		}
 		else if(action.equals("removeItemForSale"))
 		{
@@ -66,7 +66,15 @@ public class AdminController extends HttpServlet
 			}
 			//find list of pubs from db, and remove
 		}
-		
+		else if(action.equals("unbanUser"))
+		{
+			if(!(request.getParameter("bannedUser").equals("")))		
+			{		
+				User u1 = new User().findByKey("username", request.getParameter("bannedUser"));		
+				if(u1.isBanned()) u1.unban();
+			}	
+			nextPage = "admin.jsp";
+		}
 		RequestDispatcher rd = request.getRequestDispatcher("/"+nextPage);
 		rd.forward(request, response);
 	}

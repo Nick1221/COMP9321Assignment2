@@ -29,6 +29,7 @@
 <%
 	User currUser = user.getLoggedInUser().get(0);
 	pageContext.setAttribute("isAdmin", currUser.get("isAdmin"));
+	int i = 0;
 %>
 
 <body>
@@ -138,28 +139,124 @@
 			<c:when test="${noneSelected eq 'true' }">
 				<h1>No item selected</h1>
 				<form action="control">
-				<table border="3">
-				<%int i = 0; %>
-					<c:forEach var="item" items="${shopcart.publications}">
-					<tr><td><input type="radio" name="inCarts" value="<%out.println(i);%>">${item.get("title").toString()}</td></tr>
-					<%++i; %>
-					</c:forEach>
-				</table>
-				<input type="hidden" name="action" value="removeFrCart">
-				<input type="submit" value="Remove from Cart">
+					<table class="table table-hover" border="2">	
+						<tr>
+							<th></th>
+							<th>
+								Title
+							</th>
+							<th>
+								Author
+							</th>
+							<th>
+								Editor
+							</th>
+							<th>
+								Year
+							</th>
+							<th>
+								Volume
+							</th>
+							<th>
+								Price
+							</th>
+							<th>
+								Picture
+							</th>								
+						</tr>		
+						<c:forEach var="book" items="${shopcart.publications}">
+							<tr>
+								<td>
+									<input type="radio" name="inCarts" value="<%out.println(i);%>">
+								</td>
+								<td>
+									${book.get("title")}
+								</td>
+								<td>
+									${book.get("author")}
+								</td>
+								<td>
+									${book.get("editor")}
+								</td>
+								<td>
+									${book.get("year")}
+								</td>
+								<td>
+									${book.get("volume")}
+								</td>
+								<td>
+									${book.get("price")}
+								</td>
+								<td>
+									${book.get("picture")}
+								</td>
+							</tr>	
+							<%++i; %>	
+						</c:forEach>
+					</table>					
+					<button type="submit" name="action" value="removeFrCart">Remove from Cart</button>	
+					<button type="submit" name="action" value="userPurchase">Purchase</button>
 				</form>
 			</c:when>
 			<c:otherwise>
 				<form action="control">
-				<table border="3">
-				<%int i = 0; %>
-					<c:forEach var="item" items="${shopcart.publications}">
-					<tr><td><input type="radio" name="inCarts" value="<%out.println(i);%>">"Title: " + ${item.get("title").toString()} + ", Author: " + ${item.get("author") +", "+ $item.get("year")}</td></tr>
-					<%++i; %>
+				<table class="table table-hover" border="2">	
+					<tr>
+						<th></th>
+						<th>
+							Title
+						</th>
+						<th>
+							Author
+						</th>
+						<th>
+						Editor
+						</th>
+						<th>
+							Year
+						</th>
+						<th>
+							Volume
+						</th>
+						<th>
+							Price
+						</th>
+						<th>
+							Picture
+						</th>								
+					</tr>		
+					<c:forEach var="book" items="${shopcart.publications}">
+						<tr>
+							<td>
+								<input type="radio" name="inCarts" value="<%out.println(i);%>">
+							</td>
+							<td>
+							${book.get("title")}
+							</td>
+							<td>
+								${book.get("author")}
+							</td>
+							<td>
+								${book.get("editor")}
+							</td>
+							<td>
+								${book.get("year")}
+							</td>
+							<td>
+								${book.get("volume")}
+							</td>
+							<td>
+								${book.get("price")}
+							</td>
+							<td>
+								${book.get("picture")}
+							</td>
+						</tr>	
+						<%++i; %>	
 					</c:forEach>
 				</table>
-				<input type="hidden" name="action" value="removeFrCart">
-				<input type="submit" value="Remove from Cart">
+				<button type="submit" name="action" value="removeFrCart">Remove from Cart</button>				
+				<button type="submit" name="action" value="userPurchase">Purchase</button>
 				</form>
 			</c:otherwise>
 	</c:choose>

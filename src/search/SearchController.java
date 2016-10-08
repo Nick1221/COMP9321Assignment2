@@ -1,6 +1,7 @@
 package search;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import javax.servlet.RequestDispatcher;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import cs9321ass2.*;
 import publication.*;
+import user.User;
 import user.UserRegisteredPublication;
 @WebServlet("/search")
 public class SearchController extends HttpServlet 
@@ -45,11 +47,39 @@ public class SearchController extends HttpServlet
 			ResultsBean rsts = (ResultsBean) request.getSession().getAttribute("result");
 			if(!(request.getParameter("input1").equals("")))
 			{
+				List<Publication> temp = new LinkedList<Publication>();
 				results.addAll(new Publication().searchByKey("title", "%"+request.getParameter("input1")+"%", false));
-				results.addAll(new Publication().searchByKey("author", "%"+request.getParameter("input1")+"%", false));
-				results.addAll(new Publication().searchByKey("year", "%"+request.getParameter("input1")+"%", false));
-				results.addAll(new Publication().searchByKey("editor", "%"+request.getParameter("input1")+"%", false));
-				results.addAll(new Publication().searchByKey("volume", "%"+request.getParameter("input1")+"%", false));
+				//results.addAll(new Publication().searchByKey("author", "%"+request.getParameter("input1")+"%", false));
+				temp = new Publication().searchByKey("author", "%"+request.getParameter("input1")+"%", false);
+				for(Publication x : temp)
+				{
+					if (!(results.contains(x)))
+					      results.add(x);
+				}
+				temp.clear();
+				//results.addAll(new Publication().searchByKey("year", "%"+request.getParameter("input1")+"%", false));
+				temp = new Publication().searchByKey("year", "%"+request.getParameter("input1")+"%", false);
+				for(Publication x : temp)
+				{
+					if (!(results.contains(x)))
+					      results.add(x);
+				}
+				temp.clear();
+				//results.addAll(new Publication().searchByKey("editor", "%"+request.getParameter("input1")+"%", false));
+				temp = new Publication().searchByKey("editor", "%"+request.getParameter("input1")+"%", false);
+				for(Publication x : temp)
+				{
+					if (!(results.contains(x)))
+					      results.add(x);
+				}
+				temp.clear();
+				//results.addAll(new Publication().searchByKey("volume", "%"+request.getParameter("input1")+"%", false));
+				temp = new Publication().searchByKey("volume", "%"+request.getParameter("input1")+"%", false);
+				for(Publication x : temp)
+				{
+					if (!(results.contains(x)))
+					      results.add(x);
+				}
 //				for(Publication p : results) {
 //					if (new UserRegisteredPublication().findByKey("pID",p.get("pID")).get("isVisible").equals("false"))
 //						results.remove(p);
@@ -98,23 +128,29 @@ public class SearchController extends HttpServlet
 		}
 		else if(action.equals("addtocartFrDetail"))
 		{
+			UserBean ub = (UserBean) request.getSession().getAttribute("user");
 			ShopCartBean scb = (ShopCartBean) request.getSession().getAttribute("shopcart");
 			DetailBean detailed = (DetailBean) request.getSession().getAttribute("detail");
-			List<Publication> inCart = scb.getPublications();
-			inCart.add(detailed.getFullDetailed().get(0));
-			scb.setPublications(inCart);
+			scb.getPublications().add(detailed.getFullDetailed().get(0)); //add to shopcart
+			User u1 = new User().findByKey("Username", ub.getLoggedInUser().get(0).get("Username"));
+			u1.addActivity("addToShopCart", detailed.getFullDetailed().get(0));
 			nextPage="shopCart.jsp";
 		}
 		else if(action.equals("addtocartFrSearchResult"))
 		{
+			UserBean ub = (UserBean) request.getSession().getAttribute("user");
+			//System.out.println("Username is " + ub.getLoggedInUser().get(0).get("Username"));
 			ShopCartBean scb = (ShopCartBean) request.getSession().getAttribute("shopcart");
 			ResultsBean rsts = (ResultsBean) request.getSession().getAttribute("result");
 			if(!(request.getParameter("srchRslts") == null))
 			{
 				String position = request.getParameter("srchRslts").trim();
-				System.out.println("ID of pub to add to cart is " + position);
+				System.out.println("List number of item is " + position);
+				//Publication toAdd = rsts.getResults().get(Integer.parseInt(position));
 				Publication toAdd = new Publication().findByKey("pID", Integer.parseInt(position));
-				scb.getPublications().add(toAdd);
+				scb.getPublications().add(toAdd); //add to shopcart
+				User u1 = new User().findByKey("Username", ub.getLoggedInUser().get(0).get("Username"));
+				u1.addActivity("addToShopCart", toAdd);
 				//List<Publication> inCart = scb.getPublications();
 				//inCart.add(toAdd);
 				//scb.setPublications(inCart);
@@ -128,19 +164,29 @@ public class SearchController extends HttpServlet
 		}
 		else if(action.equals("removeFrCart"))
 		{
+			UserBean ub = (UserBean) request.getSession().getAttribute("user");
 			ShopCartBean scb = (ShopCartBean) request.getSession().getAttribute("shopcart");
 			if(!(request.getParameter("inCarts") ==  null))
 			{
 				int toRemove = Integer.parseInt(request.getParameter("inCarts").trim());
-				List<Publication> tempList = scb.getPublications();
-				tempList.remove(toRemove);
-				scb.setPublications(tempList);
-				if(tempList.size() == 0) request.setAttribute("isEmpty", true);
+				User u1 = new User().findByKey("Username", ub.getLoggedInUser().get(0).get("Username"));
+				u1.addActivity("removeFromShopCart", scb.getPublications().get(toRemove)); //add to activities table first
+				scb.getPublications().remove(toRemove); //remove from shopcart
+				if(scb.getPublications().size() == 0) request.setAttribute("isEmpty", true);
 				else request.setAttribute("isEmpty", false);
 			}
 			else
 				request.setAttribute("noneSelected", true);
 			nextPage = "shopCart.jsp";
+		}
+		else if(action.equals("userPurchase"))
+		{
+			UserBean ub = (UserBean) request.getSession().getAttribute("user");
+			ShopCartBean scb = (ShopCartBean) request.getSession().getAttribute("shopcart");
+			for(Publication itemsInCart : scb.getPublications())
+			{
+				//HashMap<String, Object>
+			}
 		}
 		request.setAttribute("results", results);
 		RequestDispatcher rd = request.getRequestDispatcher("/"+nextPage);

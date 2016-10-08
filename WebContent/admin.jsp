@@ -29,6 +29,11 @@
 
 <%
 	List<User> users = new User().searchByKey("1",1);
+	for (User e: users){
+		if (e.get("isAdmin").toString() == "true"){
+			users.remove(e);
+		}
+	}
 	List<Publication> books = new Publication().searchByKey("1","1");
 	User currUser = user.getLoggedInUser().get(0);
 	pageContext.setAttribute("isAdmin", currUser.get("isAdmin"));
@@ -114,18 +119,49 @@
 			<div class="panel-body">
 				<form action="control">
 					<div id="tablecontainer" style="overflow: auto; height: 200px;">
-						<table border="2">					
+						<table class="table table-hover" border="2">	
+							<tr>
+								<th></th>
+								<th>
+									  Username  
+								</th>
+								<th>
+									  Nickname  
+								</th>
+								<th>
+									  Banned  
+								</th>
+							</tr>
 							<c:forEach var="username" items="${userList}">
-								<tr>
-									<td><input type="radio" name="bannedUser" value="${username.get("Username")}">
-										Username: ${username.get("Username")}
+								<tr>							
+									<td>
+										<input type="radio" name="bannedUser" value="${username.get("Username")}">
+									</td>
+									<td>
+										  ${username.get("Username")}   
+									</td>
+									<td>
+										  ${username.get("nickname")}   
+									</td>
+									<td>
+										<c:choose>
+											<c:when test="${username.isBanned() }">
+												  Banned  
+											</c:when>
+											<c:otherwise>
+												  Free
+											</c:otherwise>
+										</c:choose>
 									</td>
 								</tr>
 							</c:forEach>
+											
+							
 						</table>
 					</div>
-					<button type="submit" name="action" value="getuserdetails">User Details</button>
+					<button type="submit" name="action" value="getuserdetails">User Details</button>					
 					<button type="submit" name="action" value="banUser">Ban User</button>		
+					<button type="submit" name="action" value="unbanUser">Unban User</button>
 				</form>
 			</div>
 		</div>
@@ -147,11 +183,56 @@
 			<div class="panel-body">
 				<form action="control">
 					<div id="tablecontainer" style="overflow: auto; height: 200px;">
-						<table border="2">					
+						<table class="table table-hover" border="2">	
+							<tr>
+								<th></th>
+								<th>
+									Title
+								</th>
+								<th>
+									Author
+								</th>
+								<th>
+									Editor
+								</th>
+								<th>
+									Year
+								</th>
+								<th>
+									Volume
+								</th>
+								<th>
+									Price
+								</th>
+								<th>
+									Picture
+								</th>								
+							</tr>				
 							<c:forEach var="book" items="${bookList}">
 								<tr>
-									<td><input type="radio" name="bk" value="${book.get('title')}">
-										Title: ${book.get("title")}
+									<td>
+										<input type="radio" name="srchRslts" value="${book.get('pID')}">
+									</td>
+									<td>
+										${book.get("title")}
+									</td>
+									<td>
+										${book.get("author")}
+									</td>
+									<td>
+										${book.get("editor")}
+									</td>
+									<td>
+										${book.get("year")}
+									</td>
+									<td>
+										${book.get("volume")}
+									</td>
+									<td>
+										${book.get("price")}
+									</td>
+									<td>
+										${book.get("picture")}
 									</td>
 								</tr>
 							</c:forEach>

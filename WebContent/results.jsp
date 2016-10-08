@@ -30,6 +30,7 @@
 <%
 	User currUser = user.getLoggedInUser().get(0);
 	pageContext.setAttribute("isAdmin", currUser.get("isAdmin"));	
+	pageContext.setAttribute("currUser", currUser);
 %>
 
 <body>
@@ -175,18 +176,60 @@
 			
 			<form action="control">
 				<div id="tablecontainer" style="overflow: auto; height: 200px;">
-					<table border="2">					
-						<c:forEach var="rslt" items="${results}" begin="${pageStart}" end="${pageStart + perPage - 1}">
+						<table class="table table-hover" border="2">	
 							<tr>
-								<td><input type="radio" name="srchRslts" value="<%out.println(i);%>">
-									Title: <c:out value="${rslt.get('title')}" />, 
-									Year: <c:out value="${rslt.get('year')}" />, 
-									Author(s): <c:out value="${rslt.get('author')}" />
-								</td>
-							</tr>
-							<%i++; %>
-						</c:forEach>
-					</table>
+								<th></th>
+								<th>
+									Title
+								</th>
+								<th>
+									Author
+								</th>
+								<th>
+									Editor
+								</th>
+								<th>
+									Year
+								</th>
+								<th>
+									Volume
+								</th>
+								<th>
+									Price
+								</th>
+								<th>
+									Picture
+								</th>								
+							</tr>				
+							<c:forEach var="book" items="${results}" begin="${pageStart}" end="${pageStart + perPage - 1}">
+								<tr>
+									<td>
+										<input type="radio" name="srchRslts" value="${book.get('pID')}">
+									</td>
+									<td>
+										${book.get("title")}
+									</td>
+									<td>
+										${book.get("author")}
+									</td>
+									<td>
+										${book.get("editor")}
+									</td>
+									<td>
+										${book.get("year")}
+									</td>
+									<td>
+										${book.get("volume")}
+									</td>
+									<td>
+										${book.get("price")}
+									</td>
+									<td>
+										${book.get("picture")}
+									</td>
+								</tr>
+							</c:forEach>
+						</table>	
 				</div>
 				<button type="submit" name="action" value="addtocartFrSearchResult">Add to Cart</button>
 				<button type="submit" name="action" value="getdetail">Details</button>		
@@ -194,22 +237,62 @@
 			
 		</c:when>
 		<c:otherwise>
-			<h1>Search results </h1>
-			
 			<form action="control">
 				<div id="tablewrapper">
-					<table border="2">
-						<c:forEach var="rslt" items="${results}" begin="${pageStart}" end="${pageStart + perPage - 1}">
+					<table class="table table-hover" border="2">	
 							<tr>
-								<td><input type="radio" name="srchRslts" value="<%out.println(i);%>">
-									Title: <c:out value="${rslt.get('title')}" />, 
-									Year: <c:out value="${rslt.get('year')}" />, 
-									Author(s): <c:out value="${rslt.get('author')}" />
-								</td>
+								<th></th>
+								<th>
+									Title
+								</th>
+								<th>
+									Author
+								</th>
+								<th>
+									Editor
+								</th>
+								<th>
+									Year
+								</th>
+								<th>
+									Volume
+								</th>
+								<th>
+									Price
+								</th>
+								<th>
+									Picture
+								</th>								
 							</tr>				
-							<%i++; %>
-						</c:forEach>
-					</table>
+							<c:forEach var="book" items="${results}" begin="${pageStart}" end="${pageStart + perPage - 1}">
+								<tr>
+									<td>
+										<input type="radio" name="srchRslts" value="${book.get('pID')}">
+									</td>
+									<td>
+										${book.get("title")}
+									</td>
+									<td>
+										${book.get("author")}
+									</td>
+									<td>
+										${book.get("editor")}
+									</td>
+									<td>
+										${book.get("year")}
+									</td>
+									<td>
+										${book.get("volume")}
+									</td>
+									<td>
+										${book.get("price")}
+									</td>
+									<td>
+										${book.get("picture")}
+									</td>
+								</tr>
+							</c:forEach>
+						</table>
 				</div>
 				<button type="submit" name="action" value="addtocartFrSearchResult">Add to Cart</button>
 				<button type="submit" name="action" value="getdetail">Details</button>
@@ -225,7 +308,7 @@
 					${pageNum }
 					<a class="btn btn-primary btn-xs" href="?input1=${input1}&action=${searchType}&start=${pageStart + perPage}&pageNum=${pageNum + 1}">>></a>     
 				</c:when>
-				<c:when test="${(pageStart + 10 > resultLength) && (pageStart ne 0)}">
+				<c:when test="${(pageStart + 11 > resultLength) && (pageStart ne 0)}">
 					<a class="btn btn-primary btn-xs" href="?input1=${input1}&action=${searchType}&start=${pageStart - perPage}&pageNum=${pageNum -1}"><<</a>
 					${pageNum } 
 				</c:when>

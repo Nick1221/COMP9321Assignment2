@@ -75,6 +75,7 @@ public class User extends BanableModel<User> {
 		data.put("uID", this.get("uID"));
 		data.put("pID",p.get("pID"));
 		data.put("activity", activity_title);
+		data.put("timeStamp", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
 		new UserActivity().create(data);
 	}
 	

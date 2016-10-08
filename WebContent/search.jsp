@@ -185,24 +185,64 @@
 	
 	<form action="control">
 		<div id="tablewrapper">
-			<table border="2" style="width:100%">
-				 <%-- int i = 0; --%>
-				<%-- <c:forEach var="rslt" items="${result}"> --%>
-				<%for(Publication p : results){ %>
-					<tr>
-						<td><input type="radio" name="srchRslts" value="<%out.println(p.get("pID"));%>">
-							Title: <% out.println(p.get("title"));%><%--<c:out value="${rslt.get('title')}" /> --%>, 
-							Author(s): <% out.println(p.get("author"));%> <%--<c:out value="${rslt.get('author')}" /> --%>
-						</td>
-					</tr>
-					<%-- i++; --%>	
-				<%-- </c:forEach> --%>
-				<%} %>
+			<table class="table table-hover" border="2">	
+				<tr>
+					<th></th>
+					<th>
+						Title
+					</th>
+					<th>
+						Author
+					</th>
+					<th>
+						Editor
+					</th>
+					<th>
+						Year
+					</th>
+					<th>
+						Volume
+					</th>
+					<th>
+						Price
+					</th>
+					<th>
+						Picture
+					</th>								
+				</tr>		
+				<c:forEach var="book" items="${result}">
+						<tr>
+							<td>
+								<input type="radio" name="srchRslts" value="${book.get('pID')}">
+							</td>
+							<td>
+								${book.get("title")}
+							</td>
+							<td>
+								${book.get("author")}
+							</td>
+							<td>
+								${book.get("editor")}
+							</td>
+							<td>
+								${book.get("year")}
+							</td>
+							<td>
+								${book.get("volume")}
+							</td>
+							<td>
+								${book.get("price")}
+							</td>
+							<td>
+								${book.get("picture")}
+							</td>
+						</tr>		
+				</c:forEach>
 			</table>
 		</div>
 		<button type="submit" name="action" value="addtocartFrSearchResult">Add to Cart</button>
 		<button type="submit" name="action" value="getdetail">Details</button>
-		</form>					
+	</form>					
 	
 
 	<!-- jQuery -->
