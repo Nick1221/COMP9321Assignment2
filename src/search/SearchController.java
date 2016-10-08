@@ -185,7 +185,8 @@ public class SearchController extends HttpServlet
 			ShopCartBean scb = (ShopCartBean) request.getSession().getAttribute("shopcart");
 			for(Publication itemsInCart : scb.getPublications())
 			{
-				//HashMap<String, Object>
+				HashMap<String, Object> purchasedItems = new HashMap<String, Object>();
+				purchasedItems.put("uID", ub.getLoggedInUser().get(0).get("uID"));
 			}
 		}
 		request.setAttribute("results", results);

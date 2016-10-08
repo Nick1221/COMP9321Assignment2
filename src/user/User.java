@@ -45,13 +45,12 @@ public class User extends BanableModel<User> {
 	        
 	        temp.put("uID", this.get("uID"));
 	        temp.put("pID", p.get("pID"));
-	        temp.put("isVisible", "1");
 	        temp.put("timeStamp", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
 	        new UserRegisteredPublication().create(temp);
 	}
 	
 	public List<DataHolder> getRegisteredPublications() {
-		return this.hasMany("userRegisteredPublication", "pID","uID",this.get(this.primary_key).toString(),"Publications","pID");
+		return this.hasMany("userRegisteredPublication", "pID","uID",this.get(this.primary_key).toString(),"publications","pID");
 	}
 	
 	@Override
