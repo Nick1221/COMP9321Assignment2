@@ -42,6 +42,6 @@ public class BanableModel<E> extends Model<E> implements Banable {
 
 	@Override
 	public void unban() {
-		this.ban.delete(this.ban_table, this.ban_table_key,this.get(this.ban_table_key));
+		this.ban.delete(this.ban_table, this.ban_table_key,this.get(this.primary_key));
 	}
 }

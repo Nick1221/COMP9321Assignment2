@@ -12,7 +12,7 @@ import publication.Publication;
 
 public class User extends BanableModel<User> {
 	public static final String TABLE_NAME = "user";
-	public static final String BAN_TABLE = "UserBan";
+	public static final String BAN_TABLE = "userBan";
 	public static final String BAN_TABLE_KEY = "banUID";
 	public static final String TABLE_PRIMARY_KEY = "uID";
 	

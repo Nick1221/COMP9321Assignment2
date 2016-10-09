@@ -80,10 +80,10 @@ public class SearchController extends HttpServlet
 					if (!(results.contains(x)))
 					      results.add(x);
 				}
-//				for(Publication p : results) {
-//					if (new UserRegisteredPublication().findByKey("pID",p.get("pID")).get("isVisible").equals("false"))
-//						results.remove(p);
-//				}
+				for(Publication p : results) {
+				    if (p.get("isVisible").equals("false"))
+				        results.remove(p);
+				}
 			}
 			if(results.size() == 0) request.setAttribute("isEmpty", true);
 			else
@@ -99,8 +99,10 @@ public class SearchController extends HttpServlet
 			ResultsBean rsts = (ResultsBean) request.getSession().getAttribute("result");
 			if(!(request.getParameter("year").equals("")))
 				hash.put("year", "%"+request.getParameter("year")+"%");
-			if(!(request.getParameter("address").equals("")))
-				hash.put("address", "%"+request.getParameter("address")+"%");
+			if(!(request.getParameter("price").equals("")))
+				hash.put("price", "%"+request.getParameter("price")+"%");
+			if(!(request.getParameter("volume").equals("")))
+				hash.put("volume", "%"+request.getParameter("volume")+"%");
 			if(!(request.getParameter("author").equals("")))
 				hash.put("author", "%"+request.getParameter("author")+"%");
 			if(!(request.getParameter("editor").equals("")))

@@ -70,7 +70,7 @@ public class AdminController extends HttpServlet
 		{
 			if(!(request.getParameter("bannedUser").equals("")))		
 			{		
-				User u1 = new User().findByKey("username", request.getParameter("bannedUser"));		
+				User u1 = new User().findByKey("Username", request.getParameter("bannedUser"));		
 				if(u1.isBanned()) u1.unban();
 			}	
 			nextPage = "admin.jsp";
