@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.util.HashMap;
 
 import general.Model;
+import publication.*;
 
 public class UserActivity extends Model<UserActivity> {
 	public static final String TABLE_NAME = "userActivity";
@@ -27,4 +28,7 @@ public class UserActivity extends Model<UserActivity> {
 		this.updateData(data);
 	}
 
+	public Publication getPublication() {
+        return new Publication().findByKey("pID",this.get("pID"));
+    }
 }

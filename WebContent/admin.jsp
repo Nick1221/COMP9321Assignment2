@@ -167,13 +167,49 @@
 		</div>
 	</div>
 	
+	<c:set var="activityLength" value="${fn:length(userActivities)}"/>	
+	
 	<!-- When user is selected show the list of items purchased -->
 	<!-- Here is where find detail button is(Should be the same as the other ones) -->
-	<div class="col-lg-6">
-		<form action="">
-			
-		</form>
-	</div>
+	<%--<c:if test="activityLength > 0"> --%>
+		<div class="col-lg-6">
+		<div class="panel panel-default">
+			<div class="panel-heading"></div>
+			<div class="panel-body">
+				<div id="tablecontainer" style="overflow: auto; height: 200px;">
+						<table class="table table-hover" border="2">	
+							<tr>
+								<th></th>
+								<th>
+									  Publication Name
+								</th>
+								<th>
+									  Action 
+								</th>
+								<th>
+									  Time  
+								</th>
+							</tr>
+							<c:forEach var="activity" items="${userActivities}">
+								<tr>				
+									<td>
+										  ${userActivities.getPublication().get("title")}   
+									</td>
+									<td>
+										  ${userActivities.get("activity")}   
+									</td>
+									<td>
+										  ${userActivities.get("timeStamp")}   
+									</td>
+								</tr>
+							</c:forEach>					
+						</table>
+					</div>
+			</div>
+		</div>
+		</div>
+	<%--</c:if> --%>
+	
 	
 	<!-- Search and toggle item availibility -->
 	<!-- Perform a search here (Need to add a admin specific button on results.jsp -->

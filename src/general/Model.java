@@ -253,7 +253,7 @@ public class Model<E> {
             // Set the data based on column name
             ResultSetMetaData rsmd = rs.getMetaData();
 
-            for(int i = 1; i < rsmd.getColumnCount(); i++) {
+            for(int i = 1; i <= rsmd.getColumnCount(); i++) {
                 this.set(rsmd.getColumnName(i), rs.getObject(rsmd.getColumnLabel(i)));
             }
         } catch (SQLException e) {

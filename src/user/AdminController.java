@@ -62,9 +62,9 @@ public class AdminController extends HttpServlet
 			if(!(request.getParameter("toRemove").equals("")))
 			{
 				Publication p1 = new Publication().findByKey("title", request.getParameter("toRemove"));
-				if(!p1.isBanned()) p1.ban();
+                p1.delete("publications", "pID", p1.get("pID"));
 			}
-			//find list of pubs from db, and remove
+			nextPage = "admin.jsp";
 		}
 		else if(action.equals("unbanUser"))
 		{
@@ -73,6 +73,17 @@ public class AdminController extends HttpServlet
 				User u1 = new User().findByKey("Username", request.getParameter("bannedUser"));		
 				if(u1.isBanned()) u1.unban();
 			}	
+			nextPage = "admin.jsp";
+		}
+		else if(action.equals("getuserdetails"))
+		{
+			if(!(request.getParameter("bannedUser").equals("")))		
+			{	
+				String id = request.getParameter("bannedUser");
+		        User u = new User().findByKey("Username",id);
+		        List<UserActivity> ua = new UserActivity().searchByKey("uID",u.get("uID"));
+		        request.setAttribute("userActivities", ua);
+			}
 			nextPage = "admin.jsp";
 		}
 		RequestDispatcher rd = request.getRequestDispatcher("/"+nextPage);

@@ -15,6 +15,7 @@ import cs9321ass2.*;
 import publication.*;
 import user.User;
 import user.UserRegisteredPublication;
+import user.UserBoughtPublication;
 @WebServlet("/search")
 public class SearchController extends HttpServlet 
 {
@@ -109,10 +110,6 @@ public class SearchController extends HttpServlet
 				hash.put("editor", "%"+request.getParameter("editor")+"%");
 			results.addAll(new Publication().searchByKeys(hash,false));
 			
-//			for(Publication p : results) {
-//				if (new UserRegisteredPublication().findByKey("pID",p.get("pID")).get("isVisible").equals("false"))
-//					results.remove(p);
-//			}
 			if(results.size() == 0) request.setAttribute("isEmpty", true);
 			else
 			{
@@ -182,15 +179,21 @@ public class SearchController extends HttpServlet
 			nextPage = "shopCart.jsp";
 		}
 		else if(action.equals("userPurchase"))
-		{
-			UserBean ub = (UserBean) request.getSession().getAttribute("user");
-			ShopCartBean scb = (ShopCartBean) request.getSession().getAttribute("shopcart");
-			for(Publication itemsInCart : scb.getPublications())
-			{
-				HashMap<String, Object> purchasedItems = new HashMap<String, Object>();
-				purchasedItems.put("uID", ub.getLoggedInUser().get(0).get("uID"));
-			}
-		}
+        {
+            UserBean ub = (UserBean) request.getSession().getAttribute("user");
+            ShopCartBean scb = (ShopCartBean) request.getSession().getAttribute("shopcart");
+            for(Publication itemInCart : scb.getPublications())
+            {
+                HashMap<String, Object> purchasedItems = new HashMap<String, Object>();
+                purchasedItems.put("uID", ub.getLoggedInUser().get(0).get("uID"));
+                purchasedItems.put("pID", itemInCart.get("pID"));
+                purchasedItems.put("timeStamp", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+                UserBoughtPublication ubp = new UserBoughtPublication().create(purchasedItems);
+                ub.getLoggedInUser().get(0).addActivity("purchasedItem",itemInCart);
+            }
+            scb.getPublications().clear(); //clear shop cart since items already bought
+            nextPage = "search.jsp";
+        }
 		request.setAttribute("results", results);
 		RequestDispatcher rd = request.getRequestDispatcher("/"+nextPage);
 		rd.forward(request, response);

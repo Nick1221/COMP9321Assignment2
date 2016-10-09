@@ -150,7 +150,7 @@ public class ControlServlet extends HttpServlet {
 		String nextPage = "";
 		if(action.equals("newUserSignUp") || action.equals("loginUser") || action.equals("userLogout") || action.equals("registerUser") || action.equals("confirmEmail") || action.equals("changeUser"))  //may be different action name coming from the view level
             nextPage = "user";
-        else if(action.equals("adminRegister") || action.equals("adminLogin") || action.equals("adminLogout") || action.equals("banUser") || action.equals("removeItemForSale") || action.equals("unbanUser"))
+        else if(action.equals("adminRegister") || action.equals("adminLogin") || action.equals("adminLogout") || action.equals("banUser") || action.equals("removeItemForSale") || action.equals("unbanUser") || action.equals("getuserdetails"))
             nextPage = "admin";
         else if(action.equals("addPublication") || action.equals("pauseItem") || action.equals("activateItem") || action.equals("getdetail"))
             nextPage="publications";

@@ -206,7 +206,7 @@
 					</td>
 					<td>
 						<c:choose>
-							<c:when test="${book.get('isVisible')}">
+							<c:when test="${book.get('isVisible').equals('1')}">
 								  No
 							</c:when>
 							<c:otherwise>
