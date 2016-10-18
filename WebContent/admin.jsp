@@ -179,7 +179,7 @@
 				<div id="tablecontainer" style="overflow: auto; height: 200px;">
 						<table class="table table-hover" border="2">	
 							<tr>
-								<th></th>
+								<th>User: ${currDetailUser }</th>
 								<th>
 									  Publication Name
 								</th>
@@ -191,15 +191,16 @@
 								</th>
 							</tr>
 							<c:forEach var="activity" items="${userActivities}">
-								<tr>				
+								<tr>		
+									<td></td>		
 									<td>
-										  ${userActivities.getPublication().get("title")}   
+										  ${activity.getPublication().get("title")}   
 									</td>
 									<td>
-										  ${userActivities.get("activity")}   
+										  ${activity.get("activity")}   
 									</td>
 									<td>
-										  ${userActivities.get("timeStamp")}   
+										  ${activity.get("timeStamp")}   
 									</td>
 								</tr>
 							</c:forEach>					

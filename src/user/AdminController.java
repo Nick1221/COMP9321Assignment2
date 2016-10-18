@@ -59,9 +59,9 @@ public class AdminController extends HttpServlet
 		}
 		else if(action.equals("removeItemForSale"))
 		{
-			if(!(request.getParameter("toRemove").equals("")))
+			if(!(request.getParameter("srchRslts").equals("")))
 			{
-				Publication p1 = new Publication().findByKey("title", request.getParameter("toRemove"));
+				Publication p1 = new Publication().findByKey("pID", request.getParameter("srchRslts"));
                 p1.delete("publications", "pID", p1.get("pID"));
 			}
 			nextPage = "admin.jsp";
@@ -83,6 +83,7 @@ public class AdminController extends HttpServlet
 		        User u = new User().findByKey("Username",id);
 		        List<UserActivity> ua = new UserActivity().searchByKey("uID",u.get("uID"));
 		        request.setAttribute("userActivities", ua);
+		        request.setAttribute("currDetailUser", id);
 			}
 			nextPage = "admin.jsp";
 		}
